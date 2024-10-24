@@ -74,7 +74,7 @@ const SignInForm = ({ isSignIn, setIsSignIn, references }) => {
 					<Link to="#" style={styles.socialLink}><i className="fab fa-google-plus-g"></i></Link>
 					<Link to="#" style={styles.socialLink}><i className="fab fa-linkedin-in"></i></Link>
 				</Box>
-				<Typography component="div" sx={styles.subTitle}>or use your TechNow account</Typography>
+				<Typography component="div" sx={styles.subTitle}>or use your RDS account</Typography>
 
 				<Input
 					sx={isRedBorder(email.error)}
