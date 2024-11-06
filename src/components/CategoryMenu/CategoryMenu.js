@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { Typography, MenuList, MenuItem, Popper, Paper, Grow, ClickAwayListener, Box } from '@mui/material';
 import { icons } from '../../constant';
 
-const leftCategory = ["Food", "Snacks"];
-const rightCategory = ["Drinks", "Dessert"];
+const leftCategory = ["Đồ ăn, nguyên liệu", "Gia vị"];
+const rightCategory = ["Đồ uống", "Cao và Tinh dầu"];
 const CategoryMenu = ({ anchorRef, clickRef, isDrawer, onClick }) => {
     const [open, setOpen] = useState(false);
 
@@ -25,7 +25,8 @@ const CategoryMenu = ({ anchorRef, clickRef, isDrawer, onClick }) => {
     const renderCategory = (list) => {
         console.log('list: ', list);
         let res = list.map(element => {
-            let urlName = element.replace(" ", "");
+            let urlName = element;
+            //let urlName = element.replace(" ", "");
 
             return (
                 <Link to={`/category/${urlName}`} style={styles.menuLink} onClick={onClick}>

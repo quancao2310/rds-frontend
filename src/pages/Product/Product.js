@@ -33,9 +33,10 @@ const useQuery = () => {
 
 const getImgList = (product) => {
 	let res = [];
-	for (let i = 0; i < 4; i++) {
+	/*for (let i = 0; i < 4; i++) {
 		if (product[`img${i + 1}`] != "") res.push(product[`img${i + 1}`]);
-	}
+	}*/
+	res.push(product.imageUrl);
 	return res;
 };
 
@@ -117,8 +118,8 @@ const settingsRelatedProduct = {
 		},
 	],
 };
-const defaultemptyProduct = {
-	productID: 0,
+/*const defaultemptyProduct = {
+	productId: 0,
 	type: "",
 	description: "",
 	spec: "",
@@ -130,13 +131,13 @@ const defaultemptyProduct = {
 	img2: "",
 	img3: "",
 	img4: "",
-};
+};*/
 
 const Product = () => {
 	//const { name } = useParams()
 	const query = useQuery()
 	const history = useHistory()
-	const productID = query.get("i")
+	const productId = query.get("i")
 	const [product, setProduct] = useState({ "isLoading": true })
 	const [relatedProductList, setRelatedProductList] = useState({ "isLoading": true, "productList": [] })
 	const [formatted, setformatted] = useState({})
@@ -153,7 +154,7 @@ const Product = () => {
 
 	function onDeleteProduct() {
 		setModalOpen(false);
-		deleteProduct(productID).then((response) => {
+		deleteProduct(productId).then((response) => {
 			if (response.data.success == true) {
 				console.log('da xoa product');
 				setTimeout(() => {
@@ -164,7 +165,7 @@ const Product = () => {
 	}
 
 	const changeFavorite = () => {
-		changeFavoriteApi(productID).then(response => {
+		changeFavoriteApi(productId).then(response => {
 			console.log(response.data)
 			if (response.data.success == true) {
 				setIsFavorite(response.data.data.isLike)
@@ -192,7 +193,7 @@ const Product = () => {
 			dispatch(showAuthError())
 			return;
 		}
-		let productIndex = cart["cartList"].findIndex(item => item.productID == productID);
+		let productIndex = cart["cartList"].findIndex(item => item.productId == productId);
 
 		//new product
 		if (productIndex == -1) {
@@ -215,7 +216,7 @@ const Product = () => {
 			var timeout = setTimeout(() => {
 				let changeQuantity = quantityDifference;
 				setQuantityDifference(0);
-				changeQuantityApi(productID, changeQuantity).then(response => {
+				changeQuantityApi(productId, changeQuantity).then(response => {
 					if (response.data.success) {
 						console.log('change quantity: ', changeQuantity);
 					}
@@ -236,22 +237,22 @@ const Product = () => {
 	useEffect(() => {
 		setProduct({ "isLoading": true }) // when clicking on another product, the isLoading is set to true
 		setTab('1'); // when clicking on another product, the showing tab is spec
-		getProductAPI(productID).then(response => {
-			if (response.data.success) {
-				const data = response.data.data
+		getProductAPI(productId).then(response => {
+			if (response.status === 200) {
+				const data = response.data
 				console.log("product: ", data)
 
-				updateProductView(productID);
+				updateProductView(productId);
 				let formattedDesc = "Sản phẩm chưa có thông tin mô tả"
-				if (data.product.description !== "")
-					formattedDesc = data.product.description
+				if (data.description !== "")
+					formattedDesc = data.description
 
-					let formattedSpec = "Sản phẩm chưa có thông tin kỹ thuật"
-					if (data.product.spec !== "")
-						formattedSpec = data.product.spec;
+				/*let formattedSpec = "Sản phẩm chưa có thông tin kỹ thuật"
+				if (data.product.spec !== "")
+					formattedSpec = data.product.spec;*/
 				setformatted({
-					price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.product.price),
-					spec: formattedSpec,
+					price: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.price),
+					//spec: formattedSpec,
 					desc: formattedDesc,
 				})
 
@@ -259,13 +260,13 @@ const Product = () => {
 
 				setProduct({ "isLoading": false, ...data })
 
-				getProductCategoryAPI(data.product.type).then(response => {
+				getProductCategoryAPI(data.type).then(response => {
 					if (response.data.success)
 						setRelatedProductList({ "isLoading": false, "productList": response.data.data })
 				})
 			}
 		})
-	}, [productID]) // when clicking on another product, productID is changed, this will trigger the useEffect again to call a new product API
+	}, [productId]) // when clicking on another product, productId is changed, this will trigger the useEffect again to call a new product API
 
 	const handleChange = (event, newValue) => {
 		setTab(newValue);
@@ -303,7 +304,7 @@ const Product = () => {
 							</Slider>
 						) : (
 							<Slider {...settingsIMG}>
-								{getImgList(product.product).map(imgSrc => (
+								{getImgList(product).map(imgSrc => (
 									<Box>
 										<CardMedia
 											component="img"
@@ -334,7 +335,7 @@ const Product = () => {
 								</Box>
 
 							) : (
-								<Typography variant="h5" component="div" sx={styles.pName}>{product.product.name}</Typography>
+								<Typography variant="h5" component="div" sx={styles.pName}>{product.name}</Typography>
 							)}
 
 							{product.isLoading ? (
@@ -345,8 +346,8 @@ const Product = () => {
 								</Box>
 							) : (
 								<Box sx={styles.pRatingWrapper}>
-									<Rating size="small" readOnly value={product.product.rating} precision={0.5} sx={styles.pRating} />
-									<Typography variant="h5" sx={styles.pSold}>({product.product.sold})</Typography>
+									<Rating size="small" readOnly value={product.rating} precision={0.5} sx={styles.pRating} />
+									<Typography variant="h5" sx={styles.pSold}>({product.sold})</Typography>
 								</Box>
 							)}
 
@@ -511,18 +512,23 @@ const Product = () => {
 										<Tab sx={styles.tabTitle} value="1" />
 									</Skeleton>
 								) : (
-									<Tab sx={styles.tabTitle} label="Specification" value="1" />
+									<Tab sx={styles.tabTitle} label="Description" value="1" />
 								)}
 								{product.isLoading ? (
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonTab}>
 										<Tab sx={styles.tabTitle} value="2" />
 									</Skeleton>
 								) : (
-									<Tab sx={styles.tabTitle} label="Description" value="2" />
+									<Tab sx={styles.tabTitle} label="Specification" value="2" />
 								)}
 							</TabList>
 						</Box>
 						<TabPanel value="1">
+							{product.isLoading ? ("") : (
+								<Typography sx={styles.details}>{formatted.desc}</Typography>
+							)}
+						</TabPanel>
+						<TabPanel value="2">
 							{product.isLoading ? (
 								<Box>
 									<Box sx={styles.boxCenter}>
@@ -547,16 +553,9 @@ const Product = () => {
 									</Box>
 								</Box>
 
-							) :
-								(
-									<Typography sx={styles.details}>{formatted.spec}</Typography>
-								)}
-						</TabPanel>
-						<TabPanel value="2">
-							{product.isLoading ? ("") :
-								(
-									<Typography sx={styles.details}>{formatted.desc}</Typography>
-								)}
+							) : (
+								<Typography sx={styles.details}>{formatted.spec}</Typography>
+							)}
 						</TabPanel>
 					</TabContext>
 				</Box>
@@ -579,7 +578,7 @@ const Product = () => {
 					<Box>
 						<Box sx={styles.relatedProductWrapper}>
 							<Typography gutterBottom variant="h5" component="div" sx={styles.sliderTitle}>Related products</Typography>
-							<Link style={styles.link} to={`/category/${product.isLoading ? "" : product.product.type}`}>
+							<Link style={styles.link} to={`/category/${product.isLoading ? "" : product.type}`}>
 								<Button size="small" sx={styles.viewMoreBtn}>View more</Button>
 							</Link>
 						</Box>
@@ -587,7 +586,7 @@ const Product = () => {
 							{relatedProductList.productList.map(product => (
 								<ProductItem
 									product={product}
-									key={product.productID}
+									key={product.productId}
 									isSlider
 								/>
 							))}

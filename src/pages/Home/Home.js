@@ -18,9 +18,9 @@ const Home = () => {
             {/*<Banner />*/}
             {/*<ProductSlider sliderTitle="Top Rating" selector={topRatingSelector} />*/}
             {/*<Sponsors />*/}
-            <Category categoryName="Food" selector={laptopSelector} noOfSkeleton={8} />
-            <Category categoryName="Drinks" selector={monitorSelector} noOfSkeleton={8} />
-            <Category categoryName="Snacks" selector={CPUSelector} noOfSkeleton={8} />
+            <Category categoryName="Đồ ăn, nguyên liệu" selector={laptopSelector} noOfSkeleton={8} />
+            <Category categoryName="Đồ uống" selector={monitorSelector} noOfSkeleton={8} />
+            <Category categoryName="Gia vị" selector={CPUSelector} noOfSkeleton={8} />
         </Box>
     )
 }
