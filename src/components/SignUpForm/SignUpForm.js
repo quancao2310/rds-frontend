@@ -23,7 +23,23 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
         value: "",
         error: undefined,
     })
-    const [username, setUsername] = useState({
+    const [name, setName] = useState({
+        value: "",
+        error: undefined,
+    })
+    const [phoneNumber, setPhoneNumber] = useState({
+        value: "",
+        error: undefined,
+    })
+    const [address, setAddress] = useState({
+        value: "",
+        error: undefined,
+    })
+    const [city, setCity] = useState({
+        value: "",
+        error: undefined,
+    })
+    const [country, setCountry] = useState({
         value: "",
         error: undefined,
     })
@@ -48,8 +64,24 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
             setEmail({ ...email, error: "Email is invalid" })
             error = false
         }
-        if (checkStrLength(username.value, 5, 20) === false) {
-            setUsername({ ...username, error: "Username must be between 5 and 20 characters" })
+        if (checkStrLength(name.value, 5, 20) === false) {
+            setName({ ...name, error: "Username must be between 5 and 20 characters" })
+            error = false
+        }
+        if (checkStrLength(phoneNumber.value, 1, 100) === false) {
+            setPhoneNumber({ ...phoneNumber, error: "Please fill in this field" })
+            error = false
+        }
+        if (checkStrLength(address.value, 1, 100) === false) {
+            setAddress({ ...address, error: "Please fill in this field" })
+            error = false
+        }
+        if (checkStrLength(city.value, 1, 100) === false) {
+            setCity({ ...city, error: "Please fill in this field" })
+            error = false
+        }
+        if (checkStrLength(country.value, 1, 100) === false) {
+            setCountry({ ...country, error: "Please fill in this field" })
             error = false
         }
         if (checkStrLength(password1.value, 6, 25) === false) {
@@ -64,7 +96,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
     }
     const signUpSubmit = () => {
         if (checkInputs())
-            dispatch(signUp(email.value, username.value, password2.value, history))
+            dispatch(signUp(email.value, name.value, phoneNumber.value, address.value, city.value, country.value, password2.value, history))
     }
 
     const checkStrLength = (str, start, end) => {
@@ -89,9 +121,29 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
             setEmail({ ...email, error: undefined })
     }
 
-    const removeUsernameError = () => {
-        if (username.error)
-            setUsername({ ...username, error: undefined })
+    const removeNameError = () => {
+        if (name.error)
+            setName({ ...name, error: undefined })
+    }
+
+    const removePhoneNumberError = () => {
+        if (phoneNumber.error)
+            setPhoneNumber({ ...phoneNumber, error: undefined })
+    }
+
+    const removeAddressError = () => {
+        if (address.error)
+            setAddress({ ...address, error: undefined })
+    }
+
+    const removeCityError = () => {
+        if (city.error)
+            setCity({ ...city, error: undefined })
+    }
+
+    const removeCountryError = () => {
+        if (country.error)
+            setCountry({ ...country, error: undefined })
     }
 
     const removePassword1Error = () => {
@@ -160,19 +212,79 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                 <Typography component="div" sx={styles.errorMsg}>{email.error}</Typography>
 
                 <Input
-                    sx={isRedBorder(username.error)}
-                    value={username.value}
-                    onChange={(e) => setUsername({ ...username, value: e.target.value })}
-                    onClick={removeUsernameError}
+                    sx={isRedBorder(name.error)}
+                    value={name.value}
+                    onChange={(e) => setName({ ...name, value: e.target.value })}
+                    onClick={removeNameError}
                     onKeyDown={handleKeyDown}
                     type="text"
-                    name="username"
+                    name="name"
                     placeholder="Username"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: styles.input }}
                 />
-                <Typography component="div" sx={styles.errorMsg}>{username.error}</Typography>
+                <Typography component="div" sx={styles.errorMsg}>{name.error}</Typography>
+
+                <Input
+                    sx={isRedBorder(phoneNumber.error)}
+                    value={phoneNumber.value}
+                    onChange={(e) => setPhoneNumber({ ...phoneNumber, value: e.target.value })}
+                    onClick={removePhoneNumberError}
+                    onKeyDown={handleKeyDown}
+                    type="text"
+                    name="phoneNumber"
+                    placeholder="Phone number"
+                    disableUnderline
+                    fullWidth
+                    inputProps={{ style: styles.input }}
+                />
+                <Typography component="div" sx={styles.errorMsg}>{phoneNumber.error}</Typography>
+
+                <Input
+                    sx={isRedBorder(address.error)}
+                    value={address.value}
+                    onChange={(e) => setAddress({ ...address, value: e.target.value })}
+                    onClick={removeAddressError}
+                    onKeyDown={handleKeyDown}
+                    type="text"
+                    name="address"
+                    placeholder="Address"
+                    disableUnderline
+                    fullWidth
+                    inputProps={{ style: styles.input }}
+                />
+                <Typography component="div" sx={styles.errorMsg}>{address.error}</Typography>
+
+                <Input
+                    sx={isRedBorder(city.error)}
+                    value={city.value}
+                    onChange={(e) => setCity({ ...city, value: e.target.value })}
+                    onClick={removeCityError}
+                    onKeyDown={handleKeyDown}
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    disableUnderline
+                    fullWidth
+                    inputProps={{ style: styles.input }}
+                />
+                <Typography component="div" sx={styles.errorMsg}>{city.error}</Typography>
+
+                <Input
+                    sx={isRedBorder(country.error)}
+                    value={country.value}
+                    onChange={(e) => setCountry({ ...country, value: e.target.value })}
+                    onClick={removeCountryError}
+                    onKeyDown={handleKeyDown}
+                    type="text"
+                    name="country"
+                    placeholder="Country"
+                    disableUnderline
+                    fullWidth
+                    inputProps={{ style: styles.input }}
+                />
+                <Typography component="div" sx={styles.errorMsg}>{country.error}</Typography>
 
                 <Input
                     sx={{ ...styles.input, ...isRedBorder(password1.error) }}
