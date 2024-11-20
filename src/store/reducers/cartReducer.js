@@ -25,7 +25,7 @@ const CartReducer = (state = initState, action) => {
             return {
                 ...state,
                 cart: {
-                    ...action.data,
+                    cartList: action.data,
                     totalQuantity: parseInt(action.data.totalQuantity),
                     totalPrice: parseInt(action.data.totalPrice),
                 },

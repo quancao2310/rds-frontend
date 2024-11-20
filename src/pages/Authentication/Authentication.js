@@ -8,7 +8,8 @@ import SignInForm from '../../components/SignInForm/SignInForm';
 import SignUpForm from '../../components/SignUpForm/SignUpForm';
 import styles from './authentication.style';
 import { Box } from '@mui/system';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Authentication = () => {
     const user = useSelector(userInfoSelector)
     const history = useHistory()
@@ -69,6 +70,7 @@ const Authentication = () => {
                     </Box>
                 </Fade>
             </Box>
+            <ToastContainer/>
         </Box>
     )
 }

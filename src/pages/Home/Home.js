@@ -15,12 +15,13 @@ import {
 const Home = () => {
     return (
         <Box sx={styles.box}>
-            {/*<Banner />*/}
+            <Banner />
             {/*<ProductSlider sliderTitle="Top Rating" selector={topRatingSelector} />*/}
-            {/*<Sponsors />*/}
+            <Sponsors />
             <Category categoryName="Đồ ăn, nguyên liệu" selector={laptopSelector} noOfSkeleton={8} />
             <Category categoryName="Đồ uống" selector={monitorSelector} noOfSkeleton={8} />
             <Category categoryName="Gia vị" selector={CPUSelector} noOfSkeleton={8} />
+            <Category categoryName="Cao và Tinh dầu" selector={CPUSelector} noOfSkeleton={8} />
         </Box>
     )
 }

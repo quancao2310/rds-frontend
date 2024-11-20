@@ -8,7 +8,7 @@ const styles = {
 		transition: '400ms',
 		borderRadius: '20px',
 		'&:hover': {
-			backgroundColor: '#737373',
+			backgroundColor: '#1C6300',
 		},
 	},
 	navItemDrawer: {
