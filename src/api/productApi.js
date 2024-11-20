@@ -13,8 +13,7 @@ const getProductCategoryAPI = (category, orderBy = 'rating', option = 'DESC', of
 const getTotalCategoryAPI = (category) => {
 	let command = 'getTotalCategory';
 	return axios.get(
-		TEST_API_URL +
-			`productAPI.php?command=${command}&typeOfProduct=${category}`
+		`https://api.regionaldelicacyshop.software/api/v1/products?category=${category}`
 	);
 
 };
@@ -29,8 +28,7 @@ const getTopRatingAPI = (limit = 10) => {
 const getProductAPI = (productID) => {
 	let command = "getProduct";
 	return axios.get(
-		TEST_API_URL +
-			`productAPI.php?command=${command}&productID=${productID}`
+		`https://api.regionaldelicacyshop.software/api/v1/products/${productID}`
 	);
 };
 

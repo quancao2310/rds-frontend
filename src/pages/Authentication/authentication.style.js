@@ -2,7 +2,7 @@ const styles = {
     main: {
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
+        height: '100%',
         backgroundImage: 'url("https://wallpaperaccess.com/full/1836506.png")',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',

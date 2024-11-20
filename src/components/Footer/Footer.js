@@ -61,14 +61,14 @@ const Footer = () => {
 				<Box sx={styles.addressWrapper}>
 					<Box>
 						<Typography sx={styles.address}>
-							227 Đ. Nguyễn Văn Cừ, Phường 4, Quận 5, Thành phố Hồ Chí Minh, Việt Nam
+						Trường Đại học Bách khoa - ĐHQG-HCM - Việt Nam
 						</Typography>
 					</Box>
 				</Box>
 			</Box>
 			<Box sx={styles.bottomFooter}>
 				<Box>
-					<Typography sx={styles.copyright}>© 2021 Copyright: TechNow</Typography>
+					<Typography sx={styles.copyright}>© 2024 Copyright: Regional Delicacy Shop</Typography>
 				</Box>
 			</Box>
 		</>

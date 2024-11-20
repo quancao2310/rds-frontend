@@ -3,8 +3,8 @@ import { Typography, Box, Container, Grid, Link } from '@mui/material';
 import { FeedbackForm } from '../../components/FeedbackForm/FeedbackForm';
 import styles from './ContactUs.styles';
 
-const mailURL = 'technowz@gmail.com';
-const websiteURL = 'http://www.technowz.vn';
+const mailURL = 'regionaldelicacyshop@gmail.com';
+const websiteURL = 'http://www.regionaldelicacyshop.vn';
 
 const ContactUs = () => {
 	return (
@@ -27,7 +27,7 @@ const ContactUs = () => {
 				<Grid item xs={12} md={6} sx={{ m: '20px 0' }}>
 					<Box>
 						<iframe
-							src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.630773293551!2d106.67998301480073!3d10.762912992330735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c06f4e1dd%3A0x43900f1d4539a3d!2sUniversity%20of%20Science%20-%20Ho%20Chi%20Minh%20City%20National%20University!5e0!3m2!1sen!2s!4v1637389600647!5m2!1sen!2s'
+							src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6589.4363121897895!2d106.80032630791546!3d10.879825382994996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a5568c997f%3A0xdeac05f17a166e0c!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBCw6FjaCBraG9hIC0gxJBIUUcgVFAuSENN!5e0!3m2!1svi!2s!4v1729742675018!5m2!1svi!2s'
 							width='600'
 							height='288'
 							style={{ border: '0', maxWidth: '100%' }}
@@ -36,11 +36,9 @@ const ContactUs = () => {
 						<Typography sx={styles.title}>Address</Typography>
 						<hr />
 						<Typography sx={styles.textContent}>
-							Công ty TNHH Năm Thành Viên Đồ Chơi Công Nghệ Việt
-							Nam
+							Công ty TNHH Chín Thành Viên Đặc Sản Việt Nam
 							<br />
-							227 Đ. Nguyễn Văn Cừ, Phường 4, Quận 5, Thành phố Hồ
-							Chí Minh
+							Trường Đại học Bách khoa - ĐHQG-HCM - Việt Nam
 							<br />
 							Email:{' '}
 							<Link

@@ -15,12 +15,12 @@ import {
 const Home = () => {
     return (
         <Box sx={styles.box}>
-            <Banner />
-            <ProductSlider sliderTitle="Top Rating" selector={topRatingSelector} />
-            <Sponsors />
-            <Category categoryName="Laptop" selector={laptopSelector} noOfSkeleton={8} />
-            <Category categoryName="Monitor" selector={monitorSelector} noOfSkeleton={8} />
-            <Category categoryName="CPU" selector={CPUSelector} noOfSkeleton={8} />
+            {/*<Banner />*/}
+            {/*<ProductSlider sliderTitle="Top Rating" selector={topRatingSelector} />*/}
+            {/*<Sponsors />*/}
+            <Category categoryName="Đồ ăn, nguyên liệu" selector={laptopSelector} noOfSkeleton={8} />
+            <Category categoryName="Đồ uống" selector={monitorSelector} noOfSkeleton={8} />
+            <Category categoryName="Gia vị" selector={CPUSelector} noOfSkeleton={8} />
         </Box>
     )
 }

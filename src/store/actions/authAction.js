@@ -9,16 +9,19 @@ const signIn = (email, password, history) => {
         dispatch({ type: ActionType.START_LOGIN })
         signInApi(email, password)
             .then(response => {
-                const data = response.data.data;
-                if (response.data.success) {
+                const data = response.data;
+                if (response.status === 200) {
+                    alert('Login successful!');
                     dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
                     dispatch(getCart());
 
                     updateUserVisitAPI();
 
-                    let token = encryptData(data);
+                    //let token = encryptData(data);
 
-                    sessionStorage.setItem("userInfo", token);
+                    sessionStorage.setItem('accessToken', response.data.accessToken);
+                    let accessToken = sessionStorage.getItem('accessToken');
+                    console.log(accessToken);
                     history.push("/");
                 }
                 else
@@ -27,20 +30,22 @@ const signIn = (email, password, history) => {
     }
 }
 
-const signUp = (email, username, password, history) => {
+const signUp = (email, name, phoneNumber, address, city, country, password, history) => {
     return dispatch => {
         dispatch({ type: ActionType.START_LOGIN })
-        signUpApi(email, username, password)
+        signUpApi(email, name, phoneNumber, address, city, country, password)
             .then(response => {
-                const data = response.data.data;
-                if (response.data.success) {
-                    dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
+                const data = response.data;
+                if (response.status === 201) {
+                    /*dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
 
                     let token = encryptData(data);
 
                     sessionStorage.setItem("userInfo", token);
                     dispatch(getCart());
-                    history.push("/");
+                    history.push("/");*/
+                    alert('Registration successful! Please login to use our services')
+                    window.location.href = '/authentication';
                 }
                 else
                     dispatch({ type: ActionType.SIGNUP_FAIL, data: data });
@@ -76,7 +81,7 @@ const logOut = (history) => {
     return dispatch => {
         dispatch(clearCartUI());
         dispatch({ type: ActionType.LOGOUT })
-        sessionStorage.removeItem("userInfo")
+        sessionStorage.removeItem("accessToken")
 
         if (history) {
             history.push("/")

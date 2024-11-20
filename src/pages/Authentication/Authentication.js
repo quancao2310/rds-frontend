@@ -45,7 +45,7 @@ const Authentication = () => {
                     timeout={500}
                 >
                     <Box sx={styles.overlayRight}>
-                        <Typography variant="h1" sx={styles.overlayTitle}>Welcome To TechNow!</Typography>
+                        <Typography variant="h1" sx={styles.overlayTitle}>Welcome To Regional Delicacy Shop!</Typography>
                         <Typography sx={styles.overlaySubTitle} variant="p">Fill in some personal details and start shopping with us</Typography>
                         <Button
                             onClick={() => setIsSignIn(false)}

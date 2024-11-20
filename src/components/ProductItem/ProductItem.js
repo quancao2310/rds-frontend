@@ -21,7 +21,7 @@ const ProductItem = ({ product, isSlider }) => {
 	const productURL =
 		'/product/' +
 		encodeURIComponent(product.name).replace(/%20/g, '-') +
-		`?i=${product.productID}`;
+		`?i=${product.productId}`;
 
 	return (
 		<Link to={productURL} style={styles.link}>
@@ -30,8 +30,8 @@ const ProductItem = ({ product, isSlider }) => {
 					<CardMedia
 						component="img"
 						height="200"
-						image={product.img1}
-						alt="product image"
+						image={product.imageUrl}
+						alt="Product Image"
 						sx={styles.pImage}
 					/>
 					<CardContent sx={styles.pNameWrapper}>

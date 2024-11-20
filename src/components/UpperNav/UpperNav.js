@@ -14,7 +14,7 @@ import {
 	Backdrop,
 	Modal,
 } from '@mui/material'
-import logo from '../../img/logo_sub.webp'
+import logo from '../../img/logo.jpg'
 import { icons } from '../../constant'
 import { useSelector } from 'react-redux'
 import { searchProductsAPI } from '../../api/productApi'
@@ -81,7 +81,7 @@ const UpperNav = () => {
 		<Grid container spacing={0} sx={{...styles.container, ...isZIndex(openSearch)}}>
 			<Grid item lg={3} xs={12} sx={styles.logoWrapper}>
 				<Link to="/">
-					<img style={styles.logo} src={logo} alt="" />
+					<img style={styles.logo} src={logo} alt="logo" />
 				</Link>
 			</Grid>
 

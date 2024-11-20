@@ -24,19 +24,21 @@ const CategoryPage = () => {
 
     useEffect(() => {
         getTotalCategoryAPI(name).then(response => {
-            if (response.data.success) {
-                const data = response.data.data
-                if (data.total == 0) history.push("/notfound") 
+            if (response.data.length !== 0) {
+                const data = response.data
+                console.log(data)
+                setProductList({ "isLoading": false, "data": data })
+                if (data.length == 0) history.push("/notfound") 
 
-                const total = Math.ceil(data.total / itemsPerPage)
+                const total = Math.ceil(data.length / itemsPerPage)
                 console.log("totalPage: ", total)
                 setTotalPage({ "isLoading": false, "value": total })
                 setPage(1)
             }
         })
-    }, [name])
+    }, [page, sortBy, name])
 
-    useEffect(() => {
+    /*useEffect(() => {
         setProductList({ "isLoading": true }) // when clicking on another pagination, the isLoading is set to true
         getProductCategoryAPI(name, orderBy, option, offset, itemsPerPage).then(response => {
             if (response.data.success) {
@@ -46,7 +48,7 @@ const CategoryPage = () => {
             }
         })
         window.scrollTo(0, 0) // when clicking on another pagination, scroll to top
-    }, [page, sortBy, name])
+    }, [page, sortBy, name])*/
 
     return (
         <Box sx={styles.box}>
@@ -81,10 +83,10 @@ const CategoryPage = () => {
                 ) : (
                     <Grid container spacing={{ xs: 1, md: 3, lg: 3.5 }}>
                         {productList.data.map((product) => (
-                            <Grid item xs={6} md={4} lg={3} key={product.productID}>
+                            <Grid item xs={6} md={4} lg={3} key={product.productId}>
                                 <ProductItem
                                     product={product}
-                                    key={product.productID}
+                                    key={product.productId}
                                 />
                             </Grid>
                         ))}
