@@ -50,7 +50,7 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
                                 <Badge badgeContent={cart.totalQuantity || 0} classes={{ badge: classes.badge }} color="error">
                                     <icons.Cart sx={styles.icon} />
                                 </Badge>
-                                <Typography sx={styles.navTitle}>Cart</Typography>
+                                <Typography sx={styles.navTitle}>Giỏ hàng</Typography>
                             </Box>
                         </Link>
                     </BootstrapTooltip>
@@ -59,7 +59,7 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
                             <Link to='/authentication' style={styles.navLink}>
                                 <Box sx={styles.wrapper}>
                                     <icons.User sx={styles.icon} />
-                                    <Typography sx={styles.navTitle}>Login</Typography>
+                                    <Typography sx={styles.navTitle}>Đăng nhập</Typography>
                                 </Box>
                             </Link>
                             :

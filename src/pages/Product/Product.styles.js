@@ -4,22 +4,20 @@ const styles = {
 	nextArrow: {
 		position: 'absolute',
 		padding: 0,
-		right: {
-			xs: '10px',
-			lg: '100px',
-		},
+		right: '-50px',
 		top: '45%',
 		zIndex: '1000',
+		backgroundColor: "#227A00",
+		color: "white",
 	},
 	prevArrow: {
 		position: 'absolute',
 		padding: 0,
-		left: {
-			xs: '10px',
-			lg: '100px',
-		},
+		left: '-50px',
 		top: '45%',
 		zIndex: '1000',
+		backgroundColor: "#227A00",
+		color: "white",
 	},
 	box: {
 		paddingTop: '40px',
@@ -119,11 +117,12 @@ const styles = {
 	pPrice: {
 		textAlign: 'center',
 		fontSize: {
-			xs: '18px',
-			lg: '20px',
+			xs: '20px',
+			lg: '28px',
 		},
 		fontWeight: 'bold',
 		mt: 2,
+		color: 'red'
 	},
 	btnWrapper: {
 		marginTop: '70px',

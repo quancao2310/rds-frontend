@@ -33,7 +33,7 @@ const Category = ({ categoryName, selector, noOfSkeleton }) => {
 					{categoryName}
 				</Typography>
 				<Link style={styles.link} to={`/category/${categoryName}`}>
-					<Button size="small" sx={styles.viewMoreBtn}>View more</Button>
+					<Button size="small" sx={styles.viewMoreBtn}>Xem thêm</Button>
 				</Link>
 			</Box>
 			{productList.isLoading ? (

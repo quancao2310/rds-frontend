@@ -75,7 +75,7 @@ const Navbar = () => {
 				>
 					<NavItem
 						href="/"
-						title="Home"
+						title="Trang chủ"
 						icon={<icons.Home sx={style.iconNav} />}
 						isDrawer
 					/>
@@ -93,7 +93,7 @@ const Navbar = () => {
 				>
 					<Box sx={style.authenWrapper}>
 						<icons.Category sx={style.iconNav} />
-						<Typography sx={style.titleNav}>Category</Typography>
+						<Typography sx={style.titleNav}>Danh mục</Typography>
 					</Box>
 					<CategoryMenu isDrawer anchorRef={anchorRefDrawer} clickRef={clickRefDrawer} onClick={toggleDrawer(anchor, false)} />
 				</ListItem>
@@ -108,7 +108,7 @@ const Navbar = () => {
 				<ListItem button key="Shipping" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 					<NavItem
 						href="/"
-						title="Shipping"
+						title="Vận chuyển"
 						icon={<icons.Truck sx={style.iconNav} />}
 						isDrawer
 					/>
@@ -116,7 +116,7 @@ const Navbar = () => {
 				<ListItem button key="Contact Us" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 					<NavItem
 						href="/contactus"
-						title="Contact Us"
+						title="Liên hệ"
 						icon={<icons.Phone sx={style.iconNav} />}
 						isDrawer
 					/>
@@ -130,7 +130,7 @@ const Navbar = () => {
 						<ListItem button key="Cart" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 							<NavItem
 								href="/checkout/cart"
-								title="Cart"
+								title="Giỏ hàng"
 								icon={<icons.Cart sx={style.iconNav} />}
 								isDrawer
 							/>
@@ -138,7 +138,7 @@ const Navbar = () => {
 						<ListItem button key="Order History" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 							<NavItem
 								href="/profile/orderhistory"
-								title="Order"
+								title="Đơn hàng"
 								icon={<icons.Order sx={style.iconNav} />}
 								isDrawer
 							/>
@@ -146,7 +146,7 @@ const Navbar = () => {
 						<ListItem button key="Favorite" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 							<NavItem
 								href="/profile/favorite"
-								title="Favorite"
+								title="Yêu thích"
 								icon={<icons.NotFavorite sx={style.iconNav} />}
 								isDrawer
 							/>
@@ -154,7 +154,7 @@ const Navbar = () => {
 						<ListItem button key="Address Book" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 							<NavItem
 								href="/profile/addressbook"
-								title="Address"
+								title="Địa chỉ"
 								icon={<icons.Address sx={style.iconNav} />}
 								isDrawer
 							/>
@@ -167,7 +167,7 @@ const Navbar = () => {
 						<Link to='/authentication' style={style.navLink}>
 							<Box sx={style.authenWrapper}>
 								<icons.User sx={style.icon} />
-								<Typography sx={style.navTitle}>Login</Typography>
+								<Typography sx={style.navTitle}>Đăng nhập</Typography>
 							</Box>
 						</Link>
 					</ListItem>
@@ -175,7 +175,7 @@ const Navbar = () => {
 					<ListItem button key="log out" onClick={() => { dispatch(logOut(history)) }} sx={style.signOutListItem}>
 						<Box sx={style.authenWrapper}>
 							<icons.SignOut sx={style.icon} />
-							<Typography sx={style.navTitle}>Sign out</Typography>
+							<Typography sx={style.navTitle}>Đăng xuất</Typography>
 						</Box>
 					</ListItem>
 				)}
@@ -215,7 +215,7 @@ const Navbar = () => {
 								<Grid item xs={1.5} sx={style.gridWrapper}>
 									<NavItem
 										href="/"
-										title="Home"
+										title="Trang chủ"
 										icon={<icons.Home sx={style.iconNav} />}
 									/>
 								</Grid>
@@ -230,28 +230,28 @@ const Navbar = () => {
 										sx={style.btnWrapper}
 									>
 										<icons.Category sx={style.iconNav} />
-										<Typography sx={style.titleNav}>Category</Typography>
+										<Typography sx={style.titleNav}>Danh mục</Typography>
 									</Button>
 
 								</Grid>
 								<Grid item xs={1.5} sx={style.gridWrapper}>
 									<NavItem
 										href="/"
-										title="Discount"
+										title="Khuyễn mãi"
 										icon={<icons.Offer sx={style.iconNav} />}
 									/>
 								</Grid>
 								<Grid item xs={1.5} sx={style.gridWrapper}>
 									<NavItem
 										href="/"
-										title="Shipping"
+										title="Vận chuyển"
 										icon={<icons.Truck sx={style.iconNav} />}
 									/>
 								</Grid>
 								<Grid item xs={1.5} sx={style.gridWrapper}>
 									<NavItem
 										href="/contactus"
-										title="Contact Us"
+										title="Liên hệ"
 										icon={<icons.Phone sx={style.iconNav} />}
 									/>
 								</Grid>

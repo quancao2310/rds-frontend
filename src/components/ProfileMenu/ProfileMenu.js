@@ -58,19 +58,19 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                 <Link to='/profile/orderhistory' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Order sx={styles.menuIcon} />
-                                        <Typography sx={styles.menuText}>Order</Typography>
+                                        <Typography sx={styles.menuText}>Đơn hàng</Typography>
                                     </MenuItem>
                                 </Link>
                                 <Link to='/profile/favorite' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.NotFavorite sx={styles.menuIcon} />
-                                        <Typography sx={styles.menuText}>Favorite</Typography>
+                                        <Typography sx={styles.menuText}>Yêu thích</Typography>
                                     </MenuItem>
                                 </Link>
                                 <Link to='/profile/addressbook' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Address sx={styles.menuIcon} />
-                                        <Typography sx={styles.menuText}>Address</Typography>
+                                        <Typography sx={styles.menuText}>Địa chỉ</Typography>
                                     </MenuItem>
                                 </Link>
                                 {/* {userRole==0 && (<Link to='/profile/createproduct' style={styles.menuLink}>
@@ -82,7 +82,7 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                 <Divider />
                                 <MenuItem onClick={handleSignOut} sx={styles.menuItemSignOut}>
                                     <icons.SignOut sx={styles.menuIcon} />
-                                    <Typography sx={styles.menuText}>Sign out</Typography>
+                                    <Typography sx={styles.menuText}>Đăng xuất</Typography>
                                 </MenuItem>
                             </MenuList>
                         </ClickAwayListener>

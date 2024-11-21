@@ -22,8 +22,7 @@ const styles = {
 	logo: {
 		overflow: 'hidden',
 		backgroundColor: 'white',
-		width: '150px',
-		height: '34px',
+		height: '40px',
 	},
 	menuContainer: {
 		display: 'flex',

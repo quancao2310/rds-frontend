@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styles from './Product.styles'
 import { icons } from '../../constant'
-import { getProductAPI, getProductCategoryAPI, updateProductView } from '../../api/productApi'
+import { getProductAPI, getProductCategoryAPI, getTotalCategoryAPI, updateProductView } from '../../api/productApi'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import { useParams, useLocation, Link, useHistory } from "react-router-dom"
 import { Container, Grid, Button, IconButton, CardMedia, Rating, Typography, Divider, Tab, Skeleton, Modal, MenuList, MenuItem, Popper, Paper, Grow, ClickAwayListener } from '@mui/material'
@@ -79,7 +79,7 @@ const settingsIMG = {
 };
 
 const settingsRelatedProduct = {
-	dots: true,
+	dots: false,
 	speed: 400,
 	infinite: true,
 	slidesToShow: 5,
@@ -265,9 +265,9 @@ const Product = () => {
                 console.log("accessToken from getProductAPI:", accessToken);
 				setToken(accessToken);
 
-				getProductCategoryAPI(data.type).then(response => {
-					if (response.data.success)
-						setRelatedProductList({ "isLoading": false, "productList": response.data.data })
+				getTotalCategoryAPI(data.category).then(response => {
+					if (response.data.length !== 0)
+						setRelatedProductList({ "isLoading": false, "productList": response.data })
 				})
 			}
 		})
@@ -304,22 +304,16 @@ const Product = () => {
 				<Grid container spacing={3}>
 					<Grid item xs={12} lg={6}>
 						{product.isLoading ? (
-							<Slider {...settingsIMG}>
-								<Skeleton variant="rectangular" animation="wave" sx={styles.imgSkeleton} />
-							</Slider>
+							<Skeleton variant="rectangular" animation="wave" sx={styles.imgSkeleton} />
 						) : (
-							<Slider {...settingsIMG}>
-								{getImgList(product).map(imgSrc => (
-									<Box>
-										<CardMedia
-											component="img"
-											image={imgSrc}
-											alt="product image"
-											sx={styles.image}
-										/>
-									</Box>
-								))}
-							</Slider>
+							<Box>
+								<CardMedia
+									component="img"
+									image={product.imageUrl}
+									alt="product image"
+									sx={styles.image}
+								/>
+							</Box>
 						)}
 
 					</Grid>
@@ -351,8 +345,8 @@ const Product = () => {
 								</Box>
 							) : (
 								<Box sx={styles.pRatingWrapper}>
-									<Rating size="small" readOnly value={product.rating} precision={0.5} sx={styles.pRating} />
-									<Typography variant="h5" sx={styles.pSold}>({product.sold})</Typography>
+									<Rating size="small" readOnly value={5} precision={0.5} sx={styles.pRating} />
+									{/* <Typography variant="h5" sx={styles.pSold}>({product.sold})</Typography> */}
 								</Box>
 							)}
 
@@ -370,17 +364,30 @@ const Product = () => {
 									<Typography variant="h5" component="div" sx={styles.pPrice}>{formatted.price}</Typography>
 								</Box>
 							)}
+							
+							{product.isLoading ? (
+								<Box sx={styles.boxCenter}>
+									<Skeleton variant="text" animation="wave" sx={{ mt: 4, ...styles.skeletonColor }}>
+										<Typography variant="h5" component="div" sx={styles.pPrice}>9,000,000,000d</Typography>
+									</Skeleton>
+								</Box>
+							) : (
+								<Box sx={styles.priceWrapper}>
+									<div className='text-lg mb-[10px] text-center'><strong>Thương hiệu:</strong> {product.brand}</div>
+									<div className='text-lg mb-[10px] text-center'><strong>Kho:</strong> {product.stock}</div>
+								</Box>
+							)}
 
 							{product.isLoading ? (
 								<Box sx={styles.btnWrapper}>
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonButton}>
 										<Button variant="outlined" startIcon={product.isFavorite ? (<icons.IsFavorite />) : (<icons.NotFavorite />)} sx={styles.addBtn}>
-											Add to Cart
+											Thêm Vào Giỏ Hàng
 										</Button>
 									</Skeleton>
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonButton}>
 										<Button variant="contained" startIcon={<icons.AddCart />} sx={styles.addBtn}>
-											Add to Cart
+											Thêm Vào Giỏ Hàng
 										</Button>
 									</Skeleton>
 								</Box>
@@ -394,7 +401,7 @@ const Product = () => {
 											sx={styles.favoriteBtn}
 											onClick={changeFavorite}
 										>
-											Remove Favorite
+											Xóa Khỏi Yêu Thích
 										</Button>
 									) : (
 										<Button
@@ -403,7 +410,7 @@ const Product = () => {
 											sx={styles.favoriteBtn}
 											onClick={changeFavorite}
 										>
-											Add Favorite
+											Thêm Vào Yêu Thích
 										</Button>
 									)}
 									<Button
@@ -411,7 +418,7 @@ const Product = () => {
 										startIcon={<icons.AddCart />}
 										sx={styles.addBtn}
 									>
-										Add to Cart
+										Thêm Vào Giỏ Hàng
 									</Button>
 								</Box>
 							)}
@@ -517,15 +524,15 @@ const Product = () => {
 										<Tab sx={styles.tabTitle} value="1" />
 									</Skeleton>
 								) : (
-									<Tab sx={styles.tabTitle} label="Description" value="1" />
+									<Tab sx={styles.tabTitle} label="Mô tả sản phẩm" value="1" />
 								)}
-								{product.isLoading ? (
+								{/* {product.isLoading ? (
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonTab}>
 										<Tab sx={styles.tabTitle} value="2" />
 									</Skeleton>
 								) : (
 									<Tab sx={styles.tabTitle} label="Specification" value="2" />
-								)}
+								)} */}
 							</TabList>
 						</Box>
 						<TabPanel value="1">
@@ -569,7 +576,7 @@ const Product = () => {
 			<Container maxWidth="xl" sx={styles.relatedProductContainer}>
 
 				{relatedProductList.isLoading ? (
-					<Box>
+					<Box className="px-[50px]">
 						<Box sx={styles.boxCenter}>
 							<Skeleton variant="text" animation="wave" sx={styles.skeletonTitle}>
 								<Typography gutterBottom variant="h5" component="div">lorem lorem lorem</Typography>
@@ -580,11 +587,11 @@ const Product = () => {
 						</Slider>
 					</Box>
 				) : (
-					<Box>
+					<Box className="px-[50px]">
 						<Box sx={styles.relatedProductWrapper}>
-							<Typography gutterBottom variant="h5" component="div" sx={styles.sliderTitle}>Related products</Typography>
-							<Link style={styles.link} to={`/category/${product.isLoading ? "" : product.type}`}>
-								<Button size="small" sx={styles.viewMoreBtn}>View more</Button>
+							<Typography gutterBottom variant="h5" component="div" sx={styles.sliderTitle}>Sản phẩm tương tự</Typography>
+							<Link style={styles.link} to={`/category/${product.isLoading ? "" : product.category}`}>
+								<Button size="small" sx={styles.viewMoreBtn}>Xem thêm</Button>
 							</Link>
 						</Box>
 						<Slider {...settingsRelatedProduct}>

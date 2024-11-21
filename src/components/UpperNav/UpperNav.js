@@ -51,7 +51,7 @@ const UpperNav = () => {
 			const delay = setTimeout(() => {
 				searchProductsAPI(searchValue).then((response) => {
 					if (response.status === 200) {
-						setSearchResult(response.data)
+						setSearchResult(response.data.slice(0,5))
 						if (response.data.length !== 0) {
 							setSearchStatus(1)
 							setOpenSearch(true)
@@ -91,7 +91,7 @@ const UpperNav = () => {
 						sx={styles.searchBar}
 						className={classes.root}
 						size="small"
-						placeholder="Search product"
+						placeholder="Tìm kiếm sản phẩm"
 						value={searchValue}
 						onClick={handleClick}
 						onChange={handleChange}
@@ -123,7 +123,7 @@ const UpperNav = () => {
 							) : (
 								<Card>
 									<CardContent>
-										<Typography>No product found</Typography>
+										<Typography>Không tìm thấy kết quả nào</Typography>
 									</CardContent>
 								</Card>
 							)}
@@ -139,7 +139,7 @@ const UpperNav = () => {
 								<icons.Cart sx={styles.icon} />
 							</Badge>
 							<Typography sx={styles.menuTitle}>
-								Cart
+								Giỏ hàng
 							</Typography>
 						</Link>
 					</Grid>
@@ -148,7 +148,7 @@ const UpperNav = () => {
 							<Link to="/authentication" style={styles.menuItem}>
 								<icons.User sx={styles.icon} />
 								<Typography sx={styles.menuTitle}>
-									Login
+									Đăng nhập
 								</Typography>
 							</Link>
 						) : (
