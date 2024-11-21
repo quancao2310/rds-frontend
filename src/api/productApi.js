@@ -35,8 +35,11 @@ const getProductAPI = (productID) => {
 const searchProductsAPI = (searchValue) => {
 	let command = "searchProducts";
 	return axios.get(
-		TEST_API_URL +
-			`productAPI.php?command=${command}&searchValue=${searchValue}`
+		`https://api.regionaldelicacyshop.software/api/v1/products`, {
+			params: {
+				search: searchValue
+			}
+		}
 	);
 };
 const createProduct = (product) => {

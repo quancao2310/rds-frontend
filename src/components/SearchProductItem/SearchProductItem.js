@@ -27,7 +27,7 @@ const SearchProductItem = ({ product }) => {
                 <CardMedia
                     component="img"
                     sx={styles.productImg}
-                    image={product.img1}
+                    image={product.imageUrl}
                 />
                 <CardContent sx={styles.productContent}>
                     <Typography
