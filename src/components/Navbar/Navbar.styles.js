@@ -41,7 +41,7 @@ const style = {
 		borderRadius: '25px',
 		mr: 1,
 		'&:hover': {
-			backgroundColor: '#737373',
+			backgroundColor: '#1C6300',
 		},
 	},
 	gridWrapper: {
@@ -61,7 +61,7 @@ const style = {
 		transition: '400ms',
 		borderRadius: '20px',
 		'&:hover': {
-			backgroundColor: '#737373',
+			backgroundColor: '#1C6300',
 		},
 	},
 	iconNav: {

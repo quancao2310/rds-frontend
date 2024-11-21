@@ -29,7 +29,7 @@ const styles = {
 		borderRadius: '25px',
 		mr: 1,
 		'&:hover': {
-			backgroundColor: '#737373',
+			backgroundColor: '#1C6300',
 		},
 	},
 	icon: {
@@ -50,7 +50,7 @@ const styles = {
         borderRadius: '25px',
         mr: 1,
         '&:hover': {
-            backgroundColor: '#737373',
+            backgroundColor: '#1C6300',
         }
     },
 };

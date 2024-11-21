@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import styles from './Category.style';
 import { Container, Button, Typography, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -6,9 +6,21 @@ import { Box } from '@mui/system';
 import ProductItem from '../ProductItem/ProductItem';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductSkeleton from '../ProductSkeleton/ProductSkeleton';
+import { getTotalCategoryAPI } from '../../api/productApi'
 
 const Category = ({ categoryName, selector, noOfSkeleton }) => {
-	const { isLoading, productList } = useSelector(selector)
+	// const { isLoading, productList } = useSelector(selector)
+	const [productList, setProductList] = useState({ "isLoading": true })
+
+	useEffect(() => {
+        getTotalCategoryAPI(categoryName).then(response => {
+            if (response.data.length !== 0) {
+                const data = response.data.slice(0,4)
+                setProductList({ "isLoading": false, "data": data })
+            }
+        })
+    }, [])
+
 	return (
 		<Container maxWidth="lg" sx={{ marginTop: '60px' }}>
 			<Box sx={styles.category}>
@@ -24,7 +36,7 @@ const Category = ({ categoryName, selector, noOfSkeleton }) => {
 					<Button size="small" sx={styles.viewMoreBtn}>View more</Button>
 				</Link>
 			</Box>
-			{isLoading ? (
+			{productList.isLoading ? (
 				<Grid container spacing={{ xs: 1, md: 3, lg: 3.5 }}>
 					{Array(noOfSkeleton).fill().map(() => (
 						<Grid item xs={6} md={4} lg={3}>
@@ -34,7 +46,7 @@ const Category = ({ categoryName, selector, noOfSkeleton }) => {
 				</Grid>
 			) : (
 				<Grid container spacing={{ xs: 1, md: 3, lg: 3.5 }}>
-					{productList.map((product) => (
+					{productList.data.map((product) => (
 						<Grid item xs={6} md={4} lg={3} key={product.productID}>
 							<ProductItem
 								product={product}

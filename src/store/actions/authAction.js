@@ -2,8 +2,9 @@ import ActionType from './actionType'
 import { signInApi, signUpApi, updateUserVisitAPI } from '../../api/authApi'
 import { getCart, clearCartUI } from "../actions/cartAction"
 import { encryptData } from '../../constant/utils'
-const signIn = (email, password, history) => {
+import { toast } from 'react-toastify'
 
+const signIn = (email, password, history) => {
 
     return dispatch => {
         dispatch({ type: ActionType.START_LOGIN })
@@ -11,22 +12,39 @@ const signIn = (email, password, history) => {
             .then(response => {
                 const data = response.data;
                 if (response.status === 200) {
-                    alert('Login successful!');
                     dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
-                    dispatch(getCart());
+                    
+                    localStorage.setItem("accessToken", data.accessToken);
+                    let accessToken = localStorage.getItem("accessToken");
+                    console.log("accessToken from signIn:", accessToken);
+
+                    dispatch(getCart(accessToken));
 
                     updateUserVisitAPI();
 
-                    //let token = encryptData(data);
+                    let token = encryptData(data.accessToken);
 
-                    sessionStorage.setItem('accessToken', response.data.accessToken);
-                    let accessToken = sessionStorage.getItem('accessToken');
-                    console.log(accessToken);
+                    sessionStorage.setItem("userInfo", token);
+                    let userInfo = sessionStorage.getItem("userInfo");
+                    console.log("userInfo from signIn:", userInfo);
                     history.push("/");
+                    setTimeout(()=> {
+                        toast.success('Login successfully!');
+                    }, 500);
                 }
                 else
                     dispatch({ type: ActionType.SIGNIN_FAIL, data: data });
             })
+            .catch(error => {
+                if (error.response) {
+                    toast.error(`Error ${error.response.status}: ${error.response.data.message || 'Server Error'}`);
+                  } else if (error.request) {
+                    toast.error('No response received from server');
+                  } else {
+                    toast.error(`Error: ${error.message}`);
+                  }
+            }
+            )
     }
 }
 
@@ -81,10 +99,12 @@ const logOut = (history) => {
     return dispatch => {
         dispatch(clearCartUI());
         dispatch({ type: ActionType.LOGOUT })
-        sessionStorage.removeItem("accessToken")
+        sessionStorage.removeItem("userInfo")
+        localStorage.removeItem("accessToken")
 
         if (history) {
             history.push("/")
+            toast.success('Logout successfully!');
         }
     }
 }

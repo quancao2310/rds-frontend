@@ -21,7 +21,7 @@ const Cart = () => {
     const history = useHistory();
     const { cartList, totalPrice } = useSelector(cartSelector);
     const isLoading = useSelector(cartIsLoadingSelector);
-    console.log("isLoading: ", isLoading);
+    console.log("isLoading:", isLoading);
 
     const [openModalDelete, setOpenModalDelete] = useState(false);
 
@@ -43,7 +43,7 @@ const Cart = () => {
         history.push('/checkout/payment')
     }
 
-    console.log("cartList: ", cartList);
+    console.log("cartList:", cartList);
 
     return (
         <Box sx={styles.box}>
@@ -118,9 +118,9 @@ const Cart = () => {
                             </Box>
                             <TransitionGroup>
                                 {cartList.map(product =>
-                                    <Collapse key={product.productID}>
+                                    <Collapse key={product.productId}>
                                         <HorizontalProduct
-                                            key={product.productID}
+                                            key={product.productId}
                                             cartProduct
                                             product={product}
                                             canDelete

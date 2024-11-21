@@ -138,6 +138,7 @@ const Product = () => {
 	const query = useQuery()
 	const history = useHistory()
 	const productId = query.get("i")
+	const [token, setToken] = useState("")
 	const [product, setProduct] = useState({ "isLoading": true })
 	const [relatedProductList, setRelatedProductList] = useState({ "isLoading": true, "productList": [] })
 	const [formatted, setformatted] = useState({})
@@ -197,12 +198,12 @@ const Product = () => {
 
 		//new product
 		if (productIndex == -1) {
-			dispatch(addProductToCart(product.product));
+			dispatch(addProductToCart(product, token));
 		}
 		//existing product
 		else {
 			setQuantityDifference(quantityDifference + 1);
-			dispatch(changeProductQuantity(product.product, 1));
+			dispatch(changeProductQuantity(product, 1));
 		}
 
 		dispatch(showCartNoti())
@@ -240,7 +241,7 @@ const Product = () => {
 		getProductAPI(productId).then(response => {
 			if (response.status === 200) {
 				const data = response.data
-				console.log("product: ", data)
+				console.log("product:", data)
 
 				updateProductView(productId);
 				let formattedDesc = "Sản phẩm chưa có thông tin mô tả"
@@ -259,6 +260,10 @@ const Product = () => {
 				setIsFavorite(data.favorite)
 
 				setProduct({ "isLoading": false, ...data })
+
+				let accessToken = localStorage.getItem("accessToken");
+                console.log("accessToken from getProductAPI:", accessToken);
+				setToken(accessToken);
 
 				getProductCategoryAPI(data.type).then(response => {
 					if (response.data.success)

@@ -137,7 +137,7 @@ const SignInForm = ({ isSignIn, setIsSignIn, references }) => {
 						onClick={signInSubmit}
 						sx={styles.mainButton}
 						variant="contained"
-						loading={isLoading}
+						// loading={isLoading}
 						loadingIndicator={<CircularProgress sx={styles.loadingIndicator} size={18} />}
 					>Sign In
 					</LoadingButton>

@@ -90,7 +90,7 @@ const styles = {
 		textAlign: "center",
 	},
 	bottomFooter: {
-		backgroundColor: 'rgb(41 41 41)',
+		backgroundColor: '#1C6300',
 		display: 'flex',
 		justifyContent: 'center',
 		padding: '15px',

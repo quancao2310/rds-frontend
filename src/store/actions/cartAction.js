@@ -10,14 +10,15 @@ import {
 
 import {showAuthError} from "../actions/authAction"
 
-const getCart = () => {
+const getCart = (token) => {
 
     return dispatch => {
         dispatch({ type: ActionType.START_GET_CART_LIST });
 
-        getCartApi().then(response => {
-            if (response.data.success) {
-                const data = response.data.data;
+        getCartApi(token).then(response => {
+            if (response.status === 200) {
+                const data = response.data;
+                console.log("getCart:", data);
                 dispatch({ type: ActionType.GET_CART_LIST_SUCCESS, data: data });
             }
             else {
@@ -30,23 +31,23 @@ const getCart = () => {
 const getCartQuantity = () => {
     return dispatch => {
         getCartQuantityApi().then(response => {
-            if (response.data.success) {
-                const data = response.data.data;
+            if (response.status === 200) {
+                const data = response.data;
                 dispatch({
                     type: ActionType.GET_CART_QUANTITY,
-                    quantity: data
+                    quantity: data.length
                 });
             }
         })
     }
 }
 
-const addProductToCart = (product) => {
+const addProductToCart = (product, token) => {
 
-    const productID = product.productID;
+    const productId = product.productId;
 
     const productData = {
-        productID: productID,
+        productId: productId,
         rating: product.rating,
         name: product.name,
         img1: product.img1,
@@ -60,9 +61,9 @@ const addProductToCart = (product) => {
             type: ActionType.ADD_PRODUCT_TO_CART,
             data: productData,
         })
-        const response = await addProductToCartApi(productID);
+        const response = await addProductToCartApi(productId, token);
 
-        if (!response.data.success) {
+        if (response.status !== 200) {
             console.log('error ?');
             dispatch(showAuthError());
         }
@@ -71,15 +72,15 @@ const addProductToCart = (product) => {
 
 const removeProductFromCart = (product) => {
 
-    const productID = product.productID;
+    const productId = product.productId;
     return async (dispatch) => {
         dispatch({
             type: ActionType.REMOVE_PRODUCT_FROM_CART,
-            productID: productID,
+            productId: productId,
             price: product.price,
             quantity: product.quantity,
         });
-        const response = await removeProductFromCartApi(productID);
+        const response = await removeProductFromCartApi(productId);
 
         if (!response.data.success) {
             dispatch(showAuthError());
@@ -89,11 +90,11 @@ const removeProductFromCart = (product) => {
 
 const changeProductQuantity = (product, quantity) => {
 
-    const productID = product.productID;
+    const productId = product.productId;
     return (dispatch) => {
         dispatch({
             type: ActionType.CHANGE_QUANTITY_PRODUCT,
-            productID: productID,
+            productId: productId,
             productPrice: product.price,
             quantity: quantity,
         })

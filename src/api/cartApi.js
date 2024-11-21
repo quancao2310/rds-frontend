@@ -1,40 +1,72 @@
 import axios from "./axios";
 import { BASE_API_URL, TEST_API_URL } from '../constant/string'
 
-const getCartApi = () => {
+const accessToken = localStorage.getItem("accessToken");
+
+const getCartApi = (token) => {
     let command = "getCartList";
 
-    return axios.get(TEST_API_URL + `cartAPI.php?command=${command}`);
+    return axios.get("https://api.regionaldelicacyshop.software/api/v1/carts", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 }
 
 const getCartQuantityApi = () => {
     let command = "getTotalQuantity";
-    return axios.get(TEST_API_URL + `cartAPI.php?command=${command}`);}
+    return axios.get("https://api.regionaldelicacyshop.software/api/v1/carts", {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+}
 
-const addProductToCartApi = (productID) => {
+const addProductToCartApi = (productId, token) => {
 
     let data = new FormData();
     data.append("command","add");
-    data.append("productID",productID);
-    return axios.post(TEST_API_URL + `cartAPI.php`, data);
+    data.append("productId",productId);
+    let quantity = 1;
+    return axios.post("https://api.regionaldelicacyshop.software/api/v1/carts",
+        {
+            productId,
+            quantity
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
 }
 
-const removeProductFromCartApi = (productID) => {
+const removeProductFromCartApi = (productId) => {
 
     let data = new FormData();
     data.append("command","remove");
-    data.append("productID",productID);
+    data.append("productId",productId);
     return axios.post(TEST_API_URL + `cartAPI.php`, data);
 }
 
-const changeQuantityApi = (productID,quantity) => {
+const changeQuantityApi = (productId,quantity) => {
     let data = new FormData();
 
     data.append("command","changeQuantity");
-    data.append("productID", productID);
+    data.append("productId", productId);
     data.append("quantity", quantity);
 
-    return axios.post(TEST_API_URL + `cartAPI.php`, data);
+    return axios.post("https://api.regionaldelicacyshop.software/api/v1/carts",
+        {
+            productId,
+            quantity
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        }
+    );
 }
 
 

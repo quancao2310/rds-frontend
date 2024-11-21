@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route,useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 
 //component
 import Navbar from '../components/Navbar/Navbar';
@@ -25,6 +25,8 @@ import {
 
 import { authErrorSelector } from "../store/selectors"
 import { showAuthError, logOut } from "../store/actions/authAction"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomeNavigation = () => {
 
@@ -68,6 +70,7 @@ const HomeNavigation = () => {
 				<Route path="/" component={NotFound} />
 			</Switch>
 			<Footer />
+			<ToastContainer/>
 		</div>
 	);
 };

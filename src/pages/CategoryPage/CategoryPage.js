@@ -31,9 +31,12 @@ const CategoryPage = () => {
                 if (data.length == 0) history.push("/notfound") 
 
                 const total = Math.ceil(data.length / itemsPerPage)
-                console.log("totalPage: ", total)
+                console.log("totalPage:", total)
                 setTotalPage({ "isLoading": false, "value": total })
                 setPage(1)
+
+                let accessToken = localStorage.getItem("accessToken");
+                console.log("accessToken from getTotalCategoryAPI:", accessToken);
             }
         })
     }, [page, sortBy, name])
