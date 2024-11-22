@@ -3,7 +3,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        backgroundImage: 'url("https://wallpaperaccess.com/full/1836506.png")',
+        backgroundImage: 'url("https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/ac/e4/fb/best-vietnamese-restaurants.jpg?w=1200&h=-1&s=1")',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         justifyContent: 'center',
@@ -128,7 +128,7 @@ const styles = {
     },
 
     overlayRight: {
-        background: 'linear-gradient(307deg, rgb(0, 0, 0), rgb(100 100 100))',
+        background: 'linear-gradient(140deg, #227A00, #1C6300)',
         display: { xs: 'none', md: 'flex' },
         width: '50%',
         position: 'absolute',
@@ -145,7 +145,7 @@ const styles = {
     },
 
     overlayLeft: {
-        background: 'linear-gradient(65deg, rgb(0, 0, 0), rgb(82 82 82))',
+        background: 'linear-gradient(140deg, #227A00, #1C6300)',
         left: 0,
         display: { xs: 'none', md: 'flex' },
         height: '100%',
