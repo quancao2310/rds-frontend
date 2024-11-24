@@ -13,7 +13,7 @@ const Favorite = () => {
     const [favoriteList, setFavoriteList] = useState({ "isLoading": true })
     useEffect(() => {
         getFavoriteListApi().then(response => {
-            if (response.data.success == true) {
+            if (response.data.success === true) {
                 setFavoriteList({ "isLoading": false, "data": response.data.data })
                 console.log("favoriteList: ", response.data.data)
             }
@@ -23,8 +23,8 @@ const Favorite = () => {
     const onDelete = (productID) => {
         changeFavoriteApi(productID).then(response => {
             console.log(response)
-            if (response.data.success == true) {
-                if (response.data.data.isLike == false) {
+            if (response.data.success === true) {
+                if (response.data.data.isLike === false) {
                     let newList = favoriteList.data.filter((product) => product.productID !== productID)
                     console.log("newFavoriteList: ", newList)
                     setFavoriteList({ ...favoriteList, "data": newList })
@@ -36,7 +36,7 @@ const Favorite = () => {
     return (
         <Box sx={styles.box}>
             <Container maxWidth="md">
-                <Typography sx={styles.sliderTitle}>Favorites</Typography>
+                <Typography sx={styles.sliderTitle}>Danh mục yêu thích</Typography>
                 {favoriteList.isLoading ? (
                     <>
                         <HorizontalProductSkeleton />

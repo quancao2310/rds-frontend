@@ -29,15 +29,15 @@ const signUpApi = (email, name, phoneNumber, address, city, country, password) =
     });
 }
 
-const updateUserVisitAPI = () => {
-    let data = new FormData();
-    data.append("command", "updateVisit");
+// const updateUserVisitAPI = () => {
+//     let data = new FormData();
+//     data.append("command", "updateVisit");
 
-    return axios.post(TEST_API_URL + "userAPI.php", data);
-}
+//     return axios.post(TEST_API_URL + "userAPI.php", data);
+// }
 
-const validateApi = () => {
-    return axios.post(TEST_API_URL + "userAPI.php?command=checkToken");
-}
+// const validateApi = () => {
+//     return axios.post(TEST_API_URL + "userAPI.php?command=checkToken");
+// }
 
-export { signInApi, signUpApi, validateApi, updateUserVisitAPI }
+export { signInApi, signUpApi }

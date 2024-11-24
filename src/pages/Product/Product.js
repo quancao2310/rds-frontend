@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styles from './Product.styles'
 import { icons } from '../../constant'
-import { getProductAPI, getProductCategoryAPI, getTotalCategoryAPI, updateProductView } from '../../api/productApi'
+import { getProductAPI, getProductCategoryAPI, getTotalCategoryAPI } from '../../api/productApi'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import { useParams, useLocation, Link, useHistory } from "react-router-dom"
 import { Container, Grid, Button, IconButton, CardMedia, Rating, Typography, Divider, Tab, Skeleton, Modal, MenuList, MenuItem, Popper, Paper, Grow, ClickAwayListener } from '@mui/material'
@@ -24,7 +24,7 @@ import { cartSelector } from "../../store/selectors"
 import { addProductToCart, changeProductQuantity, showCartNoti, hideCartNoti } from '../../store/actions/cartAction'
 import { showAuthError } from '../../store/actions/authAction'
 import { showAddFavNoti, showRemoveFavNoti, hideFavNoti } from '../../store/actions/favoriteAction'
-import { deleteProduct } from "../../api/productApi";
+// import { deleteProduct } from "../../api/productApi";
 import { useDispatch, useSelector } from 'react-redux'
 
 const useQuery = () => {
@@ -152,18 +152,19 @@ const Product = () => {
 	const [quantityDifference, setQuantityDifference] = useState(0);
 
 	const dispatch = useDispatch()
+	const accessToken = localStorage.getItem('accessToken');
 
-	function onDeleteProduct() {
-		setModalOpen(false);
-		deleteProduct(productId).then((response) => {
-			if (response.data.success == true) {
-				console.log('da xoa product');
-				setTimeout(() => {
-					window.location.href = "/"
-				}, 2000);
-			}
-		});
-	}
+	// function onDeleteProduct() {
+	// 	setModalOpen(false);
+	// 	deleteProduct(productId).then((response) => {
+	// 		if (response.data.success == true) {
+	// 			console.log('da xoa product');
+	// 			setTimeout(() => {
+	// 				window.location.href = "/"
+	// 			}, 2000);
+	// 		}
+	// 	});
+	// }
 
 	const changeFavorite = () => {
 		changeFavoriteApi(productId).then(response => {
@@ -190,7 +191,7 @@ const Product = () => {
 	const addItemToCart = () => {
 
 		//if userinfo is empty
-		if (userEmpty) {
+		if (!accessToken) {
 			dispatch(showAuthError())
 			return;
 		}
@@ -243,7 +244,7 @@ const Product = () => {
 				const data = response.data
 				console.log("product:", data)
 
-				updateProductView(productId);
+				// updateProductView(productId);
 				let formattedDesc = "Sản phẩm chưa có thông tin mô tả"
 				if (data.description !== "")
 					formattedDesc = data.description
@@ -617,13 +618,13 @@ const Product = () => {
 							onClick={() => setModalOpen(false)}>
 							Cancel
 						</Button>
-						<Button
+						{/* <Button
 							variant="outlined"
 							sx={{ mx: 1 }}
 							color="error"
 							onClick={() => onDeleteProduct()}>
 							Confirm
-						</Button>
+						</Button> */}
 					</Box>
 				</Box>
 			</Modal>

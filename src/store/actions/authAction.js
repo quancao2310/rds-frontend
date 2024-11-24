@@ -1,5 +1,5 @@
 import ActionType from './actionType'
-import { signInApi, signUpApi, updateUserVisitAPI } from '../../api/authApi'
+import { signInApi, signUpApi } from '../../api/authApi'
 import { getCart, clearCartUI } from "../actions/cartAction"
 import { encryptData } from '../../constant/utils'
 import { toast } from 'react-toastify'
@@ -20,7 +20,7 @@ const signIn = (email, password, history) => {
 
                     dispatch(getCart(accessToken));
 
-                    updateUserVisitAPI();
+                    // updateUserVisitAPI();
 
                     let token = encryptData(data.accessToken);
 
@@ -29,7 +29,7 @@ const signIn = (email, password, history) => {
                     console.log("userInfo from signIn:", userInfo);
                     history.push("/");
                     setTimeout(()=> {
-                        toast.success('Login successfully!');
+                        toast.success('Đăng nhập thành công');
                     }, 500);
                 }
                 else
@@ -37,7 +37,7 @@ const signIn = (email, password, history) => {
             })
             .catch(error => {
                 if (error.response) {
-                    toast.error(`Error ${error.response.status}: ${error.response.data.message || 'Server Error'}`);
+                    toast.error(`${error.response.data.message || 'Server Error'}`);
                   } else if (error.request) {
                     toast.error('No response received from server');
                   } else {
@@ -104,7 +104,7 @@ const logOut = (history) => {
 
         if (history) {
             history.push("/")
-            toast.success('Logout successfully!');
+            toast.success('Đăng xuất thành công');
         }
     }
 }

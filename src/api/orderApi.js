@@ -1,15 +1,15 @@
 import axios from './axios';
-import { BASE_API_URL, TEST_API_URL } from '../constant/string';
+import { BASE_API_URL } from '../constant/string';
 
 const getOrderListAPI = () => {
 	let command = 'getOrderList';
-	return axios.get(TEST_API_URL + `orderAPI.php?command=${command}`);
+	return axios.get(BASE_API_URL + `orderAPI.php?command=${command}`);
 };
 
 const getOrderDetailAPI = (orderID) => {
 	let command = 'getOrderDetail';
 	return axios.get(
-		TEST_API_URL + `orderAPI.php?command=${command}&orderID=${orderID}`,
+		BASE_API_URL + `orderAPI.php?command=${command}&orderID=${orderID}`,
 	);
 };
 
@@ -19,7 +19,7 @@ const rateProduct = (orderID, productID, rating) => {
 	data.append('orderID', orderID);
 	data.append('productID', productID);
 	data.append('rating', rating);
-	return axios.post(TEST_API_URL + `orderAPI.php`, data);
+	return axios.post(BASE_API_URL + `orderAPI.php`, data);
 };
 
 const createOrder = (deliID, name, address, phone, totalPrice, cartList) => {
@@ -31,6 +31,6 @@ const createOrder = (deliID, name, address, phone, totalPrice, cartList) => {
 	data.append('phone', phone);
 	data.append('totalPrice', totalPrice);
 	data.append('list', JSON.stringify(cartList));
-	return axios.post(TEST_API_URL + `orderAPI.php`, data);
+	return axios.post(BASE_API_URL + `orderAPI.php`, data);
 };
 export { getOrderListAPI, getOrderDetailAPI, rateProduct, createOrder };

@@ -1,12 +1,12 @@
 import axios from "./axios";
-import { BASE_API_URL, TEST_API_URL } from '../constant/string'
+import { BASE_API_URL } from '../constant/string'
 
 const accessToken = localStorage.getItem("accessToken");
 
 const getCartApi = (token) => {
     let command = "getCartList";
 
-    return axios.get("https://api.regionaldelicacyshop.software/api/v1/carts", {
+    return axios.get(`${BASE_API_URL}carts`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -15,7 +15,7 @@ const getCartApi = (token) => {
 
 const getCartQuantityApi = () => {
     let command = "getTotalQuantity";
-    return axios.get("https://api.regionaldelicacyshop.software/api/v1/carts", {
+    return axios.get(`${BASE_API_URL}carts`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
@@ -28,7 +28,7 @@ const addProductToCartApi = (productId, token) => {
     data.append("command","add");
     data.append("productId",productId);
     let quantity = 1;
-    return axios.post("https://api.regionaldelicacyshop.software/api/v1/carts",
+    return axios.post(`${BASE_API_URL}carts`,
         {
             productId,
             quantity
@@ -46,7 +46,7 @@ const removeProductFromCartApi = (productId) => {
     let data = new FormData();
     data.append("command","remove");
     data.append("productId",productId);
-    return axios.post(TEST_API_URL + `cartAPI.php`, data);
+    return axios.post(BASE_API_URL + `cartAPI.php`, data);
 }
 
 const changeQuantityApi = (productId,quantity) => {
@@ -56,7 +56,7 @@ const changeQuantityApi = (productId,quantity) => {
     data.append("productId", productId);
     data.append("quantity", quantity);
 
-    return axios.post("https://api.regionaldelicacyshop.software/api/v1/carts",
+    return axios.post(`${BASE_API_URL}carts`,
         {
             productId,
             quantity
@@ -75,7 +75,7 @@ const removeAllApi = () => {
 
     data.append("command","removeAll");
 
-    return axios.post(TEST_API_URL + `cartAPI.php`,data);
+    return axios.post(BASE_API_URL + `cartAPI.php`,data);
 }
 
 export { 

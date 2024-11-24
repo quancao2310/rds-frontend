@@ -36,12 +36,14 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
     const anchorRef = useRef(null)
     const clickRef = useRef(null)
 
+    const accessToken = localStorage.getItem('accessToken')
+
     return (
         <Fade in={isHome ? isPopUp : true} timeout={500}>
             <Box sx={styles.userItemWrapper}>
                 <Box sx={styles.navItem}>
                     <BootstrapTooltip
-                        title="Product is added to your cart"
+                        title="Sản phẩm đã được thêm vào giỏ hàng"
                         TransitionComponent={Zoom}
                         open={cartNoti.addToCart}
                     >
@@ -55,7 +57,7 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
                         </Link>
                     </BootstrapTooltip>
                     {
-                        userInfo.isEmpty ?
+                        !accessToken ?
                             <Link to='/authentication' style={styles.navLink}>
                                 <Box sx={styles.wrapper}>
                                     <icons.User sx={styles.icon} />

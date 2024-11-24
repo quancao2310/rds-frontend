@@ -4,7 +4,7 @@ import {
     getCartQuantityApi,
     addProductToCartApi,
     removeProductFromCartApi,
-    changeQuantityApi,
+    // changeQuantityApi,
     removeAllApi,
 } from "../../api/cartApi"
 
@@ -48,10 +48,9 @@ const addProductToCart = (product, token) => {
 
     const productData = {
         productId: productId,
-        rating: product.rating,
+        rating: 5,
         name: product.name,
-        img1: product.img1,
-        sold: product.sold,
+        img1: product.imageUrl,
         quantity: 1,
         price: product.price,
     }

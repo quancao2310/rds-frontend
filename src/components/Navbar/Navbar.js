@@ -14,6 +14,7 @@ const Navbar = () => {
 	const dispatch = useDispatch()
 	const history = useHistory()
 	const userInfo = useSelector((state) => state.Authentication.user);
+	const accessToken = localStorage.getItem('accessToken')
 	const anchorRef = useRef(null)
 	const clickRef = useRef(null)
 	const anchorRefDrawer = useRef(null)
@@ -122,7 +123,7 @@ const Navbar = () => {
 					/>
 				</ListItem>
 
-				{userInfo.isEmpty ? (
+				{!accessToken ? (
 					""
 				) : (
 					<>
@@ -162,7 +163,7 @@ const Navbar = () => {
 					</>
 				)}
 				<Divider sx={{ my: 2 }} />
-				{userInfo.isEmpty ? (
+				{!accessToken ? (
 					<ListItem button key="login" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 						<Link to='/authentication' style={style.navLink}>
 							<Box sx={style.authenWrapper}>
@@ -237,7 +238,7 @@ const Navbar = () => {
 								<Grid item xs={1.5} sx={style.gridWrapper}>
 									<NavItem
 										href="/"
-										title="Khuyễn mãi"
+										title="Khuyến mãi"
 										icon={<icons.Offer sx={style.iconNav} />}
 									/>
 								</Grid>

@@ -68,13 +68,13 @@ const SignInForm = ({ isSignIn, setIsSignIn, references }) => {
 	return (
 		<Box sx={styles.formContainerLeft} ref={references}>
 			<Box sx={{ width: "100%" }}>
-				<Typography sx={styles.title}>Sign in</Typography>
+				<Typography sx={styles.title}>Đăng nhập</Typography>
 				<Box component="div" sx={styles.socialContainer}>
 					<Link to="#" style={styles.socialLink}><i className="fab fa-facebook-f"></i></Link>
 					<Link to="#" style={styles.socialLink}><i className="fab fa-google-plus-g"></i></Link>
 					<Link to="#" style={styles.socialLink}><i className="fab fa-linkedin-in"></i></Link>
 				</Box>
-				<Typography component="div" sx={styles.subTitle}>or use your RDS account</Typography>
+				<Typography component="div" sx={styles.subTitle}>hoặc sử dụng tài khoản RDS</Typography>
 
 				<Input
 					sx={isRedBorder(email.error)}
@@ -99,7 +99,7 @@ const SignInForm = ({ isSignIn, setIsSignIn, references }) => {
 					onKeyDown={handleKeyDown}
 					type={password.showPassword ? 'text' : 'password'}
 					//inputRef={inputRef}
-					placeholder="Password"
+					placeholder="Mật khẩu"
 					disableUnderline
 					fullWidth
 					inputProps={{ style: { padding: 0 } }}
@@ -130,7 +130,7 @@ const SignInForm = ({ isSignIn, setIsSignIn, references }) => {
 					</Button>
 				}
 				<Box sx={styles.centerBox}>
-					<Link style={styles.back} to="/"><i className="bi bi-arrow-left"></i>&nbsp; Back to home</Link>
+					<Link style={styles.back} to="/"><i className="bi bi-arrow-left"></i>&nbsp; Quay về trang chủ</Link>
 				</Box>
 				<Box sx={styles.centerBox}>
 					<LoadingButton
@@ -139,7 +139,7 @@ const SignInForm = ({ isSignIn, setIsSignIn, references }) => {
 						variant="contained"
 						// loading={isLoading}
 						loadingIndicator={<CircularProgress sx={styles.loadingIndicator} size={18} />}
-					>Sign In
+					>Đăng nhập
 					</LoadingButton>
 				</Box>
 			</Box>

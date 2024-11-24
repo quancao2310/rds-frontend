@@ -30,6 +30,7 @@ const UpperNav = () => {
 	const clickRef = useRef(null)
 	const searchBarRef = useRef(null)
 	const classes = useStyles();
+	const accessToken = localStorage.getItem('accessToken');
 
 	const [searchValue, setSearchValue] = useState('')
 	const handleChange = (event) => {
@@ -144,7 +145,7 @@ const UpperNav = () => {
 						</Link>
 					</Grid>
 					<Grid item xs={6}>
-						{userInfo.isEmpty ? (
+						{!accessToken ? (
 							<Link to="/authentication" style={styles.menuItem}>
 								<icons.User sx={styles.icon} />
 								<Typography sx={styles.menuTitle}>

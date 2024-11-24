@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Switch, Route, Redirect, useRouteMatch, useLocation,useHistory } from 'react-router-dom';
 
-import { validateApi } from '../api/authApi';
+// import { validateApi } from '../api/authApi';
 import { showAuthError } from '../store/actions/authAction';
 import { useDispatch } from 'react-redux';
 
@@ -18,16 +18,16 @@ const ProfileNavigation = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	useEffect(() => {
-		validateApi().then(response => {
-			console.log('response: ', response);
-			if (!response.data.success) {
-				dispatch(showAuthError());
-				history.push("/error")
+	// useEffect(() => {
+	// 	validateApi().then(response => {
+	// 		console.log('response: ', response);
+	// 		if (!response.data.success) {
+	// 			dispatch(showAuthError());
+	// 			history.push("/error")
 
-			}
-		})
-	}, [location])
+	// 		}
+	// 	})
+	// }, [location])
 	return (
 		<Switch>
 			<Route exact path={`${match.path}`}>

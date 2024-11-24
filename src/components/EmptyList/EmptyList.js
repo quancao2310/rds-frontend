@@ -21,7 +21,7 @@ const EmptyList = ({ img, title, imgHeight, btnMarginTop, isCart }) => {
                     variant="contained"
                     sx={{ ...styles.button, ...{ marginTop: btnMarginTop } }}
                 >
-                    Continue Shopping
+                    Tiếp tục mua sắm
                 </Button>
             }
         </Box>

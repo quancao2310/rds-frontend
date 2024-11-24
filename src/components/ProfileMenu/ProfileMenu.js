@@ -55,6 +55,12 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                 id="composition-menu"
                                 aria-labelledby="composition-button"
                             >
+                                <Link to='/profile/addressbook' style={styles.menuLink}>
+                                    <MenuItem onClick={handleClose} sx={styles.menuItem}>
+                                        <icons.User sx={styles.menuIcon} />
+                                        <Typography sx={styles.menuText}>Tài khoản</Typography>
+                                    </MenuItem>
+                                </Link>
                                 <Link to='/profile/orderhistory' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Order sx={styles.menuIcon} />
@@ -67,12 +73,12 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                         <Typography sx={styles.menuText}>Yêu thích</Typography>
                                     </MenuItem>
                                 </Link>
-                                <Link to='/profile/addressbook' style={styles.menuLink}>
+                                {/* <Link to='/profile/addressbook' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Address sx={styles.menuIcon} />
                                         <Typography sx={styles.menuText}>Địa chỉ</Typography>
                                     </MenuItem>
-                                </Link>
+                                </Link> */}
                                 {/* {userRole==0 && (<Link to='/profile/createproduct' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Add sx={styles.menuIcon} />
