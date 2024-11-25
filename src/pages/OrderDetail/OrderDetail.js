@@ -16,7 +16,7 @@ const Stepper = ({ isChecked, title }) => (
 		<Fab sx={styles.checked}>
 			{isChecked && <icons.Check sx={styles.checkIcon} />}
 		</Fab>
-		<Typography sx={styles.stepTitle}>{title}</Typography>
+		<Typography sx={styles.stepTitle} className='text-center'>{title}</Typography>
 	</Box>
 )
 
@@ -34,7 +34,7 @@ const OrderDetail = () => {
 
 	const getOrder = async () => {
 		setIsLoading(true)
-		getOrderDetailAPI(id).then((response) => {
+		await getOrderDetailAPI(id).then((response) => {
 			if (response.status === 200) {
 				const resData = response.data
 				setOrderDetail(resData)
