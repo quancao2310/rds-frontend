@@ -76,7 +76,12 @@ const Cart = () => {
     };
 
     useEffect(() => {
-        getCarts();
+        if (token) {
+            getCarts();
+        }
+        else {
+            setIsLoading(false);
+        }
     }, []);
 
     return (

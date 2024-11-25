@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import Favorite from '../pages/Favorite/Favorite';
 import OrderHistory from '../pages/OrderHistory/OrderHistory';
 import AddressBook from '../pages/AddressBook/AddressBook';
+import ChangePassword from '../pages/ChangePassword/ChangePassword';
 import NotFound from '../components/NotFound/NotFound';
 import OrderDetail from '../pages/OrderDetail/OrderDetail';
 import AdminCreateNewProduct from '../pages/AdminCreateNewProduct/AdminCreateNewProduct';
@@ -58,6 +59,11 @@ const ProfileNavigation = () => {
 				exact
 				path={`${match.path}/editproduct`}
 				component={AdminEditProduct}
+			/>
+			<Route
+				exact
+				path={`${match.path}/changePassword`}
+				component={ChangePassword}
 			/>
 			<Route path={`${match.path}`} component={NotFound} />
 		</Switch>

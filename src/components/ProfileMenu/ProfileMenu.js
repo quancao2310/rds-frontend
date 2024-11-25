@@ -3,13 +3,15 @@ import styles from './ProfileMenu.style'
 import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logOut } from "../../store/actions/authAction";
-import { Typography, MenuList, MenuItem, Divider, Popper, Paper, Grow, ClickAwayListener } from '@mui/material';
+import { Typography, MenuList, MenuItem, Divider, Popper, Paper, Grow, ClickAwayListener, Dialog, DialogTitle } from '@mui/material';
 import { icons } from '../../constant';
 import { userInfoSelector } from "../../store/selectors";
 import {useSelector } from "react-redux";
+import FormAddress from '../FormAddress/FormAddress';
 const ProfileMenu = ({ anchorRef, clickRef }) => {
     const { userID, userRole } = useSelector(userInfoSelector);
     const [open, setOpen] = useState(false);
+    const [modelAppear, setModelAppear] = useState(false);
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -73,7 +75,7 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                         <Typography sx={styles.menuText}>Yêu thích</Typography>
                                     </MenuItem>
                                 </Link>
-                                <Link to='/profile/favorite' style={styles.menuLink}>
+                                <Link to='/profile/changePassword' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Edit sx={styles.menuIcon} />
                                         <Typography sx={styles.menuText}>Đổi mật khẩu</Typography>
@@ -101,6 +103,13 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                     </Paper>
                 </Grow>
             )}
+            {/* <Dialog
+                open={modelAppear}
+                onClose={() => setModelAppear(false)}
+                sx={styles.dialog}
+            >
+                <DialogTitle sx={{textAlign: "center"}}>Đổi mật khẩu</DialogTitle>
+            </Dialog> */}
         </Popper>
     )
 }

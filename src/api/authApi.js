@@ -58,6 +58,23 @@ const updateUserProfileApi = (token, user) => {
     );
 };
 
+const changePasswordApi = (token, data) => {
+
+    return axios.put(
+        `${BASE_API_URL}users/password`,
+        {
+            currentPassword: data.curPassword,
+            newPassword: data.newPassword,
+            confirmPassword: data.rePassword
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+};
+
 
 // const updateUserVisitAPI = () => {
 //     let data = new FormData();
@@ -70,4 +87,4 @@ const updateUserProfileApi = (token, user) => {
 //     return axios.post(TEST_API_URL + "userAPI.php?command=checkToken");
 // }
 
-export { signInApi, signUpApi, getUserProfileApi, updateUserProfileApi }
+export { signInApi, signUpApi, getUserProfileApi, updateUserProfileApi, changePasswordApi }
