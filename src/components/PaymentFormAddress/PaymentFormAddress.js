@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import {
 	Input,
 	InputLabel,
@@ -12,93 +12,79 @@ import {
 
 import { withStyles } from "@mui/styles";
 
-const FormAddress = ({ form, setChosenAddress,classes }) => {
+const FormAddress = ({ form, setForm, classes }) => {
+
 	return (
 		<Box sx={{ p: 2, my: 1 }}>
-			<FormControl fullWidth="true">
+			<FormControl fullWidth="true" className="w-full">
 				<TextField
 					sx={styles.textData}
 					name="name"
-					label="Name"
+					label="Họ tên"
 					InputLabelProps={{className: classes.input}}
 					inputProps={{ className: classes.input }}
 					onChange={(e) =>
-						setChosenAddress({ ...form, name: e.target.value })
+						setForm({ ...form, name: e.target.value })
 					}
-					placeholder="Type your name here"
+					placeholder="Họ tên"
 					value={form.name}
 					variant="standard"
 				/>
 				<TextField
 					sx={styles.textData}
 					name="address"
-					label="Address"
+					label="Địa chỉ"
 					onChange={(e) =>
-						setChosenAddress({
+						setForm({
 							...form,
-							addressInForm: e.target.value,
+							address: e.target.value,
 						})
 					}
 					InputLabelProps={{className: classes.input}}
 					inputProps={{ className: classes.input }}
-					placeholder="Type your address here"
-					value={form.addressInForm}
+					placeholder="Địa chỉ"
+					value={form.address}
 					variant="standard"
 				/>
 				<TextField
 					sx={styles.textData}
-					name="ward"
-					label="Ward"
-					placeholder="Type your ward here"
+					name="phoneNumber"
+					label="Số điện thoại"
+					placeholder="Số điện thoại"
 					onChange={(e) =>
-						setChosenAddress({ ...form, ward: e.target.value })
+						setForm({ ...form, phoneNumber: e.target.value })
 					}
 					InputLabelProps={{className: classes.input}}
 					inputProps={{ className: classes.input }}
-					value={form.ward}
+					value={form.phoneNumber}
 					variant="standard"
 				/>
 				<TextField
 					sx={styles.textData}
-					name="district"
-					label="District"
-					placeholder="Type your district here"
+					name="email"
+					label="Email"
+					placeholder="Email"
 					onChange={(e) =>
-						setChosenAddress({ ...form, district: e.target.value })
+						setForm({ ...form, email: e.target.value })
 					}
 					InputLabelProps={{className: classes.input}}
 					inputProps={{ className: classes.input }}
-					value={form.district}
+					value={form.email}
 					variant="standard"
 				/>
 				<TextField
 					sx={styles.textData}
-					name="city"
-					label="City"
+					name="discountCode"
+					label="Mã giảm giá"
 					placeholder="Type your city here"
 					onChange={(e) =>
-						setChosenAddress({ ...form, city: e.target.value })
+						setForm({ ...form, discountCode: e.target.value })
 					}
 					InputLabelProps={{className: classes.input}}
 					inputProps={{ className: classes.input }}
-					value={form.city}
+					value={form.discountCode}
 					variant="standard"
 
-				/>
-				<TextField
-					sx={styles.textData}
-					name="phone"
-					label="Phone"
-					type="tel"
-
-					placeholder="Type your phone here"
-					onChange={(e) =>
-						setChosenAddress({ ...form, phone: e.target.value })
-					}
-					InputLabelProps={{className: classes.input}}
-					inputProps={{ className: classes.input }}
-					value={form.phone}
-					variant="standard"
 				/>
 			</FormControl>
 		</Box>

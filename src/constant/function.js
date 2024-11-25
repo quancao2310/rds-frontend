@@ -1,11 +1,11 @@
 const checkEmptyForm = (form, exceptArr = []) => {
 	for (const element in form) {
 		if (exceptArr.includes(element)) continue;
-		if (form[element].toString() === "") {
-			return false;
+		if (form[element].toString() === "" && element !== "discountCode") {
+			return `Thiếu trường ${element}`;
 		}
 	}
-	return true;
+	return false;
 };
 const checkNotNegative = (form, optionArr = []) => {
 	for (const e of optionArr) {
