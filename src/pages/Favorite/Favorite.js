@@ -10,14 +10,23 @@ import EmptyList from "../../components/EmptyList/EmptyList"
 import emptyFav from "../../img/empty-favorite.png"
 
 const Favorite = () => {
-    const [favoriteList, setFavoriteList] = useState({ "isLoading": true })
-    useEffect(() => {
-        getFavoriteListApi().then(response => {
+    const [favoriteList, setFavoriteList] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const token = localStorage.getItem('accessToken')
+
+    const getFavorites = async () => {
+        setIsLoading(true);
+        await getFavoriteListApi().then(response => {
             if (response.data.success === true) {
-                setFavoriteList({ "isLoading": false, "data": response.data.data })
-                console.log("favoriteList: ", response.data.data)
+                setFavoriteList(response.data)
             }
-        })
+        });
+        setIsLoading(false);
+    }
+    useEffect(() => {
+        if (token){
+            getFavorites();
+        }
     }, [])
 
     const onDelete = (productID) => {
@@ -37,19 +46,19 @@ const Favorite = () => {
         <Box sx={styles.box}>
             <Container maxWidth="md">
                 <Typography sx={styles.sliderTitle}>Danh mục yêu thích</Typography>
-                {favoriteList.isLoading ? (
+                {isLoading ? (
                     <>
                         <HorizontalProductSkeleton />
                         <HorizontalProductSkeleton />
                     </>
                 ) : (
                     <>
-                        {favoriteList.data && favoriteList.data.length === 0 ? (
-                            <EmptyList img={emptyFav} title={"Your favorite list is empty"} imgHeight={'45vh'} btnMarginTop={"5vh"} />
+                        {favoriteList && favoriteList.length === 0 ? (
+                            <EmptyList img={emptyFav} title={"Danh mục rỗng"} imgHeight={'45vh'} btnMarginTop={"5vh"} />
                         ) : (
                             <>
                                 <TransitionGroup>
-                                    {favoriteList.data.map(product =>
+                                    {favoriteList.map(product =>
                                         <Collapse key={product.productID}>
                                             <HorizontalProduct
                                                 product={product}

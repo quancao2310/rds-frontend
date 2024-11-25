@@ -36,7 +36,7 @@ const HorizontalProduct = ({
 		style: "currency",
 		currency: "VND",
 	}).format(product.product.price);
-	const [quantityDifference, setQuantityDifference] = useState(0);
+	// const [quantityDifference, setQuantityDifference] = useState(0);
 
 	const productURL =
 		'/product/' +
@@ -44,41 +44,40 @@ const HorizontalProduct = ({
 		`?i=${product.product.productId}`;
 
 	const increaseQuantity = (e) => {
-		setQuantityDifference(quantityDifference + 1);
-		changeQuantity(product, 1);
+		// setQuantityDifference(quantityDifference + 1);
+		changeQuantity(product.cartId, product.quantity+1);
 	}
 
 	const decreaseQuantity = (e) => {
-		if (product.quantity > 1) {
-			setQuantityDifference(quantityDifference - 1);
-			changeQuantity(product, -1);
-		}
+		// setQuantityDifference(quantityDifference - 1);
+		changeQuantity(product.cartId, product.quantity-1);
 	}
 	
 
-	useEffect(() => {
+	// useEffect(() => {
 
-		if (quantityDifference != 0) {
-			var timeout = setTimeout(() => {
-				let changeQuantity = quantityDifference;
-				setQuantityDifference(0);
-				changeQuantityApi(product.product.productId, changeQuantity).then(response => {
-					if (response.data.success) {
-						console.log('change quantity: ', changeQuantity);
-					}
-					else {
-						console.log("Something wrong is happend");
-						dispatch(showAuthError())
-					}
-				});
+	// 	if (quantityDifference != 0) {
+	// 		var timeout = setTimeout(() => {
+	// 			let changeQuantity = quantityDifference;
+	// 			setQuantityDifference(0);
+	// 			changeQuantityApi(product.product.productId, changeQuantity).then(response => {
+	// 				if (response.data.success) {
+	// 					console.log('change quantity: ', changeQuantity);
+	// 				}
+	// 				else {
+	// 					console.log("Something wrong is happend");
+	// 					dispatch(showAuthError())
+	// 				}
+	// 			});
 
-			}, 500);
-		}
+	// 		}, 500);
+	// 	}
 
-		return () => {
-			clearTimeout(timeout);
-		}
-	}, [quantityDifference])
+	// 	return () => {
+	// 		clearTimeout(timeout);
+	// 	}
+	// }, [quantityDifference])
+
 	return (
 		<Link to={productURL} style={{ textDecoration: 'none' }}>
 			<Card

@@ -59,17 +59,12 @@ const removeProductFromCartApi = (cartId) => {
     });
 }
 
-const changeQuantityApi = (productId,quantity) => {
-    let data = new FormData();
+const changeQuantityApi = (cartId, quantity) => {
 
-    data.append("command","changeQuantity");
-    data.append("productId", productId);
-    data.append("quantity", quantity);
-
-    return axios.post(`${BASE_API_URL}carts`,
+    return axios.put(`${BASE_API_URL}carts`,
         {
-            productId,
-            quantity
+            cartId: cartId,
+            quantity: quantity
         },
         {
             headers: {

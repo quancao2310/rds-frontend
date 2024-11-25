@@ -1,10 +1,32 @@
 import axios from './axios';
 import { BASE_API_URL } from '../constant/string'
 
+const accessToken = localStorage.getItem('accessToken');
 const getFavoriteListApi = () => {
-    let command = "getFavoriteList";
-    return axios.get(BASE_API_URL + `favorAPI.php?command=${command}`);
+    return axios.get(BASE_API_URL + `products/favorites`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
 }
+
+const addFavoriteApi = (productId) => {
+    return axios.post(BASE_API_URL + `products/favorites`, {
+        productId: productId
+    }, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+};
+
+const deleteFavoriteApi = (favoriteId) => {
+    return axios.delete(BASE_API_URL + `products/favorites/${favoriteId}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
+};
 
 const changeFavoriteApi = (productID) => {
     let data = new FormData();

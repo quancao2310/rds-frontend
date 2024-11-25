@@ -15,7 +15,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProductFromCart, changeProductQuantity, removeAllCart } from "../../store/actions/cartAction"
 import HorizontalProductSkeleton from '../../components/HorizontalProductSkeleton/HorizontalProductSkeleton';
-import { getCartApi, removeProductFromCartApi } from '../../api/cartApi';
+import { changeQuantityApi, getCartApi, removeProductFromCartApi } from '../../api/cartApi';
 import { getProductsAPI } from '../../api/productApi';
 import { toast } from 'react-toastify';
 
@@ -35,8 +35,16 @@ const Cart = () => {
 
     const dispatch = useDispatch();
 
-    const changeQuantity = (product, quantity) => {
-        dispatch(changeProductQuantity(product, quantity));
+    const changeQuantity = (cartId, quantity) => {
+        // dispatch(changeProductQuantity(product, quantity));
+        changeQuantityApi(cartId, quantity).then(response => {
+            if (response.status === 200) {
+                getCarts();
+            }
+            else {
+                console.log(response);
+            }
+        })
     }
     const removeAllProduct = () => {
         dispatch(removeAllCart());
