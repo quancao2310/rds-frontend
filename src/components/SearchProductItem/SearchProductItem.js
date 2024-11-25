@@ -19,7 +19,7 @@ const SearchProductItem = ({ product }) => {
     const productURL =
         '/product/' +
         encodeURIComponent(product.name).replace(/%20/g, '-') +
-        `?i=${product.productID}`
+        `?i=${product.productId}`
 
     return (
         <Link to={productURL} style={{ textDecoration: 'none' }}>
@@ -37,12 +37,12 @@ const SearchProductItem = ({ product }) => {
                         <Rating
                             readOnly
                             sx={styles.rating}
-                            value={product.rating}
+                            value={5}
                             precision={0.5}
                         />
-                        <Typography sx={styles.productSold}>
+                        {/* <Typography sx={styles.productSold}>
                             ({product.sold})
-                        </Typography>
+                        </Typography> */}
                     </Box>
                 </CardContent>
                 <CardContent sx={styles.priceContainer}>

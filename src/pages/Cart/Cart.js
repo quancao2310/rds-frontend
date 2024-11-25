@@ -28,7 +28,6 @@ const Cart = () => {
     const [openModalDelete, setOpenModalDelete] = useState(false);
 
     const [cartList, setCartList] = useState([]);
-    const [productList, setProductList] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
     const formatedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice);
@@ -52,27 +51,20 @@ const Cart = () => {
     const token = localStorage.getItem('accessToken');
 
     useEffect(() => {
-        setIsLoading(true);
-        getProductsAPI(token).then(response => {
-            if (response.status === 200) {
-                console.log(2, response.data.find((product) => product.productId === 2));
-                setProductList(response.data);
-            }
-            else {
-                console.log(response);
-            }
-        })
-        getCartApi(token).then(response => {
-            if (response.status === 200) {
-                console.log(1, response.data);
-                setCartList(response.data);
-                setTotalPrice(response.data.reduce((total, cart) => {return total + cart.intoMoney}, 0));
-            }
-            else {
-                console.log(response);
-            }
-        })
-        setIsLoading(false);
+        if (token) {
+            setIsLoading(true);
+            getCartApi(token).then(response => {
+                if (response.status === 200) {
+                    console.log(1, response.data);
+                    setCartList(response.data);
+                    setTotalPrice(response.data.reduce((total, cart) => {return total + cart.intoMoney}, 0));
+                }
+                else {
+                    console.log(response);
+                }
+            })
+            setIsLoading(false);
+        }
     }, []);
 
     return (
@@ -153,7 +145,6 @@ const Cart = () => {
                                             key={cart.cartId}
                                             cartProduct
                                             product={cart}
-                                            productItem={productList.find((product) => product.productId === cart.productId)}
                                             canDelete
                                             onPressDelete={(e) => {
                                                 e.preventDefault()

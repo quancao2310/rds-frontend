@@ -19,7 +19,6 @@ import { showAuthError } from "../../store/actions/authAction"
 const HorizontalProduct = ({
 	cartProduct,
 	product,
-	productItem,
 	canDelete,
 	onPressDelete,
 	changeQuantity,
@@ -36,12 +35,12 @@ const HorizontalProduct = ({
 	const formatedPrice = new Intl.NumberFormat("vi-VN", {
 		style: "currency",
 		currency: "VND",
-	}).format(productItem.price);
+	}).format(product.product.price);
 	const [quantityDifference, setQuantityDifference] = useState(0);
 
 	const productURL =
 		'/product/' +
-		encodeURIComponent(productItem.name).replace(/%20/g, '-') +
+		encodeURIComponent(product.product.name).replace(/%20/g, '-') +
 		`?i=${product.productId}`;
 
 	const increaseQuantity = (e) => {
@@ -106,7 +105,7 @@ const HorizontalProduct = ({
 							width: imageSize,
 						}
 					)}
-					image={productItem.imageUrl}
+					image={product.product.imageUrl}
 				/>
 				<CardContent sx={styles.productContent}>
 					<Typography

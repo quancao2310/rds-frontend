@@ -39,6 +39,13 @@ const styles = {
 		mr: 1,
 	},
 
+	noData: {
+		fontSize: {
+			xs: "14px",
+			md: "17px",
+		},
+	},
+
 	formControl: {
 		minWidth: {
 			xs: "135px",
@@ -58,12 +65,6 @@ const styles = {
 	link: {
 		textDecoration: 'none',
 		margin: 'auto 0 auto auto',
-	},
-
-	paginationWrapper: {
-		marginTop: "50px",
-		display: 'flex',
-		justifyContent: 'center',
 	},
 
 	skeleton: {

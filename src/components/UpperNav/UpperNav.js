@@ -52,8 +52,8 @@ const UpperNav = () => {
 			const delay = setTimeout(() => {
 				searchProductsAPI(searchValue).then((response) => {
 					if (response.status === 200) {
-						setSearchResult(response.data.slice(0,5))
-						if (response.data.length !== 0) {
+						setSearchResult(response.data.content.slice(0,5))
+						if (response.data.content.length !== 0) {
 							setSearchStatus(1)
 							setOpenSearch(true)
 							searchBarRef.current.focus()

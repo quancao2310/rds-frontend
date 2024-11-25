@@ -16,10 +16,16 @@ const getProductsAPI = () => {
 
 };
 
-const getTotalCategoryAPI = (category) => {
+const getTotalCategoryAPI = (category, size, page) => {
 	// let command = 'getTotalCategory';
 	return axios.get(
-		`${BASE_API_URL}products?category=${category}`
+		`${BASE_API_URL}products`, {
+			params: {
+				category: category,
+				size: size,
+				page: page
+			}
+		}
 	);
 
 };

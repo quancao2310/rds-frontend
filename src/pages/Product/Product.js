@@ -267,8 +267,8 @@ const Product = () => {
 				setToken(accessToken);
 
 				getTotalCategoryAPI(data.category).then(response => {
-					if (response.data.length !== 0)
-						setRelatedProductList({ "isLoading": false, "productList": response.data })
+					if (response.data.content.length !== 0)
+						setRelatedProductList({ "isLoading": false, "productList": response.data.content })
 				})
 			}
 		})

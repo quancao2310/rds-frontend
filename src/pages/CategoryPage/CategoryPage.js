@@ -13,9 +13,10 @@ const CategoryPage = () => {
 
 
     const [totalPage, setTotalPage] = useState({ "isLoading": true })
-    const [productList, setProductList] = useState({ "isLoading": true })
+    const [productList, setProductList] = useState({ "isLoading": true, "data": [] })
     const [page, setPage] = useState(1)
     const [sortBy, setSortBy] = useState('price ASC')
+    const [size, setSize] = useState(8);
 
     const orderBy = sortBy.split(' ')[0]
     const option = sortBy.split(' ')[1]
@@ -23,23 +24,18 @@ const CategoryPage = () => {
     const offset = (page - 1) * itemsPerPage
 
     useEffect(() => {
-        getTotalCategoryAPI(name).then(response => {
-            if (response.data.length !== 0) {
-                const data = response.data
+        getTotalCategoryAPI(name, size, page).then(response => {
+            if (response.data.content) {
+                const data = response.data.content
                 console.log(data)
                 setProductList({ "isLoading": false, "data": data })
-                if (data.length == 0) history.push("/notfound") 
 
-                const total = Math.ceil(data.length / itemsPerPage)
+                const total = response.data.totalPages
                 console.log("totalPage:", total)
                 setTotalPage({ "isLoading": false, "value": total })
-                setPage(1)
-
-                let accessToken = localStorage.getItem("accessToken");
-                console.log("accessToken from getTotalCategoryAPI:", accessToken);
             }
         })
-    }, [page, sortBy, name])
+    }, [page, sortBy, name, size])
 
     /*useEffect(() => {
         setProductList({ "isLoading": true }) // when clicking on another pagination, the isLoading is set to true
@@ -95,8 +91,35 @@ const CategoryPage = () => {
                         ))}
                     </Grid>
                 )}
+                {
+                    (productList.data.length === 0 && !productList.isLoading)
+                    &&
+                    <div sx={styles.noData} className='w-full text-center'>Không có sản phẩm</div>
+                }
 
-                <Box sx={styles.paginationWrapper}>
+                <Box className='mt-[50px] w-full flex justify-between'>
+                    {totalPage.isLoading ? (
+                        <Skeleton variant="text" animation="wave" sx={styles.skeleton}>
+                            <Typography gutterBottom variant="h5" component="div">lorem lorem lore</Typography>
+                        </Skeleton>
+                    ) : (
+                        <div className='flex items-center'>
+                            <Typography sx={styles.sortBy}>Kích thước</Typography>
+                            <FormControl className={classes.root}>
+                                <Select
+                                    displayEmpty
+                                    value={size}
+                                    onChange={(event) => { setSize(event.target.value) }}
+                                    sx={styles.select}
+                                >
+                                    <MenuItem value={8}>8</MenuItem>
+                                    <MenuItem value={16}>16</MenuItem>
+                                    <MenuItem value={24}>24</MenuItem>
+                                    <MenuItem value={32}>32</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
+                    )}
                     {totalPage.isLoading ? (
                         <Skeleton variant="text" animation="wave" sx={styles.skeleton}>
                             <Typography gutterBottom variant="h5" component="div">lorem lorem lore</Typography>
