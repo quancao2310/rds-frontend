@@ -33,6 +33,7 @@ const getCartQuantity = () => {
         getCartQuantityApi().then(response => {
             if (response.status === 200) {
                 const data = response.data;
+                localStorage.setItem('cartQuantity', data.length);
                 dispatch({
                     type: ActionType.GET_CART_QUANTITY,
                     quantity: data.length

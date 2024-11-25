@@ -5,7 +5,7 @@ const styles = {
 		padding: {
 			xs: '17px 10px',
 			md: '17px 20px',
-			lg: '17px 150px',
+			lg: '17px 120px',
 		},
 		backgroundColor: 'white',
 		position: 'relative',

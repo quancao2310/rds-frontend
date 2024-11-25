@@ -14,7 +14,12 @@ const getCartApi = (token) => {
 }
 
 const getCartQuantityApi = () => {
-    let command = "getTotalQuantity";
+    // let command = "getTotalQuantity";
+    // return axios.get(`${BASE_API_URL}carts`, {
+    //     headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //     },
+    // });
     return axios.get(`${BASE_API_URL}carts`, {
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -41,12 +46,17 @@ const addProductToCartApi = (productId, token) => {
     );
 }
 
-const removeProductFromCartApi = (productId) => {
+const removeProductFromCartApi = (cartId) => {
 
-    let data = new FormData();
-    data.append("command","remove");
-    data.append("productId",productId);
-    return axios.post(BASE_API_URL + `cartAPI.php`, data);
+    // let data = new FormData();
+    // data.append("command","remove");
+    // data.append("productId",productId);
+    // return axios.post(BASE_API_URL + `cartAPI.php`, data);
+    return axios.delete(`${BASE_API_URL}carts/${cartId}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+    });
 }
 
 const changeQuantityApi = (productId,quantity) => {

@@ -12,48 +12,43 @@ import {
 import styles from './FormAddress.styles'
 import {checkEmptyForm} from "../../constant/function";
 import { createAddressBook, editAddressBook } from "../../api/addressApi";
+import { updateUserProfileApi } from "../../api/authApi";
+import { toast } from "react-toastify";
 
-let defaultAddress = {
-	deliveryID: 0,
-	address: "",
-	name: "",
-	phone: "",
-	userID: 0,
-};
 const FormAddress = ({
-	address = defaultAddress,
+	address,
 	formCommand,
 	formSubmit,
 	setAppear,
+	onReset,
 	paymentChooseNewAddress = false,
 }) => {
-	// console.log(address);
-	let arrAddress = ["", "", "", ""];
-	const [form, setFormAddress] = useState({
-		name: "",
-		addressInForm: "",
-		ward: "",
-		district: "",
-		city: "",
-		phone: "",
+	const [form, setForm] = useState({
+		email: address?.email,
+		name: address?.name,
+		phoneNumber: address?.phoneNumber,
+		address: address?.address,
+		city: address?.city,
+		country: address?.country,
 	});
+	const accessToken = localStorage.getItem('accessToken');
 
-	useEffect(() => {
-		arrAddress = address.address.split(", ");
-		while (arrAddress.length < 4) {
-			//for error process
-			arrAddress.push("");
-		}
-		//if (arrAddress.length == 1) arrAddress = ["","","",""] //for change textfield
-		setFormAddress({
-			name: address.name,
-			addressInForm: arrAddress[0],
-			ward: arrAddress[1],
-			district: arrAddress[2],
-			city: arrAddress[3],
-			phone: address.phone,
-		});
-	}, [address]);
+	// useEffect(() => {
+	// 	arrAddress = address.address.split(", ");
+	// 	while (arrAddress.length < 4) {
+	// 		//for error process
+	// 		arrAddress.push("");
+	// 	}
+	// 	//if (arrAddress.length == 1) arrAddress = ["","","",""] //for change textfield
+	// 	setForm({
+	// 		name: address.name,
+	// 		addressInForm: arrAddress[0],
+	// 		ward: arrAddress[1],
+	// 		district: arrAddress[2],
+	// 		city: arrAddress[3],
+	// 		phone: address.phone,
+	// 	});
+	// }, [address]);
 	// const [addressForm,setAddress] = useState(arrAddress[0])
 	// const [ward,setWard] = useState(arrAddress[1])
 	// const [district,setDistrict] = useState(arrAddress[2])
@@ -62,120 +57,82 @@ const FormAddress = ({
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		if (checkEmptyForm(form) == false) {
-			console.log('empty input');
-			return;
-		}
-		let id = address.deliveryID;
-		let joinAddress =
-			form.addressInForm +
-			", " +
-			form.ward +
-			", " +
-			form.district +
-			", " +
-			form.city;
-
-		if (formCommand == "create") {
-			createAddressBook(form.name, joinAddress, form.phone).then(
-				(res) => {
-					// console.log(res);
-					if (res.data.success == true) {
-						let id = res.data.data;
-						formSubmit(id, form.name, joinAddress, form.phone);
-						setAppear(false);
-					}
-				}
-			);
-		} else if (formCommand == "edit") {
-			editAddressBook(id, form.name, joinAddress, form.phone).then(
-				(res) => {
-					console.log(res);
-					if (res.data.success == true) {
-						formSubmit(id, form.name, joinAddress, form.phone);
-						setAppear(false);
-					}
-				}
-			);
-		}
+		updateUserProfileApi(accessToken, form)
+			.then(() => {
+				toast.success("Chỉnh sửa hồ sơ thành công!");
+				onReset();
+			})
+			.catch((error) => {
+				console.error(error);
+				toast.error(error.message);
+			});
+		setAppear(false)
 	}
+
 	return (
 		<Box sx={styles.box}>
 			<FormControl fullWidth="true">
 				<TextField
 					sx={styles.textField}
 					name="name"
-					label="Name"
+					label="Họ tên"
 					onChange={(e) =>
-						setFormAddress({ ...form, name: e.target.value })
+						setForm({ ...form, name: e.target.value })
 					}
-					placeholder="Your full name"
+					placeholder="Họ tên"
 					value={form.name}
 					variant="outlined"
 					inputProps={{style: {fontSize: "17px"}}}
 				/>
 				<TextField
 					sx={styles.textField}
-					name="address"
-					label="Address"
+					name="phoneNumber"
+					label="Số điện thoại"
 					onChange={(e) =>
-						setFormAddress({
+						setForm({
 							...form,
-							addressInForm: e.target.value,
+							phoneNumber: e.target.value,
 						})
 					}
-					placeholder="Your address (House number, street name)"
-					value={form.addressInForm}
+					placeholder="Số điện thoại"
+					value={form.phoneNumber} 
 					variant="outlined"
 					inputProps={{style: {fontSize: "17px"}}}
 				/>
 				<TextField
 					sx={styles.textField}
-					name="ward"
-					label="Ward"
-					placeholder="Your ward"
+					name="address"
+					label="Địa chỉ"
+					placeholder="Địa chỉ"
 					onChange={(e) =>
-						setFormAddress({ ...form, ward: e.target.value })
+						setForm({ ...form, address: e.target.value })
 					}
-					value={form.ward}
-					variant="outlined"
-					inputProps={{style: {fontSize: "17px"}}}
-				/>
-				<TextField
-					sx={styles.textField}
-					name="district"
-					label="District"
-					placeholder="Your district"
-					onChange={(e) =>
-						setFormAddress({ ...form, district: e.target.value })
-					}
-					value={form.district}
+					value={form.address}
 					variant="outlined"
 					inputProps={{style: {fontSize: "17px"}}}
 				/>
 				<TextField
 					sx={styles.textField}
 					name="city"
-					label="City"
-					placeholder="Your city name"
+					label="Tỉnh/thành phố"
+					placeholder="Tỉnh/thành phố"
 					onChange={(e) =>
-						setFormAddress({ ...form, city: e.target.value })
+						setForm({ ...form, city: e.target.value })
 					}
 					value={form.city}
 					variant="outlined"
+					inputProps={{style: {fontSize: "17px"}}}
 				/>
 				<TextField
 					sx={styles.textField}
-					name="phone"
-					label="Phone"
-					type="number"
-					placeholder="Type your phone here"
+					name="country"
+					label="Quốc gia"
+					placeholder="Quốc gia"
 					onChange={(e) =>
-						setFormAddress({ ...form, phone: e.target.value })
+						setForm({ ...form, country: e.target.value })
 					}
-					value={form.phone}
+					value={form.country}
 					variant="outlined"
-					inputProps={{style: {fontSize: "17px"}}}
 				/>
 				<Container sx={{ textAlign: "center", mt: 2 }}>
 					{paymentChooseNewAddress == false && (
@@ -184,7 +141,7 @@ const FormAddress = ({
 							onClick={() => setAppear(false)}
 							size="small"
 						>
-							Cancel
+							Hủy bỏ
 						</Button>
 					)}
 					<Button
@@ -193,7 +150,7 @@ const FormAddress = ({
 						size="small"
 						type="submit"
 					>
-						Submit
+						Lưu
 					</Button>
 				</Container>
 			</FormControl>

@@ -40,7 +40,7 @@ const styles = {
         },
         minWidth: {
             xs: "80px",
-            md: "120px",
+            md: "180px",
         },
         fontWeight: "500",
     },

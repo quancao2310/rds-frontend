@@ -1,6 +1,6 @@
 import ActionType from './actionType'
-import { signInApi, signUpApi } from '../../api/authApi'
-import { getCart, clearCartUI } from "../actions/cartAction"
+import { getUserProfileApi, signInApi, signUpApi } from '../../api/authApi'
+import { getCart, clearCartUI, getCartQuantity } from "../actions/cartAction"
 import { encryptData } from '../../constant/utils'
 import { toast } from 'react-toastify'
 
@@ -12,13 +12,17 @@ const signIn = (email, password, history) => {
             .then(response => {
                 const data = response.data;
                 if (response.status === 200) {
-                    dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
+                    // dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
                     
                     localStorage.setItem("accessToken", data.accessToken);
                     let accessToken = localStorage.getItem("accessToken");
                     console.log("accessToken from signIn:", accessToken);
 
-                    dispatch(getCart(accessToken));
+                    dispatch(getCartQuantity());
+                    getUserProfileApi(data.accessToken).then(response => {
+                        localStorage.setItem('userName', response.data.name);
+                        dispatch({ type: ActionType.LOGIN_SUCCESS, data: response.data });
+                    })
 
                     // updateUserVisitAPI();
 
@@ -101,6 +105,8 @@ const logOut = (history) => {
         dispatch({ type: ActionType.LOGOUT })
         sessionStorage.removeItem("userInfo")
         localStorage.removeItem("accessToken")
+        localStorage.removeItem("userName")
+        localStorage.removeItem("cartQuantity")
 
         if (history) {
             history.push("/")

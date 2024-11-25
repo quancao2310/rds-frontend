@@ -16,12 +16,13 @@ import {
 } from '@mui/material'
 import logo from '../../img/logo.jpg'
 import { icons } from '../../constant'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { searchProductsAPI } from '../../api/productApi'
 import ProfileMenu from '../ProfileMenu/ProfileMenu'
 
 import { cartSelector } from '../../store/selectors'
 import SearchProductItem from '../SearchProductItem/SearchProductItem'
+import { getCartQuantity } from '../../store/actions/cartAction'
 
 const UpperNav = () => {
 	const userInfo = useSelector((state) => state.Authentication.user)
@@ -31,6 +32,7 @@ const UpperNav = () => {
 	const searchBarRef = useRef(null)
 	const classes = useStyles();
 	const accessToken = localStorage.getItem('accessToken');
+	const dispatch = useDispatch();
 
 	const [searchValue, setSearchValue] = useState('')
 	const handleChange = (event) => {
@@ -136,7 +138,7 @@ const UpperNav = () => {
 				<Grid container spacing={0}>
 					<Grid item xs={6}>
 						<Link to="/checkout/cart" style={styles.menuItem}>
-							<Badge badgeContent={cart.totalQuantity || 0} color="error">
+							<Badge badgeContent={localStorage.getItem('cartQuantity') || 0} color="error">
 								<icons.Cart sx={styles.icon} />
 							</Badge>
 							<Typography sx={styles.menuTitle}>
@@ -164,7 +166,7 @@ const UpperNav = () => {
 									sx={styles.btnNav}
 								>
 									<icons.User sx={styles.icon} />
-									<Typography sx={styles.menuTitle}>{userInfo.username}</Typography>
+									<Typography sx={styles.menuTitle}>{localStorage.getItem('userName')}</Typography>
 								</Button>
 								<ProfileMenu anchorRef={anchorRef} clickRef={clickRef} />
 							</Box>

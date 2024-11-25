@@ -73,6 +73,12 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                         <Typography sx={styles.menuText}>Yêu thích</Typography>
                                     </MenuItem>
                                 </Link>
+                                <Link to='/profile/favorite' style={styles.menuLink}>
+                                    <MenuItem onClick={handleClose} sx={styles.menuItem}>
+                                        <icons.Edit sx={styles.menuIcon} />
+                                        <Typography sx={styles.menuText}>Đổi mật khẩu</Typography>
+                                    </MenuItem>
+                                </Link>
                                 {/* <Link to='/profile/addressbook' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Address sx={styles.menuIcon} />

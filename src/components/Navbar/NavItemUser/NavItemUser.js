@@ -49,7 +49,7 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
                     >
                         <Link to='/checkout/cart' style={styles.navLink}>
                             <Box sx={styles.wrapper}>
-                                <Badge badgeContent={cart.totalQuantity || 0} classes={{ badge: classes.badge }} color="error">
+                                <Badge badgeContent={localStorage.getItem('cartQuantity') || 0} classes={{ badge: classes.badge }} color="error">
                                     <icons.Cart sx={styles.icon} />
                                 </Badge>
                                 <Typography sx={styles.navTitle}>Giỏ hàng</Typography>
@@ -81,7 +81,7 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
                                         sx={styles.btnNav}
                                     >
                                         <icons.User sx={styles.icon} />
-                                        <Typography sx={styles.navTitle}>{userInfo.username}</Typography>
+                                        <Typography sx={styles.navTitle}>{localStorage.getItem('userName')}</Typography>
                                     </Button>
                                 </BootstrapTooltip>
                                 <ProfileMenu anchorRef={anchorRef} clickRef={clickRef} />

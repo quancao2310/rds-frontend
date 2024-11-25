@@ -41,7 +41,7 @@ const HorizontalProduct = ({
 	const productURL =
 		'/product/' +
 		encodeURIComponent(product.product.name).replace(/%20/g, '-') +
-		`?i=${product.productId}`;
+		`?i=${product.product.productId}`;
 
 	const increaseQuantity = (e) => {
 		setQuantityDifference(quantityDifference + 1);
@@ -54,6 +54,7 @@ const HorizontalProduct = ({
 			changeQuantity(product, -1);
 		}
 	}
+	
 
 	useEffect(() => {
 
@@ -61,7 +62,7 @@ const HorizontalProduct = ({
 			var timeout = setTimeout(() => {
 				let changeQuantity = quantityDifference;
 				setQuantityDifference(0);
-				changeQuantityApi(product.productID, changeQuantity).then(response => {
+				changeQuantityApi(product.product.productId, changeQuantity).then(response => {
 					if (response.data.success) {
 						console.log('change quantity: ', changeQuantity);
 					}
@@ -109,7 +110,7 @@ const HorizontalProduct = ({
 				/>
 				<CardContent sx={styles.productContent}>
 					<Typography
-						sx={styles.productName}>{product.name}</Typography>
+						sx={styles.productName}>{product.product.name}</Typography>
 
 					<Box sx={styles.ratingContainer}>
 						<Rating

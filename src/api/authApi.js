@@ -29,6 +29,36 @@ const signUpApi = (email, name, phoneNumber, address, city, country, password) =
     });
 }
 
+const getUserProfileApi = (token) => {
+
+    return axios.get(`${BASE_API_URL}users/profile`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
+const updateUserProfileApi = (token, user) => {
+
+    return axios.put(
+        `${BASE_API_URL}users/profile`,
+        {
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            address: user.address,
+            city: user.city,
+            country: user.country,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+};
+
+
 // const updateUserVisitAPI = () => {
 //     let data = new FormData();
 //     data.append("command", "updateVisit");
@@ -40,4 +70,4 @@ const signUpApi = (email, name, phoneNumber, address, city, country, password) =
 //     return axios.post(TEST_API_URL + "userAPI.php?command=checkToken");
 // }
 
-export { signInApi, signUpApi }
+export { signInApi, signUpApi, getUserProfileApi, updateUserProfileApi }

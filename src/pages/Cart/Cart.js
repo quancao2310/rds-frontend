@@ -15,15 +15,16 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProductFromCart, changeProductQuantity, removeAllCart } from "../../store/actions/cartAction"
 import HorizontalProductSkeleton from '../../components/HorizontalProductSkeleton/HorizontalProductSkeleton';
-import { getCartApi } from '../../api/cartApi';
+import { getCartApi, removeProductFromCartApi } from '../../api/cartApi';
 import { getProductsAPI } from '../../api/productApi';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
 
     const history = useHistory();
     // const { cartList, totalPrice } = useSelector(cartSelector);
     // const isLoading = useSelector(cartIsLoadingSelector);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [openModalDelete, setOpenModalDelete] = useState(false);
 
@@ -41,8 +42,17 @@ const Cart = () => {
         dispatch(removeAllCart());
     }
 
-    const deleteProduct = (product) => {
-        dispatch(removeProductFromCart(product));
+    const deleteProduct = (cartId) => {
+        // dispatch(removeProductFromCart(product));
+        removeProductFromCartApi(cartId).then(response => {
+            if (response.status === 200) {
+                toast.success("Xóa giỏ hàng thành công!")
+                getCarts();
+            }
+            else {
+                console.log(response);
+            }
+        })
     }
     const onCheckOut = () => {
         history.push('/checkout/payment')
@@ -50,21 +60,23 @@ const Cart = () => {
 
     const token = localStorage.getItem('accessToken');
 
+    const getCarts = async () => {
+        setIsLoading(true); // Start loading
+        await getCartApi(token).then(response => {
+            if (response.status === 200) {
+                localStorage.setItem('cartQuantity', response.data.length);
+                setCartList(response.data);
+                setTotalPrice(response.data.reduce((total, cart) => {return total + cart.intoMoney}, 0));
+            }
+            else {
+                console.log(response);
+            }
+        })
+        setIsLoading(false);
+    };
+
     useEffect(() => {
-        if (token) {
-            setIsLoading(true);
-            getCartApi(token).then(response => {
-                if (response.status === 200) {
-                    console.log(1, response.data);
-                    setCartList(response.data);
-                    setTotalPrice(response.data.reduce((total, cart) => {return total + cart.intoMoney}, 0));
-                }
-                else {
-                    console.log(response);
-                }
-            })
-            setIsLoading(false);
-        }
+        getCarts();
     }, []);
 
     return (
@@ -74,8 +86,8 @@ const Cart = () => {
                     openModal={openModalDelete}
                     setOpenModal={setOpenModalDelete}
 
-                    title={"Confirmation"}
-                    description="Do you want to remove all products from your cart?"
+                    title={"Xác nhận"}
+                    description="Bạn có muốn xóa tất cả sản phẩm trong giỏ hàng?"
                     onPressConfirm={removeAllProduct}
                 />
                 {isLoading ? (
@@ -118,7 +130,7 @@ const Cart = () => {
                         />
                         : null
                 }
-                {cartList && cartList.length !== 0 ?
+                {!isLoading && cartList && cartList.length !== 0 ?
                     <Box sx={styles.cartListWrapper}>
                         <Box>
                             <Box sx={styles.removeRow}>
@@ -148,7 +160,7 @@ const Cart = () => {
                                             canDelete
                                             onPressDelete={(e) => {
                                                 e.preventDefault()
-                                                deleteProduct(cart)
+                                                deleteProduct(cart.cartId)
                                             }}
                                             changeQuantity={changeQuantity}
                                             imageSize={100}
@@ -163,7 +175,7 @@ const Cart = () => {
                     : null
                 }
                 {
-                    cartList && cartList.length !== 0 ?
+                    !isLoading && cartList && cartList.length !== 0 ?
                         <Box sx={styles.summary}>
                             <Box sx={styles.summaryData}>
                                 <Typography sx={styles.orderSummary}>
