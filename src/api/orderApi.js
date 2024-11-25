@@ -1,9 +1,15 @@
 import axios from './axios';
 import { BASE_API_URL } from '../constant/string';
 
+const accessToken = localStorage.getItem('accessToken');
+
 const getOrderListAPI = () => {
-	let command = 'getOrderList';
-	return axios.get(BASE_API_URL + `orderAPI.php?command=${command}`);
+	// let command = 'getOrderList';
+	return axios.get(BASE_API_URL + `orders`, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
 };
 
 const getOrderDetailAPI = (orderID) => {
@@ -22,15 +28,19 @@ const rateProduct = (orderID, productID, rating) => {
 	return axios.post(BASE_API_URL + `orderAPI.php`, data);
 };
 
-const createOrder = (deliID, name, address, phone, totalPrice, cartList) => {
-	let data = new FormData();
-	data.append('command', 'createOrder');
-	data.append('deliID', deliID);
-	data.append('name', name);
-	data.append('address', address);
-	data.append('phone', phone);
-	data.append('totalPrice', totalPrice);
-	data.append('list', JSON.stringify(cartList));
-	return axios.post(BASE_API_URL + `orderAPI.php`, data);
+const createOrder = (customerName, address, phoneNumber, email, cartIds, discountCode) => {
+	return axios.post(BASE_API_URL + `orders`, {
+		customerName: customerName,
+		address: address,
+		phoneNumber: phoneNumber,
+		email: email,
+		cartIds: cartIds,
+		paymentMethod: "CASH_ON_DELIVERY",
+		...(discountCode ? { discountCode: discountCode } : {}),
+	}, {
+		headers: {
+			Authorization: `Bearer ${accessToken}`,
+		},
+	});
 };
 export { getOrderListAPI, getOrderDetailAPI, rateProduct, createOrder };

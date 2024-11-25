@@ -92,34 +92,33 @@ export default function PaymentStepper({
 			}
 		} else if (activeStep == 1) {
 			setDisableFinish(true);
-			let joinAddress =
-				address.addressInForm +
-				", " +
-				address.ward +
-				", " +
-				address.district +
-				", " +
-				address.city;
+			// let joinAddress =
+			// 	address.addressInForm +
+			// 	", " +
+			// 	address.ward +
+			// 	", " +
+			// 	address.district +
+			// 	", " +
+			// 	address.city;
 			// console.log("da gui");
-			let productIDs = [];
-			for (const product of cart.cartList) {
-				let arr = [product.productID, product.quantity, product.price];
-				productIDs.push(arr);
-			}
-
+			let cartIds = cartList.map( cartItem => { return cartItem.cartId;})
 			createOrder(
-				idaddress,
-				address.name,
-				joinAddress,
-				address.phone,
-				cart.totalPrice,
-				productIDs
+				form.name,
+				form.address,
+				form.phoneNumber,
+				form.email,
+				cartIds,
+				form.discountCode
 			).then((res) => {
-				//console.log(res.data);
-				if (res.data.success == true) {
-					dispatch(removeAllCart());
+				console.log(7, res.data);
+				if (res.status == 200) {
+					// dispatch(removeAllCart());
 					setActiveStep(activeStep + 1);
+					toast.success("Thanh toán đơn hàng thành công, vui lòng theo dõi đơn hàng của bạn.")
 				}
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
 			});
 		} else setActiveStep(activeStep + 1);
 	};
@@ -289,7 +288,7 @@ export default function PaymentStepper({
 										</Typography>
 										<Typography
 											sx={{ fontSize: { xs: "1rem" } }}>
-											<b>Phương thức thanh toán:</b> "Thanh toán khi nhận hàng"
+											<b>Phương thức thanh toán:</b> Thanh toán khi nhận hàng
 										</Typography>
 										<Typography
 											sx={{ fontSize: { xs: "1rem" } }}>
