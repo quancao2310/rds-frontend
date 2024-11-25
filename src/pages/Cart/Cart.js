@@ -201,7 +201,7 @@ const Cart = () => {
                                 </Box>
 
                                 <Box sx={styles.totalContainer}>
-                                    <Typography sx={styles.summaryTitle}>Tổng</Typography>
+                                    <Typography sx={styles.summaryTitle}>Tổng số tiền</Typography>
                                     <Typography sx={styles.total}>
                                         {formatedPrice}</Typography>
                                 </Box>

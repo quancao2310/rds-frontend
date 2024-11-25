@@ -13,9 +13,13 @@ const getOrderListAPI = () => {
 };
 
 const getOrderDetailAPI = (orderID) => {
-	let command = 'getOrderDetail';
+	// let command = 'getOrderDetail';
 	return axios.get(
-		BASE_API_URL + `orderAPI.php?command=${command}&orderID=${orderID}`,
+		BASE_API_URL + `orders/${orderID}`,{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		}
 	);
 };
 

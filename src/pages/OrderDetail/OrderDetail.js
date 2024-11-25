@@ -9,7 +9,7 @@ import { getOrderDetailAPI } from '../../api/orderApi'
 import { TransitionGroup } from 'react-transition-group'
 import icons from "../../constant/icons";
 
-const statusList = ['Received', 'Processing', 'Shipping', 'Completed']
+const statusList = ['Chờ xác nhận', 'Chờ lấy hàng', 'Chờ giao hàng', 'Đã giao']
 
 const Stepper = ({ isChecked, title }) => (
 	<Box sx={styles.stepWrapper}>
@@ -28,33 +28,37 @@ const LineStepper = () => (
 
 const OrderDetail = () => {
 	const { id } = useParams()
-	const [orderDetail, setOrderDetail] = useState({ "isLoading": true })
-	const [activeStatusList, setActiveStatusList] = useState([])
+	const [orderDetail, setOrderDetail] = useState(null)
+	const [isLoading, setIsLoading] = useState(false)
+	const [activeStatusList, setActiveStatusList] = useState([true, false, false, false])
 
-	useEffect(() => {
+	const getOrder = async () => {
+		setIsLoading(true)
 		getOrderDetailAPI(id).then((response) => {
-			if (response.data.success === true) {
-				const resData = response.data.data
-				setOrderDetail({ "isLoading": false, data: resData })
-				console.log("orderDetail ", resData)
+			if (response.status === 200) {
+				const resData = response.data
+				setOrderDetail(resData)
 
-				const orderStatus = resData.orderInfo.status
+				// if (orderStatus != 'Cancelled') {
+				// 	const statusIndex = statusList.indexOf(orderStatus)
+				// 	let tempList = []
 
-				if (orderStatus != 'Cancelled') {
-					const statusIndex = statusList.indexOf(orderStatus)
-					let tempList = []
+				// 	for (let i = 0; i < statusList.length; i++) {
+				// 		if (i <= statusIndex)
+				// 			tempList[i] = true;
+				// 		else
+				// 			tempList[i] = false;
+				// 	}
 
-					for (let i = 0; i < statusList.length; i++) {
-						if (i <= statusIndex)
-							tempList[i] = true;
-						else
-							tempList[i] = false;
-					}
-
-					setActiveStatusList(tempList);
-				}
+				// 	setActiveStatusList(tempList);
+				// }
 			}
 		})
+		setIsLoading(false)
+	}
+
+	useEffect(() => {
+		getOrder()
 	}, [])
 
 	const formatDateDiff = (value) => {
@@ -79,7 +83,7 @@ const OrderDetail = () => {
 	return (
 		<Box sx={styles.box}>
 			<Container maxWidth="lg">
-				{orderDetail.isLoading ? (
+				{isLoading ? (
 					<Grid container spacing={6}>
 						<Grid item xs={12} lg={5}>
 							<Box sx={styles.wrapperSkeleton}>
@@ -110,29 +114,32 @@ const OrderDetail = () => {
 							<Box sx={styles.wrapper}>
 								<Box sx={{ width: '100%' }}>
 									<Typography sx={styles.title}>
-										Order : #{id}{' '}
+										Đơn hàng : #{id}{' '}
 									</Typography>
-									<Typography sx={styles.content}>
+									{/* <Typography sx={styles.content}>
 										{formatDateDiff(
-											orderDetail.data.orderInfo.dateDiff,
+											orderDetail.orderInfo.dateDiff,
 										)}
-									</Typography>
+									</Typography> */}
 
 									<Typography sx={{ ...styles.title, mt: 4 }}>
-										Customer detail
+										Thông tin khách hàng
 									</Typography>
 									<Typography sx={styles.content}>
-										Name: {orderDetail.data.orderInfo.name}
+										Họ tên: {orderDetail?.customerName}
 									</Typography>
 									<Typography sx={styles.content}>
-										Phone: {orderDetail.data.orderInfo.phone}
+										Số điện thoại: {orderDetail?.phoneNumber}
 									</Typography>
 									<Typography sx={styles.content}>
-										Address: {orderDetail.data.orderInfo.address}
+										Email: {orderDetail?.email}
+									</Typography>
+									<Typography sx={styles.content}>
+										Địa chỉ: {orderDetail?.address}
 									</Typography>
 
 									<Typography sx={{ ...styles.title, mt: 4, mb: 2 }}>
-										Status
+										Trạng thái
 									</Typography>
 
 									<Box sx={styles.stepper}>
@@ -151,7 +158,7 @@ const OrderDetail = () => {
 										})}
 
 										{activeStatusList.length == 0 ?
-											(<Typography sx={{ color: 'red', fontWeight: 600 }}>THIS ORDER IS CANCELLED</Typography>)
+											(<Typography sx={{ color: 'red', fontWeight: 600 }}>ĐƠN HÀNG ĐÃ BỊ HỦY</Typography>)
 											: ("")}
 									</Box>
 
@@ -159,11 +166,11 @@ const OrderDetail = () => {
 									<Box sx={{ mt: 4 }}>
 										<Box sx={styles.lowerPriceWrapper}>
 											<Typography sx={styles.lowerTitles}>
-												Total price:
+												Thành tiền:
 											</Typography>
 											<Typography sx={styles.lowerValues}>
 												{formatPrice(
-													orderDetail.data.orderInfo.totalPrice,
+													orderDetail?.totalPrice
 												)}
 											</Typography>
 										</Box>
@@ -175,7 +182,7 @@ const OrderDetail = () => {
 							<Box sx={styles.productList}>
 								<TransitionGroup>
 									{
-										orderDetail.data.itemList.map(product =>
+										orderDetail?.items.map(product =>
 											<Collapse>
 												<HorizontalProduct
 													product={product}
