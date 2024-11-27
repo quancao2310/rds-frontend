@@ -50,9 +50,22 @@ const getTotalCategoryAPI = (category, size, page, sortBy, sortOrder) => {
 
 const getProductAPI = (productID) => {
 	// let command = "getProduct";
-	return axios.get(
-		`${BASE_API_URL}products/${productID}`
-	);
+	const accessToken = localStorage.getItem('accessToken');
+	if (accessToken) {
+		return axios.get(
+			`${BASE_API_URL}products/${productID}`,{
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+				withCredentials: true
+			}
+		);
+	} else {
+		return axios.get(
+			`${BASE_API_URL}products/${productID}`
+		);
+	}
+	
 };
 
 const searchProductsAPI = (searchValue) => {

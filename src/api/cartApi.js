@@ -10,6 +10,7 @@ const getCartApi = (token) => {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        withCredentials: true
     });
 }
 
@@ -24,6 +25,7 @@ const getCartQuantityApi = (token) => {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        withCredentials: true
     });
 }
 
@@ -42,6 +44,7 @@ const addProductToCartApi = (productId, token) => {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            withCredentials: true
         }
     );
 }
@@ -56,6 +59,7 @@ const removeProductFromCartApi = (cartId) => {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
+        withCredentials: true
     });
 }
 
@@ -70,6 +74,7 @@ const changeQuantityApi = (cartId, quantity) => {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
+            withCredentials: true
         }
     );
 }

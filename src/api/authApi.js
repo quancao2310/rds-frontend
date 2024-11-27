@@ -35,6 +35,7 @@ const getUserProfileApi = (token) => {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        withCredentials: true
     });
 }
 
@@ -54,6 +55,7 @@ const updateUserProfileApi = (token, user) => {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            withCredentials: true
         }
     );
 };
@@ -71,6 +73,7 @@ const changePasswordApi = (token, data) => {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            withCredentials: true
         }
     );
 };

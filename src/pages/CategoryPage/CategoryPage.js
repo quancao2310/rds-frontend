@@ -86,7 +86,7 @@ const CategoryPage = () => {
                                 onChange={handleSort}
                                 sx={styles.select}
                             >
-                                <MenuItem value="">Ngẫu nhiên</MenuItem>
+                                <MenuItem value="">Không</MenuItem>
                                 <MenuItem value="price asc">Giá tăng dần</MenuItem>
                                 <MenuItem value="price desc">Giá giảm dần</MenuItem>
                                 <MenuItem value="name asc">Tên tăng dần</MenuItem>
