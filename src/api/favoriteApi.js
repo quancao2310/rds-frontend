@@ -10,6 +10,7 @@ const getFavoriteListApi = () => {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
+        withCredentials: true
     });
 }
 
@@ -20,6 +21,7 @@ const addFavoriteApi = (productId) => {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
+        withCredentials: true
     });
 };
 
@@ -28,6 +30,7 @@ const deleteFavoriteApi = (favoriteId) => {
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },
+        withCredentials: true
     });
 };
 

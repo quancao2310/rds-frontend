@@ -9,6 +9,7 @@ const getOrderListAPI = () => {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
 		},
+		withCredentials: true
 	});
 };
 
@@ -19,6 +20,7 @@ const getOrderDetailAPI = (orderID) => {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
+			withCredentials: true
 		}
 	);
 };
@@ -45,6 +47,7 @@ const createOrder = (customerName, address, phoneNumber, email, cartIds, discoun
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
 		},
+		withCredentials: true
 	});
 };
 export { getOrderListAPI, getOrderDetailAPI, rateProduct, createOrder };

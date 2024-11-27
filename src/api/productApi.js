@@ -53,14 +53,14 @@ const getProductAPI = (productID) => {
 	const accessToken = localStorage.getItem('accessToken');
 	if (accessToken) {
 		return axios.get(
-			`${BASE_API_URL}products/${productID}`, {
+			`${BASE_API_URL}products/${productID}`,{
 				headers: {
 					Authorization: `Bearer ${accessToken}`,
 				},
+				withCredentials: true
 			}
 		);
-	}
-	else {
+	} else {
 		return axios.get(
 			`${BASE_API_URL}products/${productID}`
 		);
