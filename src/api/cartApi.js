@@ -6,7 +6,10 @@ const accessToken = localStorage.getItem("accessToken");
 const getCartApi = (token) => {
     let command = "getCartList";
 
-    return axios.get(`${BASE_API_URL}carts`, {
+    return axios.get(`${BASE_API_URL}carts`,{
+        params: {
+            size: 50
+        },
         headers: {
             Authorization: `Bearer ${token}`,
         },

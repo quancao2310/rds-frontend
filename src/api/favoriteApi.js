@@ -3,7 +3,10 @@ import { BASE_API_URL } from '../constant/string'
 
 const accessToken = localStorage.getItem('accessToken');
 const getFavoriteListApi = () => {
-    return axios.get(BASE_API_URL + `products/favorites`, {
+    return axios.get(BASE_API_URL + `products/favorites`,{
+        params: {
+            size: 50,
+        },
         headers: {
             Authorization: `Bearer ${accessToken}`,
         },

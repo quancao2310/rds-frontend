@@ -195,7 +195,6 @@ const Product = () => {
 			return;
 		}
 		addFavoriteApi(productId).then((response) => {
-			console.log(2, response);
 			if (response.status === 201) {
 				setIsFavorite(true)
 				// dispatch(showAddFavNoti())
@@ -215,8 +214,13 @@ const Product = () => {
 	}
 
 	const removeFromFavorite = () => {
+		if (!accessToken) {
+			dispatch(showAuthError())
+			return;
+		}
 		deleteFavoriteApi(productId).then((response) => {
-			if (response.status === 201) {
+			console.log(11, response)
+			if (response.status === 204) {
 				setIsFavorite(false)
 				// dispatch(showRemoveFavNoti())
 				// setTimeout(() => {
