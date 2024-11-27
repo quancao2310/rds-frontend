@@ -8,7 +8,8 @@ import {
     removeAllApi,
 } from "../../api/cartApi"
 
-import {showAuthError} from "../actions/authAction"
+import {logOut, showAuthError} from "../actions/authAction"
+import { toast } from "react-toastify";
 
 const getCart = (token) => {
 
@@ -28,9 +29,9 @@ const getCart = (token) => {
     }
 }
 
-const getCartQuantity = () => {
+const getCartQuantity = (token) => {
     return dispatch => {
-        getCartQuantityApi().then(response => {
+        getCartQuantityApi(token).then(response => {
             if (response.status === 200) {
                 const data = response.data;
                 localStorage.setItem('cartQuantity', data.length);
@@ -39,6 +40,8 @@ const getCartQuantity = () => {
                     quantity: data.length
                 });
             }
+        }).catch(err => {
+            toast.error(err.response.data.message)
         })
     }
 }
@@ -61,12 +64,17 @@ const addProductToCart = (product, token) => {
             type: ActionType.ADD_PRODUCT_TO_CART,
             data: productData,
         })
-        const response = await addProductToCartApi(productId, token);
-
-        if (response.status !== 200) {
-            console.log('error ?');
-            dispatch(showAuthError());
-        }
+        await addProductToCartApi(productId, token).then( response => {
+		    toast.success("Thêm vào giỏ hàng thành công")
+            dispatch(getCartQuantity(token))
+        })
+        .catch(error => {
+            toast.error(error.response.data.message)
+        });
+        // if (response.status !== 200) {
+        //     console.log('error ?');
+        //     dispatch(showAuthError());
+        // }
     }
 }
 

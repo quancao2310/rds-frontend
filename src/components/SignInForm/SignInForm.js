@@ -34,9 +34,9 @@ const SignInForm = ({ isSignIn, setIsSignIn, references }) => {
 	}, [authErrors.emailSignIn])
 
 	const signInSubmit = () => {
-		if (validator.isEmail(email.value) === false)
-			setEmail({ ...email, error: "Email is invalid" })
-		else
+		// if (validator.isEmail(email.value) === false)
+		// 	setEmail({ ...email, error: "Email is invalid" })
+		// else
 			dispatch(signIn(email.value, password.value, history))
 	}
 

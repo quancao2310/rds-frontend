@@ -101,7 +101,7 @@ const Navbar = () => {
 				<ListItem button key="Hot Discount" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 					<NavItem
 						href="/"
-						title="Hot Discount"
+						title="Khuyến mãi"
 						icon={<icons.Offer sx={style.iconNav} />}
 						isDrawer
 					/>

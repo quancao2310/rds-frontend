@@ -15,7 +15,7 @@ import FormProduct from "../../components/FormProduct/FormProduct";
 import CustomModal from '../../components/Modal/Modal'
 
 import { changeQuantityApi } from '../../api/cartApi'
-import { changeFavoriteApi } from '../../api/favoriteApi'
+import { addFavoriteApi, changeFavoriteApi, deleteFavoriteApi } from '../../api/favoriteApi'
 
 import { checkNotNegative, checkEmptyForm } from '../../constant/function'
 //redux
@@ -26,6 +26,7 @@ import { showAuthError } from '../../store/actions/authAction'
 import { showAddFavNoti, showRemoveFavNoti, hideFavNoti } from '../../store/actions/favoriteAction'
 // import { deleteProduct } from "../../api/productApi";
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const useQuery = () => {
 	return new URLSearchParams(useLocation().search);
@@ -166,26 +167,64 @@ const Product = () => {
 	// 	});
 	// }
 
-	const changeFavorite = () => {
-		changeFavoriteApi(productId).then(response => {
-			console.log(response.data)
-			if (response.data.success == true) {
-				setIsFavorite(response.data.data.isLike)
+	// const changeFavorite = () => {
+	// 	changeFavoriteApi(productId).then(response => {
+	// 		console.log(response.data)
+	// 		if (response.data.success == true) {
+	// 			setIsFavorite(response.data.data.isLike)
+	// 		}
+	// 	})
+
+	// 	if (isFavorite === true) {
+	// 		console.log("isFavorite: ", true);
+	// 		dispatch(showRemoveFavNoti())
+	// 	}
+	// 	else {
+	// 		console.log("isFavorite: ", false);
+	// 		dispatch(showAddFavNoti())
+	// 	}
+
+	// 	setTimeout(() => {
+	// 		dispatch(hideFavNoti())
+	// 	}, 3000)
+	// }
+
+	const addToFavorite = () => {
+		if (!accessToken) {
+			dispatch(showAuthError())
+			return;
+		}
+		addFavoriteApi(productId).then((response) => {
+			console.log(2, response);
+			if (response.status === 201) {
+				setIsFavorite(true)
+				// dispatch(showAddFavNoti())
+				// setTimeout(() => {
+				// 	dispatch(hideFavNoti())
+				// }, 3000)
+				toast.success("Thêm vào danh mục yêu thích thành công")
+			}
+		}).catch(err => {
+			if (err.response.status === 401) {
+			dispatch(showAuthError())
+			}
+			else {
+				toast.error(err.response.data.message)
 			}
 		})
+	}
 
-		if (isFavorite === true) {
-			console.log("isFavorite: ", true);
-			dispatch(showRemoveFavNoti())
-		}
-		else {
-			console.log("isFavorite: ", false);
-			dispatch(showAddFavNoti())
-		}
-
-		setTimeout(() => {
-			dispatch(hideFavNoti())
-		}, 3000)
+	const removeFromFavorite = () => {
+		deleteFavoriteApi(productId).then((response) => {
+			if (response.status === 201) {
+				setIsFavorite(false)
+				// dispatch(showRemoveFavNoti())
+				// setTimeout(() => {
+				// 	dispatch(hideFavNoti())
+				// }, 3000)
+				toast.success("Xóa khỏi danh mục yêu thích thành công")
+			}
+		})
 	}
 
 	const addItemToCart = () => {
@@ -198,19 +237,19 @@ const Product = () => {
 		let productIndex = cart["cartList"].findIndex(item => item.productId == productId);
 
 		//new product
-		if (productIndex == -1) {
+		// if (productIndex == -1) {
 			dispatch(addProductToCart(product, token));
-		}
-		//existing product
-		else {
-			setQuantityDifference(quantityDifference + 1);
-			dispatch(changeProductQuantity(product, 1));
-		}
+		// }
+		// //existing product
+		// else {
+		// 	setQuantityDifference(quantityDifference + 1);
+		// 	dispatch(changeProductQuantity(product, 1));
+		// }
 
-		dispatch(showCartNoti())
-		setTimeout(() => {
-			dispatch(hideCartNoti())
-		}, 3000);
+		// dispatch(showCartNoti())
+		// setTimeout(() => {
+		// 	dispatch(hideCartNoti())
+		// }, 3000);
 	}
 
 	useEffect(() => {
@@ -242,7 +281,6 @@ const Product = () => {
 		getProductAPI(productId).then(response => {
 			if (response.status === 200) {
 				const data = response.data
-				console.log("product:", data)
 
 				// updateProductView(productId);
 				let formattedDesc = "Sản phẩm chưa có thông tin mô tả"
@@ -257,8 +295,9 @@ const Product = () => {
 					//spec: formattedSpec,
 					desc: formattedDesc,
 				})
+				console.log(7, data);
 
-				setIsFavorite(data.favorite)
+				setIsFavorite(data.isFavorite)
 
 				setProduct({ "isLoading": false, ...data })
 
@@ -271,6 +310,9 @@ const Product = () => {
 						setRelatedProductList({ "isLoading": false, "productList": response.data.content })
 				})
 			}
+		})
+		.catch(err => {
+			toast.error(err.response.data.message)
 		})
 	}, [productId]) // when clicking on another product, productId is changed, this will trigger the useEffect again to call a new product API
 
@@ -400,7 +442,7 @@ const Product = () => {
 											variant="outlined"
 											startIcon={<icons.IsFavorite style={{ color: "red" }} />}
 											sx={styles.favoriteBtn}
-											onClick={changeFavorite}
+											onClick={removeFromFavorite}
 										>
 											Xóa Khỏi Yêu Thích
 										</Button>
@@ -409,7 +451,7 @@ const Product = () => {
 											variant="outlined"
 											startIcon={<icons.NotFavorite />}
 											sx={styles.favoriteBtn}
-											onClick={changeFavorite}
+											onClick={addToFavorite}
 										>
 											Thêm Vào Yêu Thích
 										</Button>
@@ -488,7 +530,7 @@ const Product = () => {
 													<MenuItem onClick={() => setModalOpen(true)} sx={styles.adminMenu}>
 														<Box sx={styles.adminBtnWrapper}>
 															<icons.Trashcan sx={styles.adminIcon} />
-															<Typography sx={styles.adminText}>Delete</Typography>
+															<Typography sx={styles.adminText}>Xóa</Typography>
 														</Box>
 													</MenuItem>
 												</MenuList>
@@ -610,7 +652,7 @@ const Product = () => {
 
 			<Modal open={modalOpen} onClose={() => setModalOpen(false)}>
 				<Box sx={styles.modal}>
-					<h4>Are you sure to delete this product?</h4>
+					<h4>Bạn có chắc chắn muốn xóa sản phẩm này</h4>
 					<Box sx={{ textAlign: "center" }}>
 						<Button
 							variant="outlined"

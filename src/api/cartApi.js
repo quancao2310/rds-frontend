@@ -13,7 +13,7 @@ const getCartApi = (token) => {
     });
 }
 
-const getCartQuantityApi = () => {
+const getCartQuantityApi = (token) => {
     // let command = "getTotalQuantity";
     // return axios.get(`${BASE_API_URL}carts`, {
     //     headers: {
@@ -22,7 +22,7 @@ const getCartQuantityApi = () => {
     // });
     return axios.get(`${BASE_API_URL}carts`, {
         headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
         },
     });
 }

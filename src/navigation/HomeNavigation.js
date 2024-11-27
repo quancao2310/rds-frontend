@@ -50,7 +50,7 @@ const HomeNavigation = () => {
 					openModal={true}
 					noCancel
 
-					title={"Alert"}
+					title={"Thông báo"}
 					description={tokenError}
 
 					onPressCancel={() => { }}

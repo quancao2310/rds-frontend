@@ -28,12 +28,12 @@ const deleteFavoriteApi = (favoriteId) => {
     });
 };
 
-const changeFavoriteApi = (productID) => {
-    let data = new FormData();
-    let command = "changeFavorite";
-    data.append("productID", productID);
-    data.append("command", command);
-    return axios.post(BASE_API_URL + "favorAPI.php", data);
-}
+// const changeFavoriteApi = (productID) => {
+//     let data = new FormData();
+//     let command = "changeFavorite";
+//     data.append("productID", productID);
+//     data.append("command", command);
+//     return axios.post(BASE_API_URL + "favorAPI.php", data);
+// }
 
-export { getFavoriteListApi, changeFavoriteApi };
+export { getFavoriteListApi, deleteFavoriteApi, addFavoriteApi };

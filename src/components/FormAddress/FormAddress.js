@@ -61,12 +61,11 @@ const FormAddress = ({
 			.then(() => {
 				toast.success("Chỉnh sửa hồ sơ thành công!");
 				onReset();
+				setAppear(false)
 			})
 			.catch((error) => {
-				console.error(error);
-				toast.error(error.message);
+				toast.error(error.response.data.message);
 			});
-		setAppear(false)
 	}
 
 	return (

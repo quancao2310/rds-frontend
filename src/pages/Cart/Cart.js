@@ -18,6 +18,7 @@ import HorizontalProductSkeleton from '../../components/HorizontalProductSkeleto
 import { changeQuantityApi, getCartApi, removeProductFromCartApi } from '../../api/cartApi';
 import { getProductsAPI } from '../../api/productApi';
 import { toast } from 'react-toastify';
+import { showAuthError } from '../../store/actions/authAction';
 
 const Cart = () => {
 
@@ -79,6 +80,12 @@ const Cart = () => {
             else {
                 console.log(response);
             }
+        }).catch(err => {
+            if (err.response.data.message === "Authentication credentials are invalid or not found"){
+                dispatch(showAuthError())
+            } else {
+                toast.error(err.response.data.message)
+            }
         })
         setIsLoading(false);
     };
@@ -111,11 +118,11 @@ const Cart = () => {
                                     <Typography sx={styles.myCart}>
                                         Giỏ hàng của tôi
                                     </Typography>
-                                    <Skeleton variant="text" animation="wave" sx={styles.skeletonRemoveAll}>
+                                    {/* <Skeleton variant="text" animation="wave" sx={styles.skeletonRemoveAll}>
                                         <Button sx={styles.removeAll}>
                                             Xóa tất cả
                                         </Button>
-                                    </Skeleton>
+                                    </Skeleton> */}
                                 </Box>
                                 <HorizontalProductSkeleton />
                                 <HorizontalProductSkeleton />
@@ -153,7 +160,7 @@ const Cart = () => {
                                     Giỏ hàng của tôi
                                 </Typography>
 
-                                <Button
+                                {/* <Button
                                     onClick={() => {
                                         setOpenModalDelete(true)
                                     }}
@@ -161,7 +168,7 @@ const Cart = () => {
                                     sx={styles.removeAll}
                                 >
                                     Xóa tất cả
-                                </Button>
+                                </Button> */}
                             </Box>
                             <TransitionGroup>
                                 {cartList.map(cart =>

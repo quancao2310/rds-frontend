@@ -12,29 +12,37 @@ const CategoryPage = () => {
     const history = useHistory();
 
 
-    const [totalPage, setTotalPage] = useState({ "isLoading": true })
-    const [productList, setProductList] = useState({ "isLoading": true, "data": [] })
+    const [totalPage, setTotalPage] = useState(0)
+    const [productList, setProductList] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
     const [page, setPage] = useState(1)
-    const [sortBy, setSortBy] = useState('price ASC')
+    const [sortBy, setSortBy] = useState(null)
+    const [sortField, setSortField] = useState("")
     const [size, setSize] = useState(8);
 
-    const orderBy = sortBy.split(' ')[0]
-    const option = sortBy.split(' ')[1]
+    // const orderBy = sortBy.split(' ')[0]
+    // const option = sortBy.split(' ')[1]
     const itemsPerPage = 8
     const offset = (page - 1) * itemsPerPage
 
-    useEffect(() => {
-        getTotalCategoryAPI(name, size, page).then(response => {
+    const getProducts = async () => {
+        setIsLoading(true)
+        await getTotalCategoryAPI(name, size, page, sortBy?.sort_by, sortBy?.sort_order).then(response => {
             if (response.data.content) {
                 const data = response.data.content
                 console.log(data)
-                setProductList({ "isLoading": false, "data": data })
+                setProductList(data)
 
                 const total = response.data.totalPages
                 console.log("totalPage:", total)
-                setTotalPage({ "isLoading": false, "value": total })
+                setTotalPage(total)
             }
         })
+        setIsLoading(false)
+    }
+
+    useEffect(() => {
+        getProducts()
     }, [page, sortBy, name, size])
 
     /*useEffect(() => {
@@ -49,29 +57,45 @@ const CategoryPage = () => {
         window.scrollTo(0, 0) // when clicking on another pagination, scroll to top
     }, [page, sortBy, name])*/
 
+    const handleSort = (e) => {
+        setSortField(e.target.value)
+        if (e.target.value === "price asc"){
+            setSortBy({sort_by: 'price', sort_order: 'asc'})
+        } else if (e.target.value === "price desc"){
+            setSortBy({sort_by: 'price', sort_order: 'desc'})
+        } else if (e.target.value === "name asc"){
+            setSortBy({sort_by: 'name', sort_order: 'asc'})
+        } else if (e.target.value === "name desc"){
+            setSortBy({sort_by: 'name', sort_order: 'desc'})
+        } else {
+            setSortBy(null)
+        }
+    }
+
     return (
         <Box sx={styles.box}>
             <Container maxWidth="lg">
                 <Box sx={styles.titleWrapper}>
                     <Typography sx={styles.categoryTitle}>{name}</Typography>
                     <Box sx={styles.sortByWrapper}>
-                        <Typography sx={styles.sortBy}>Sort by</Typography>
+                        <Typography sx={styles.sortBy}>Sắp xếp theo</Typography>
                         <FormControl sx={styles.formControl} className={classes.root}>
                             <Select
                                 displayEmpty
-                                value={sortBy}
-                                onChange={(event) => { setSortBy(event.target.value) }}
+                                value={sortField}
+                                onChange={handleSort}
                                 sx={styles.select}
                             >
-                                <MenuItem value={'price ASC'}>Price: lowest</MenuItem>
-                                <MenuItem value={'price DESC'}>Price: highest</MenuItem>
-                                <MenuItem value={'rating ASC'}>Rating: lowest</MenuItem>
-                                <MenuItem value={'rating DESC'}>Rating: highest</MenuItem>
+                                <MenuItem value="">Ngẫu nhiên</MenuItem>
+                                <MenuItem value="price asc">Giá tăng dần</MenuItem>
+                                <MenuItem value="price desc">Giá giảm dần</MenuItem>
+                                <MenuItem value="name asc">Tên tăng dần</MenuItem>
+                                <MenuItem value="name desc">Tên giảm dần</MenuItem>
                             </Select>
                         </FormControl>
                     </Box>
                 </Box>
-                {productList.isLoading ? (
+                {isLoading ? (
                     <Grid container spacing={{ xs: 1, md: 3, lg: 3.5 }}>
                         {Array(itemsPerPage).fill().map(() => (
                             <Grid item xs={6} md={4} lg={3}>
@@ -81,7 +105,7 @@ const CategoryPage = () => {
                     </Grid>
                 ) : (
                     <Grid container spacing={{ xs: 1, md: 3, lg: 3.5 }}>
-                        {productList.data.map((product) => (
+                        {productList.map((product) => (
                             <Grid item xs={6} md={4} lg={3} key={product.productId}>
                                 <ProductItem
                                     product={product}
@@ -92,13 +116,13 @@ const CategoryPage = () => {
                     </Grid>
                 )}
                 {
-                    (productList.data.length === 0 && !productList.isLoading)
+                    (productList.length === 0 && !isLoading)
                     &&
                     <div sx={styles.noData} className='w-full text-center'>Không có sản phẩm</div>
                 }
 
                 <Box className='mt-[50px] w-full flex justify-between'>
-                    {totalPage.isLoading ? (
+                    {isLoading ? (
                         <Skeleton variant="text" animation="wave" sx={styles.skeleton}>
                             <Typography gutterBottom variant="h5" component="div">lorem lorem lore</Typography>
                         </Skeleton>
@@ -120,14 +144,14 @@ const CategoryPage = () => {
                             </FormControl>
                         </div>
                     )}
-                    {totalPage.isLoading ? (
+                    {isLoading ? (
                         <Skeleton variant="text" animation="wave" sx={styles.skeleton}>
                             <Typography gutterBottom variant="h5" component="div">lorem lorem lore</Typography>
                         </Skeleton>
                     ) : (
                         <Pagination
                             classes={{ ul: classes.ul }}
-                            count={totalPage.value}
+                            count={totalPage}
                             page={page}
                             onChange={(event, value) => { setPage(value) }}
                         />

@@ -78,8 +78,8 @@ const AuthReducer = (state = initState, action) => {
                 ...state,
                 error: {
                     tokenError: state.user.isEmpty
-                        ? "Please login to continue"
-                        : "Something wrong happend !, please login again to continue"
+                        ? "Vui lòng đăng nhập để tiếp tục"
+                        : "Dường như có lỗi !, vui lòng đăng nhập lại"
                 },
             }
         default: return state;

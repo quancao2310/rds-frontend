@@ -95,7 +95,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
         return error
     }
     const signUpSubmit = () => {
-        if (checkInputs())
+        // if (checkInputs())
             dispatch(signUp(email.value, name.value, phoneNumber.value, address.value, city.value, country.value, password2.value, history))
     }
 
@@ -356,7 +356,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                         onClick={signUpSubmit}
                         sx={styles.mainButton}
                         variant="contained"
-                        loading={isLoading}
+                        // loading={isLoading}
                         loadingIndicator={<CircularProgress sx={styles.loadingIndicator} size={18} />}
                     >Đăng ký
                     </LoadingButton>

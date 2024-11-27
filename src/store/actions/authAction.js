@@ -18,7 +18,7 @@ const signIn = (email, password, history) => {
                     let accessToken = localStorage.getItem("accessToken");
                     console.log("accessToken from signIn:", accessToken);
 
-                    dispatch(getCartQuantity());
+                    dispatch(getCartQuantity(data.accessToken));
                     getUserProfileApi(data.accessToken).then(response => {
                         localStorage.setItem('userName', response.data.name);
                         dispatch({ type: ActionType.LOGIN_SUCCESS, data: response.data });
@@ -66,11 +66,15 @@ const signUp = (email, name, phoneNumber, address, city, country, password, hist
                     sessionStorage.setItem("userInfo", token);
                     dispatch(getCart());
                     history.push("/");*/
-                    alert('Registration successful! Please login to use our services')
+                    // alert('Registration successful! Please login to use our services')
+                    toast.success("Đăng ký thành công. Vui lòng đăng nhập để sử dụng dịch vụ")
                     window.location.href = '/authentication';
                 }
                 else
                     dispatch({ type: ActionType.SIGNUP_FAIL, data: data });
+            })
+            .catch(err => {
+                toast.error(err.response.data.message)
             })
     }
 }

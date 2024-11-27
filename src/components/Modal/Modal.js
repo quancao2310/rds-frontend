@@ -14,8 +14,8 @@ const CustomModal = ({
 
     noConfirm,
     noCancel,
-    cancelText = "Cancel",
-    confirmText = "Confirm",
+    cancelText = "Hủy bỏ",
+    confirmText = "Xác nhận",
 }) => {
 
 
