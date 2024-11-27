@@ -55,7 +55,11 @@ const HomeNavigation = () => {
 
 					onPressCancel={() => { }}
 					onPressConfirm={() => {
-						dispatch(logOut(history));
+						if (localStorage.getItem('accessToken')){
+							dispatch(logOut(history));
+						} else {
+							history.push("/authentication")
+						}
 					}}
 				/>
 			}
