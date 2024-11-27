@@ -1,7 +1,4 @@
 const styles = {
-    addressbook: {
-        py: "42px",
-    },
     myCart: {
         //fontFamily: "'Roboto Slab', serif",
         fontSize: {

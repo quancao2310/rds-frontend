@@ -5,7 +5,7 @@ const styles = {
 		padding: {
 			xs: '17px 10px',
 			md: '17px 20px',
-			lg: '17px 150px',
+			lg: '17px 80px',
 		},
 		backgroundColor: 'white',
 		position: 'relative',
@@ -22,8 +22,7 @@ const styles = {
 	logo: {
 		overflow: 'hidden',
 		backgroundColor: 'white',
-		width: '150px',
-		height: '34px',
+		height: '40px',
 	},
 	menuContainer: {
 		display: 'flex',

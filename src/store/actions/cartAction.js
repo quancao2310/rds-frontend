@@ -4,11 +4,12 @@ import {
     getCartQuantityApi,
     addProductToCartApi,
     removeProductFromCartApi,
-    changeQuantityApi,
+    // changeQuantityApi,
     removeAllApi,
 } from "../../api/cartApi"
 
-import {showAuthError} from "../actions/authAction"
+import {logOut, showAuthError} from "../actions/authAction"
+import { toast } from "react-toastify";
 
 const getCart = (token) => {
 
@@ -28,16 +29,19 @@ const getCart = (token) => {
     }
 }
 
-const getCartQuantity = () => {
+const getCartQuantity = (token) => {
     return dispatch => {
-        getCartQuantityApi().then(response => {
+        getCartQuantityApi(token).then(response => {
             if (response.status === 200) {
                 const data = response.data;
+                localStorage.setItem('cartQuantity', data.length);
                 dispatch({
                     type: ActionType.GET_CART_QUANTITY,
                     quantity: data.length
                 });
             }
+        }).catch(err => {
+            toast.error(err.response.data.message)
         })
     }
 }
@@ -48,10 +52,9 @@ const addProductToCart = (product, token) => {
 
     const productData = {
         productId: productId,
-        rating: product.rating,
+        rating: 5,
         name: product.name,
-        img1: product.img1,
-        sold: product.sold,
+        img1: product.imageUrl,
         quantity: 1,
         price: product.price,
     }
@@ -61,12 +64,17 @@ const addProductToCart = (product, token) => {
             type: ActionType.ADD_PRODUCT_TO_CART,
             data: productData,
         })
-        const response = await addProductToCartApi(productId, token);
-
-        if (response.status !== 200) {
-            console.log('error ?');
-            dispatch(showAuthError());
-        }
+        await addProductToCartApi(productId, token).then( response => {
+		    toast.success("Thêm vào giỏ hàng thành công")
+            dispatch(getCartQuantity(token))
+        })
+        .catch(error => {
+            toast.error(error.response.data.message)
+        });
+        // if (response.status !== 200) {
+        //     console.log('error ?');
+        //     dispatch(showAuthError());
+        // }
     }
 }
 

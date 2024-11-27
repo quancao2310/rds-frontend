@@ -1,17 +1,42 @@
 import axios from './axios';
-import { BASE_API_URL, TEST_API_URL } from '../constant/string'
+import { BASE_API_URL } from '../constant/string'
 
+const accessToken = localStorage.getItem('accessToken');
 const getFavoriteListApi = () => {
-    let command = "getFavoriteList";
-    return axios.get(TEST_API_URL + `favorAPI.php?command=${command}`);
+    return axios.get(BASE_API_URL + `products/favorites`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true
+    });
 }
 
-const changeFavoriteApi = (productID) => {
-    let data = new FormData();
-    let command = "changeFavorite";
-    data.append("productID", productID);
-    data.append("command", command);
-    return axios.post(TEST_API_URL + "favorAPI.php", data);
-}
+const addFavoriteApi = (productId) => {
+    return axios.post(BASE_API_URL + `products/favorites`, {
+        productId: productId
+    }, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true
+    });
+};
 
-export { getFavoriteListApi, changeFavoriteApi };
+const deleteFavoriteApi = (favoriteId) => {
+    return axios.delete(BASE_API_URL + `products/favorites/${favoriteId}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true
+    });
+};
+
+// const changeFavoriteApi = (productID) => {
+//     let data = new FormData();
+//     let command = "changeFavorite";
+//     data.append("productID", productID);
+//     data.append("command", command);
+//     return axios.post(BASE_API_URL + "favorAPI.php", data);
+// }
+
+export { getFavoriteListApi, deleteFavoriteApi, addFavoriteApi };

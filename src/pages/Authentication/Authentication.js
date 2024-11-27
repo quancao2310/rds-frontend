@@ -13,8 +13,9 @@ import 'react-toastify/dist/ReactToastify.css';
 const Authentication = () => {
     const user = useSelector(userInfoSelector)
     const history = useHistory()
+    const accessToken = localStorage.getItem('accessToken')
     
-    if(user.isEmpty !== true) {
+    if(accessToken) {
         history.push("/");
     }
 
@@ -46,11 +47,11 @@ const Authentication = () => {
                     timeout={500}
                 >
                     <Box sx={styles.overlayRight}>
-                        <Typography variant="h1" sx={styles.overlayTitle}>Welcome To Regional Delicacy Shop!</Typography>
-                        <Typography sx={styles.overlaySubTitle} variant="p">Fill in some personal details and start shopping with us</Typography>
+                        <Typography variant="h1" sx={styles.overlayTitle}>Chào mừng đến với Regional Delicacy Shop!</Typography>
+                        <Typography sx={styles.overlaySubTitle} variant="p">Nếu bạn chưa có tài khoản, hãy dành chút thời gian để đăng ký</Typography>
                         <Button
                             onClick={() => setIsSignIn(false)}
-                            sx={styles.overlayButton} variant="outlined">Sign Up</Button>
+                            sx={styles.overlayButton} variant="outlined">Đăng ký</Button>
                     </Box>
                 </Slide>
 
@@ -59,14 +60,14 @@ const Authentication = () => {
                     timeout={570}
                 >
                     <Box sx={styles.overlayLeft}>
-                        <Typography variant="h1" sx={styles.overlayTitle}>Welcome Back!
+                        <Typography variant="h1" sx={styles.overlayTitle}>Chào mừng đến với Regional Delicacy Shop!
                         </Typography>
-                        <Typography sx={styles.overlaySubTitle} variant="p">Time for shopping, please login with your personal info
+                        <Typography sx={styles.overlaySubTitle} variant="p">Nếu bạn đã có tài khoản, đăng nhập ngay
 
                         </Typography>
                         <Button
                             onClick={() => setIsSignIn(true)}
-                            sx={styles.overlayButton} variant="outlined">Sign In</Button>
+                            sx={styles.overlayButton} variant="outlined">Đăng nhập</Button>
                     </Box>
                 </Fade>
             </Box>

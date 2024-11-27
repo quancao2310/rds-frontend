@@ -16,12 +16,12 @@ import CustomModal from '../components/Modal/Modal';
 
 //redux & api
 import { useDispatch, useSelector } from "react-redux"
-import {
-	getTopRatingAction,
-	getLaptopAction,
-	getMonitorAction,
-	getCPUAction,
-} from "../store/actions/productAction"
+// import {
+// 	getTopRatingAction,
+// 	getLaptopAction,
+// 	getMonitorAction,
+// 	getCPUAction,
+// } from "../store/actions/productAction"
 
 import { authErrorSelector } from "../store/selectors"
 import { showAuthError, logOut } from "../store/actions/authAction"
@@ -35,10 +35,10 @@ const HomeNavigation = () => {
 	const { tokenError } = useSelector(authErrorSelector)
 
 	useEffect(() => {
-		dispatch(getTopRatingAction());
-		dispatch(getLaptopAction());
-		dispatch(getMonitorAction());
-		dispatch(getCPUAction());
+		// dispatch(getTopRatingAction());
+		// dispatch(getLaptopAction());
+		// dispatch(getMonitorAction());
+		// dispatch(getCPUAction());
 	}, [])
 	return (
 		<div>
@@ -50,7 +50,7 @@ const HomeNavigation = () => {
 					openModal={true}
 					noCancel
 
-					title={"Alert"}
+					title={"Thông báo"}
 					description={tokenError}
 
 					onPressCancel={() => { }}

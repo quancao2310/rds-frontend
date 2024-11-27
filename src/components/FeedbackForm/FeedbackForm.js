@@ -46,7 +46,7 @@ export function FeedbackForm(props) {
 						<Grid item xs={12} md={6}>
 							<Typography sx={styles.textContent}>
 								<TextField
-									label='Name'
+									label='Họ và tên'
 									name='name'
 									required={true}
 									sx={styles.textField}
@@ -59,7 +59,7 @@ export function FeedbackForm(props) {
 						<Grid item xs={12} md={6}>
 							<Typography sx={styles.textContent}>
 								<TextField
-									label='Phone'
+									label='Số điện thoại'
 									name='phone'
 									required={true}
 									sx={styles.textField}
@@ -83,7 +83,7 @@ export function FeedbackForm(props) {
 					</Typography>
 					<Typography sx={styles.textContent}>
 						<TextField
-							label='Feedback'
+							label='Phản hồi'
 							name='feedback'
 							required={true}
 							sx={styles.textField}
@@ -100,7 +100,7 @@ export function FeedbackForm(props) {
 						variant='outlined'
 						size='large'
 						sx={styles.sendButton}>
-						Send
+						Gửi
 					</Button>
 				</Box>
 			</form>

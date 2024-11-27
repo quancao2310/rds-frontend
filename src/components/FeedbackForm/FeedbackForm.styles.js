@@ -11,9 +11,9 @@ const styles = {
 	},
 	sendButton: {
 		color: 'white',
-		backgroundColor: '#333333',
+		backgroundColor: '#227A00',
 		'&:hover': {
-			background: '#333333',
+			background: '#227A00',
 			color: 'white',
 		},
 	},

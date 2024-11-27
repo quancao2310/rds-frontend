@@ -3,7 +3,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
-        backgroundImage: 'url("https://wallpaperaccess.com/full/1836506.png")',
+        backgroundImage: 'url("https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/ac/e4/fb/best-vietnamese-restaurants.jpg?w=1200&h=-1&s=1")',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         justifyContent: 'center',
@@ -26,7 +26,7 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
 
-        borderRadius: { xs: '10px', md: '10px 0 0 10px' },
+        // borderRadius: { xs: '10px', md: '10px 0 0 10px' },
     },
 
     formContainerRight: {
@@ -38,7 +38,7 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
 
-        borderRadius: { xs: '10px', md: '0px 10px 10px 0px' },
+        // borderRadius: { xs: '10px', md: '0px 10px 10px 0px' },
     },
 
     input: {
@@ -117,7 +117,7 @@ const styles = {
     },
 
     mainButton: {
-        background: '#272727 !important',
+        background: '#227A00 !important',
         borderRadius: '20px',
         fontFamily: 'Montserrat, sans-serif',
         fontSize: 13,
@@ -128,7 +128,7 @@ const styles = {
     },
 
     overlayRight: {
-        background: 'linear-gradient(307deg, rgb(0, 0, 0), rgb(100 100 100))',
+        background: 'linear-gradient(140deg, #227A00, #1C6300)',
         display: { xs: 'none', md: 'flex' },
         width: '50%',
         position: 'absolute',
@@ -139,13 +139,13 @@ const styles = {
         alignItems: 'center',
         color: 'white',
         right: 0,
-        borderTopRightRadius: '10px',
-        borderBottomRightRadius: '10px',
+        // borderTopRightRadius: '10px',
+        // borderBottomRightRadius: '10px',
 
     },
 
     overlayLeft: {
-        background: 'linear-gradient(65deg, rgb(0, 0, 0), rgb(82 82 82))',
+        background: 'linear-gradient(140deg, #227A00, #1C6300)',
         left: 0,
         display: { xs: 'none', md: 'flex' },
         height: '100%',
@@ -156,8 +156,8 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         color: 'white',
-        borderTopLeftRadius: '10px',
-        borderBottomLeftRadius: '10px',
+        // borderTopLeftRadius: '10px',
+        // borderBottomLeftRadius: '10px',
     },
 
     overlayTitle: {

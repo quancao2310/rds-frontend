@@ -41,19 +41,19 @@ const Footer = () => {
 					>
 						<Grid item lg={3} xs={12}>
 							<Typography sx={styles.signUp}>
-								Sign up for our newsletter
+								Đăng ký nhận thông báo về sản phẩm mới
 							</Typography>
 						</Grid>
 						<Grid item lg={6} xs={12}>
 							<Input
-								placeholder="Email address"
+								placeholder="Địa chỉ email"
 								disableUnderline
 								sx={styles.textField}
 							/>
 						</Grid>
 						<Grid item lg={3} xs={12} sx={styles.btnWrapper}>
 							<Button sx={styles.subscribeBtn} variant="outlined">
-								Subscribe
+								Đăng ký
 							</Button>
 						</Grid>
 					</Grid>

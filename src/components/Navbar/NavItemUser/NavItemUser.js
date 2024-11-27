@@ -36,30 +36,32 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
     const anchorRef = useRef(null)
     const clickRef = useRef(null)
 
+    const accessToken = localStorage.getItem('accessToken')
+
     return (
         <Fade in={isHome ? isPopUp : true} timeout={500}>
             <Box sx={styles.userItemWrapper}>
                 <Box sx={styles.navItem}>
                     <BootstrapTooltip
-                        title="Product is added to your cart"
+                        title="Sản phẩm đã được thêm vào giỏ hàng"
                         TransitionComponent={Zoom}
                         open={cartNoti.addToCart}
                     >
                         <Link to='/checkout/cart' style={styles.navLink}>
                             <Box sx={styles.wrapper}>
-                                <Badge badgeContent={cart.totalQuantity || 0} classes={{ badge: classes.badge }} color="error">
+                                <Badge badgeContent={localStorage.getItem('cartQuantity') || 0} classes={{ badge: classes.badge }} color="error">
                                     <icons.Cart sx={styles.icon} />
                                 </Badge>
-                                <Typography sx={styles.navTitle}>Cart</Typography>
+                                <Typography sx={styles.navTitle}>Giỏ hàng</Typography>
                             </Box>
                         </Link>
                     </BootstrapTooltip>
                     {
-                        userInfo.isEmpty ?
+                        !accessToken ?
                             <Link to='/authentication' style={styles.navLink}>
                                 <Box sx={styles.wrapper}>
                                     <icons.User sx={styles.icon} />
-                                    <Typography sx={styles.navTitle}>Login</Typography>
+                                    <Typography sx={styles.navTitle}>Đăng nhập</Typography>
                                 </Box>
                             </Link>
                             :
@@ -79,7 +81,7 @@ const NavUserItems = ({ isHome, isPopUp, userInfo }) => {
                                         sx={styles.btnNav}
                                     >
                                         <icons.User sx={styles.icon} />
-                                        <Typography sx={styles.navTitle}>{userInfo.username}</Typography>
+                                        <Typography sx={styles.navTitle}>{localStorage.getItem('userName')}</Typography>
                                     </Button>
                                 </BootstrapTooltip>
                                 <ProfileMenu anchorRef={anchorRef} clickRef={clickRef} />

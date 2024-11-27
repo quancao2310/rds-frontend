@@ -95,7 +95,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
         return error
     }
     const signUpSubmit = () => {
-        if (checkInputs())
+        // if (checkInputs())
             dispatch(signUp(email.value, name.value, phoneNumber.value, address.value, city.value, country.value, password2.value, history))
     }
 
@@ -186,14 +186,14 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
     return (
         <Box sx={styles.formContainerRight} ref={references}>
             <Box sx={{ width: "100%" }}>
-                <Typography sx={styles.title}>Create Account
+                <Typography sx={styles.title}>Tạo tài khoản
                 </Typography>
                 <Box component="div" style={styles.socialContainer}>
                     <Link to="#" style={styles.socialLink}><i className="fab fa-facebook-f"></i></Link>
                     <Link to="#" style={styles.socialLink}><i className="fab fa-google-plus-g"></i></Link>
                     <Link to="#" style={styles.socialLink}><i className="fab fa-linkedin-in"></i></Link>
                 </Box>
-                <Typography component="div" sx={styles.subTitle}>or use your email for registration
+                <Typography component="div" sx={styles.subTitle}>hoặc sử dụng email của bạn để đăng ký
                 </Typography>
 
                 <Input
@@ -219,7 +219,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     onKeyDown={handleKeyDown}
                     type="text"
                     name="name"
-                    placeholder="Username"
+                    placeholder="Họ và tên"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: styles.input }}
@@ -234,7 +234,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     onKeyDown={handleKeyDown}
                     type="text"
                     name="phoneNumber"
-                    placeholder="Phone number"
+                    placeholder="Số điện thoại"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: styles.input }}
@@ -249,7 +249,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     onKeyDown={handleKeyDown}
                     type="text"
                     name="address"
-                    placeholder="Address"
+                    placeholder="Địa chỉ"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: styles.input }}
@@ -264,7 +264,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     onKeyDown={handleKeyDown}
                     type="text"
                     name="city"
-                    placeholder="City"
+                    placeholder="Tỉnh/thành phố"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: styles.input }}
@@ -279,7 +279,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     onKeyDown={handleKeyDown}
                     type="text"
                     name="country"
-                    placeholder="Country"
+                    placeholder="Quốc gia"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: styles.input }}
@@ -294,7 +294,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     onKeyDown={handleKeyDown}
                     type={password1.showPassword ? 'text' : 'password'}
                     //inputRef={inputRef}
-                    placeholder="Password"
+                    placeholder="Mật khẩu"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: { padding: 0 } }}
@@ -322,7 +322,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
 
                     type={password2.showPassword ? 'text' : 'password'}
                     //inputRef={inputRef}
-                    placeholder="Confirm password"
+                    placeholder="Xác nhận mật khẩu"
                     disableUnderline
                     fullWidth
                     inputProps={{ style: { padding: 0 } }}
@@ -349,16 +349,16 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     </Button>
                 }
                 <Box sx={styles.centerBox}>
-                    <Link style={styles.back} to="/"><i className="bi bi-arrow-left"></i>&nbsp; Back to home</Link>
+                    <Link style={styles.back} to="/"><i className="bi bi-arrow-left"></i>&nbsp; Quay về trang chủ</Link>
                 </Box>
                 <Box sx={styles.centerBox}>
                     <LoadingButton
                         onClick={signUpSubmit}
                         sx={styles.mainButton}
                         variant="contained"
-                        loading={isLoading}
+                        // loading={isLoading}
                         loadingIndicator={<CircularProgress sx={styles.loadingIndicator} size={18} />}
-                    >Sign Up
+                    >Đăng ký
                     </LoadingButton>
                 </Box>
             </Box>

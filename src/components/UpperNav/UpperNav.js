@@ -16,12 +16,13 @@ import {
 } from '@mui/material'
 import logo from '../../img/logo.jpg'
 import { icons } from '../../constant'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { searchProductsAPI } from '../../api/productApi'
 import ProfileMenu from '../ProfileMenu/ProfileMenu'
 
 import { cartSelector } from '../../store/selectors'
 import SearchProductItem from '../SearchProductItem/SearchProductItem'
+import { getCartQuantity } from '../../store/actions/cartAction'
 
 const UpperNav = () => {
 	const userInfo = useSelector((state) => state.Authentication.user)
@@ -30,6 +31,8 @@ const UpperNav = () => {
 	const clickRef = useRef(null)
 	const searchBarRef = useRef(null)
 	const classes = useStyles();
+	const accessToken = localStorage.getItem('accessToken');
+	const dispatch = useDispatch();
 
 	const [searchValue, setSearchValue] = useState('')
 	const handleChange = (event) => {
@@ -51,8 +54,8 @@ const UpperNav = () => {
 			const delay = setTimeout(() => {
 				searchProductsAPI(searchValue).then((response) => {
 					if (response.status === 200) {
-						setSearchResult(response.data)
-						if (response.data.length !== 0) {
+						setSearchResult(response.data.content.slice(0,5))
+						if (response.data.content.length !== 0) {
 							setSearchStatus(1)
 							setOpenSearch(true)
 							searchBarRef.current.focus()
@@ -91,7 +94,7 @@ const UpperNav = () => {
 						sx={styles.searchBar}
 						className={classes.root}
 						size="small"
-						placeholder="Search product"
+						placeholder="Tìm kiếm sản phẩm"
 						value={searchValue}
 						onClick={handleClick}
 						onChange={handleChange}
@@ -123,7 +126,7 @@ const UpperNav = () => {
 							) : (
 								<Card>
 									<CardContent>
-										<Typography>No product found</Typography>
+										<Typography>Không tìm thấy kết quả nào</Typography>
 									</CardContent>
 								</Card>
 							)}
@@ -135,20 +138,20 @@ const UpperNav = () => {
 				<Grid container spacing={0}>
 					<Grid item xs={6}>
 						<Link to="/checkout/cart" style={styles.menuItem}>
-							<Badge badgeContent={cart.totalQuantity || 0} color="error">
+							<Badge badgeContent={localStorage.getItem('cartQuantity') || 0} color="error">
 								<icons.Cart sx={styles.icon} />
 							</Badge>
 							<Typography sx={styles.menuTitle}>
-								Cart
+								Giỏ hàng
 							</Typography>
 						</Link>
 					</Grid>
 					<Grid item xs={6}>
-						{userInfo.isEmpty ? (
+						{!accessToken ? (
 							<Link to="/authentication" style={styles.menuItem}>
 								<icons.User sx={styles.icon} />
 								<Typography sx={styles.menuTitle}>
-									Login
+									Đăng nhập
 								</Typography>
 							</Link>
 						) : (
@@ -163,7 +166,7 @@ const UpperNav = () => {
 									sx={styles.btnNav}
 								>
 									<icons.User sx={styles.icon} />
-									<Typography sx={styles.menuTitle}>{userInfo.username}</Typography>
+									<Typography sx={styles.menuTitle}>{localStorage.getItem('userName')}</Typography>
 								</Button>
 								<ProfileMenu anchorRef={anchorRef} clickRef={clickRef} />
 							</Box>

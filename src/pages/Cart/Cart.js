@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Cart.styles'
 
 //component
@@ -15,35 +15,89 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProductFromCart, changeProductQuantity, removeAllCart } from "../../store/actions/cartAction"
 import HorizontalProductSkeleton from '../../components/HorizontalProductSkeleton/HorizontalProductSkeleton';
+import { changeQuantityApi, getCartApi, removeProductFromCartApi } from '../../api/cartApi';
+import { getProductsAPI } from '../../api/productApi';
+import { toast } from 'react-toastify';
+import { showAuthError } from '../../store/actions/authAction';
 
 const Cart = () => {
 
     const history = useHistory();
-    const { cartList, totalPrice } = useSelector(cartSelector);
-    const isLoading = useSelector(cartIsLoadingSelector);
-    console.log("isLoading:", isLoading);
+    // const { cartList, totalPrice } = useSelector(cartSelector);
+    // const isLoading = useSelector(cartIsLoadingSelector);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [openModalDelete, setOpenModalDelete] = useState(false);
+
+    const [cartList, setCartList] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const formatedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice);
 
     const dispatch = useDispatch();
 
-    const changeQuantity = (product, quantity) => {
-        dispatch(changeProductQuantity(product, quantity));
+    const changeQuantity = (cartId, quantity) => {
+        // dispatch(changeProductQuantity(product, quantity));
+        changeQuantityApi(cartId, quantity).then(response => {
+            if (response.status === 200) {
+                getCarts();
+            }
+            else {
+                console.log(response);
+            }
+        })
     }
     const removeAllProduct = () => {
         dispatch(removeAllCart());
     }
 
-    const deleteProduct = (product) => {
-        dispatch(removeProductFromCart(product));
+    const deleteProduct = (cartId) => {
+        // dispatch(removeProductFromCart(product));
+        removeProductFromCartApi(cartId).then(response => {
+            if (response.status === 200) {
+                toast.success("Xóa giỏ hàng thành công!")
+                getCarts();
+            }
+            else {
+                console.log(response);
+            }
+        })
     }
     const onCheckOut = () => {
         history.push('/checkout/payment')
     }
 
-    console.log("cartList:", cartList);
+    const token = localStorage.getItem('accessToken');
+
+    const getCarts = async () => {
+        setIsLoading(true); // Start loading
+        await getCartApi(token).then(response => {
+            if (response.status === 200) {
+                localStorage.setItem('cartQuantity', response.data.length);
+                setCartList(response.data);
+                setTotalPrice(response.data.reduce((total, cart) => {return total + cart.intoMoney}, 0));
+            }
+            else {
+                console.log(response);
+            }
+        }).catch(err => {
+            if (err.response.data.message === "Authentication credentials are invalid or not found"){
+                dispatch(showAuthError())
+            } else {
+                toast.error(err.response.data.message)
+            }
+        })
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        if (token) {
+            getCarts();
+        }
+        else {
+            setIsLoading(false);
+        }
+    }, []);
 
     return (
         <Box sx={styles.box}>
@@ -52,8 +106,8 @@ const Cart = () => {
                     openModal={openModalDelete}
                     setOpenModal={setOpenModalDelete}
 
-                    title={"Confirmation"}
-                    description="Do you want to remove all products from your cart?"
+                    title={"Xác nhận"}
+                    description="Bạn có muốn xóa tất cả sản phẩm trong giỏ hàng?"
                     onPressConfirm={removeAllProduct}
                 />
                 {isLoading ? (
@@ -62,13 +116,13 @@ const Cart = () => {
                             <Box>
                                 <Box sx={styles.removeRow}>
                                     <Typography sx={styles.myCart}>
-                                        My Cart
+                                        Giỏ hàng của tôi
                                     </Typography>
-                                    <Skeleton variant="text" animation="wave" sx={styles.skeletonRemoveAll}>
+                                    {/* <Skeleton variant="text" animation="wave" sx={styles.skeletonRemoveAll}>
                                         <Button sx={styles.removeAll}>
-                                            Remove all
+                                            Xóa tất cả
                                         </Button>
-                                    </Skeleton>
+                                    </Skeleton> */}
                                 </Box>
                                 <HorizontalProductSkeleton />
                                 <HorizontalProductSkeleton />
@@ -78,7 +132,7 @@ const Cart = () => {
                             <Skeleton variant="rectangular" animation="wave" sx={styles.skeletonSummary} />
                             <Skeleton variant="text" animation="wave" sx={styles.skeletonCheckoutBtn}>
                                 <Button sx={styles.checkoutButton}>
-                                    Checkout
+                                    Thanh toán
                                 </Button>
                             </Skeleton>
                         </Box>
@@ -87,7 +141,7 @@ const Cart = () => {
                     ""
                 )}
                 {
-                    (!isLoading && cartList.length == 0)
+                    (!isLoading && cartList.length === 0)
                         ? <EmptyList
                             img={huhu}
                             imgHeight={'60vh'}
@@ -96,39 +150,40 @@ const Cart = () => {
                         />
                         : null
                 }
-                {cartList && cartList.length != 0 ?
+                {!isLoading && cartList && cartList.length !== 0 ?
                     <Box sx={styles.cartListWrapper}>
                         <Box>
                             <Box sx={styles.removeRow}>
                                 <Typography
                                     sx={styles.myCart}
                                 >
-                                    My Cart
+                                    Giỏ hàng của tôi
                                 </Typography>
 
-                                <Button
+                                {/* <Button
                                     onClick={() => {
                                         setOpenModalDelete(true)
                                     }}
                                     color="error"
                                     sx={styles.removeAll}
                                 >
-                                    Remove all
-                                </Button>
+                                    Xóa tất cả
+                                </Button> */}
                             </Box>
                             <TransitionGroup>
-                                {cartList.map(product =>
-                                    <Collapse key={product.productId}>
+                                {cartList.map(cart =>
+                                    <Collapse key={cart.cartId}>
                                         <HorizontalProduct
-                                            key={product.productId}
+                                            key={cart.cartId}
                                             cartProduct
-                                            product={product}
+                                            product={cart}
                                             canDelete
                                             onPressDelete={(e) => {
                                                 e.preventDefault()
-                                                deleteProduct(product)
+                                                deleteProduct(cart.cartId)
                                             }}
                                             changeQuantity={changeQuantity}
+                                            imageSize={100}
                                         />
                                     </Collapse>
                                 )}
@@ -140,20 +195,20 @@ const Cart = () => {
                     : null
                 }
                 {
-                    cartList && cartList.length != 0 ?
+                    !isLoading && cartList && cartList.length !== 0 ?
                         <Box sx={styles.summary}>
                             <Box sx={styles.summaryData}>
                                 <Typography sx={styles.orderSummary}>
-                                    Order Summary
+                                    Tổng đơn hàng
                                 </Typography>
 
                                 <Box sx={styles.taxContainer}>
-                                    <Typography sx={styles.summaryTitle}>Tax</Typography>
+                                    <Typography sx={styles.summaryTitle}>Thuế</Typography>
                                     <Typography sx={styles.tax}>0đ</Typography>
                                 </Box>
 
                                 <Box sx={styles.totalContainer}>
-                                    <Typography sx={styles.summaryTitle}>Total</Typography>
+                                    <Typography sx={styles.summaryTitle}>Tổng số tiền</Typography>
                                     <Typography sx={styles.total}>
                                         {formatedPrice}</Typography>
                                 </Box>
@@ -165,7 +220,7 @@ const Cart = () => {
                                 color="error"
                                 onClick={onCheckOut}
                             >
-                                Checkout
+                                Thanh toán
                             </Button>
                         </Box>
                         : null

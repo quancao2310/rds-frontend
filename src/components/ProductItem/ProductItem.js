@@ -43,15 +43,15 @@ const ProductItem = ({ product, isSlider }) => {
 						<Rating
 							size="small"
 							readOnly
-							value={product.rating}
+							value={5}
 							precision={0.5}
 							sx={
 								isSlider ? styles.pRatingSlider : styles.pRating
 							}
 						/>
-						<Typography sx={isSlider ? styles.pSoldSlider : styles.pSold}>
+						{/* <Typography sx={isSlider ? styles.pSoldSlider : styles.pSold}>
 							({product.sold})
-						</Typography>
+						</Typography> */}
 					</Box>
 					<CardActions sx={styles.cardBottom}>
 						<Typography sx={isSlider ? styles.pPriceSlider : styles.pPrice}>

@@ -3,13 +3,15 @@ import styles from './ProfileMenu.style'
 import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logOut } from "../../store/actions/authAction";
-import { Typography, MenuList, MenuItem, Divider, Popper, Paper, Grow, ClickAwayListener } from '@mui/material';
+import { Typography, MenuList, MenuItem, Divider, Popper, Paper, Grow, ClickAwayListener, Dialog, DialogTitle } from '@mui/material';
 import { icons } from '../../constant';
 import { userInfoSelector } from "../../store/selectors";
 import {useSelector } from "react-redux";
+import FormAddress from '../FormAddress/FormAddress';
 const ProfileMenu = ({ anchorRef, clickRef }) => {
     const { userID, userRole } = useSelector(userInfoSelector);
     const [open, setOpen] = useState(false);
+    const [modelAppear, setModelAppear] = useState(false);
 
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
@@ -55,24 +57,36 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                 id="composition-menu"
                                 aria-labelledby="composition-button"
                             >
+                                <Link to='/profile/addressbook' style={styles.menuLink}>
+                                    <MenuItem onClick={handleClose} sx={styles.menuItem}>
+                                        <icons.User sx={styles.menuIcon} />
+                                        <Typography sx={styles.menuText}>Tài khoản</Typography>
+                                    </MenuItem>
+                                </Link>
                                 <Link to='/profile/orderhistory' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Order sx={styles.menuIcon} />
-                                        <Typography sx={styles.menuText}>Order</Typography>
+                                        <Typography sx={styles.menuText}>Đơn hàng</Typography>
                                     </MenuItem>
                                 </Link>
                                 <Link to='/profile/favorite' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.NotFavorite sx={styles.menuIcon} />
-                                        <Typography sx={styles.menuText}>Favorite</Typography>
+                                        <Typography sx={styles.menuText}>Yêu thích</Typography>
                                     </MenuItem>
                                 </Link>
-                                <Link to='/profile/addressbook' style={styles.menuLink}>
+                                <Link to='/profile/changePassword' style={styles.menuLink}>
+                                    <MenuItem onClick={handleClose} sx={styles.menuItem}>
+                                        <icons.Edit sx={styles.menuIcon} />
+                                        <Typography sx={styles.menuText}>Đổi mật khẩu</Typography>
+                                    </MenuItem>
+                                </Link>
+                                {/* <Link to='/profile/addressbook' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Address sx={styles.menuIcon} />
-                                        <Typography sx={styles.menuText}>Address</Typography>
+                                        <Typography sx={styles.menuText}>Địa chỉ</Typography>
                                     </MenuItem>
-                                </Link>
+                                </Link> */}
                                 {/* {userRole==0 && (<Link to='/profile/createproduct' style={styles.menuLink}>
                                     <MenuItem onClick={handleClose} sx={styles.menuItem}>
                                         <icons.Add sx={styles.menuIcon} />
@@ -82,13 +96,20 @@ const ProfileMenu = ({ anchorRef, clickRef }) => {
                                 <Divider />
                                 <MenuItem onClick={handleSignOut} sx={styles.menuItemSignOut}>
                                     <icons.SignOut sx={styles.menuIcon} />
-                                    <Typography sx={styles.menuText}>Sign out</Typography>
+                                    <Typography sx={styles.menuText}>Đăng xuất</Typography>
                                 </MenuItem>
                             </MenuList>
                         </ClickAwayListener>
                     </Paper>
                 </Grow>
             )}
+            {/* <Dialog
+                open={modelAppear}
+                onClose={() => setModelAppear(false)}
+                sx={styles.dialog}
+            >
+                <DialogTitle sx={{textAlign: "center"}}>Đổi mật khẩu</DialogTitle>
+            </Dialog> */}
         </Popper>
     )
 }

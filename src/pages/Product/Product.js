@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styles from './Product.styles'
 import { icons } from '../../constant'
-import { getProductAPI, getProductCategoryAPI, updateProductView } from '../../api/productApi'
+import { getProductAPI, getProductCategoryAPI, getTotalCategoryAPI } from '../../api/productApi'
 import ProductItem from '../../components/ProductItem/ProductItem'
 import { useParams, useLocation, Link, useHistory } from "react-router-dom"
 import { Container, Grid, Button, IconButton, CardMedia, Rating, Typography, Divider, Tab, Skeleton, Modal, MenuList, MenuItem, Popper, Paper, Grow, ClickAwayListener } from '@mui/material'
@@ -15,7 +15,7 @@ import FormProduct from "../../components/FormProduct/FormProduct";
 import CustomModal from '../../components/Modal/Modal'
 
 import { changeQuantityApi } from '../../api/cartApi'
-import { changeFavoriteApi } from '../../api/favoriteApi'
+import { addFavoriteApi, changeFavoriteApi, deleteFavoriteApi } from '../../api/favoriteApi'
 
 import { checkNotNegative, checkEmptyForm } from '../../constant/function'
 //redux
@@ -24,8 +24,9 @@ import { cartSelector } from "../../store/selectors"
 import { addProductToCart, changeProductQuantity, showCartNoti, hideCartNoti } from '../../store/actions/cartAction'
 import { showAuthError } from '../../store/actions/authAction'
 import { showAddFavNoti, showRemoveFavNoti, hideFavNoti } from '../../store/actions/favoriteAction'
-import { deleteProduct } from "../../api/productApi";
+// import { deleteProduct } from "../../api/productApi";
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const useQuery = () => {
 	return new URLSearchParams(useLocation().search);
@@ -79,7 +80,7 @@ const settingsIMG = {
 };
 
 const settingsRelatedProduct = {
-	dots: true,
+	dots: false,
 	speed: 400,
 	infinite: true,
 	slidesToShow: 5,
@@ -152,64 +153,103 @@ const Product = () => {
 	const [quantityDifference, setQuantityDifference] = useState(0);
 
 	const dispatch = useDispatch()
+	const accessToken = localStorage.getItem('accessToken');
 
-	function onDeleteProduct() {
-		setModalOpen(false);
-		deleteProduct(productId).then((response) => {
-			if (response.data.success == true) {
-				console.log('da xoa product');
-				setTimeout(() => {
-					window.location.href = "/"
-				}, 2000);
+	// function onDeleteProduct() {
+	// 	setModalOpen(false);
+	// 	deleteProduct(productId).then((response) => {
+	// 		if (response.data.success == true) {
+	// 			console.log('da xoa product');
+	// 			setTimeout(() => {
+	// 				window.location.href = "/"
+	// 			}, 2000);
+	// 		}
+	// 	});
+	// }
+
+	// const changeFavorite = () => {
+	// 	changeFavoriteApi(productId).then(response => {
+	// 		console.log(response.data)
+	// 		if (response.data.success == true) {
+	// 			setIsFavorite(response.data.data.isLike)
+	// 		}
+	// 	})
+
+	// 	if (isFavorite === true) {
+	// 		console.log("isFavorite: ", true);
+	// 		dispatch(showRemoveFavNoti())
+	// 	}
+	// 	else {
+	// 		console.log("isFavorite: ", false);
+	// 		dispatch(showAddFavNoti())
+	// 	}
+
+	// 	setTimeout(() => {
+	// 		dispatch(hideFavNoti())
+	// 	}, 3000)
+	// }
+
+	const addToFavorite = () => {
+		if (!accessToken) {
+			dispatch(showAuthError())
+			return;
+		}
+		addFavoriteApi(productId).then((response) => {
+			console.log(2, response);
+			if (response.status === 201) {
+				setIsFavorite(true)
+				// dispatch(showAddFavNoti())
+				// setTimeout(() => {
+				// 	dispatch(hideFavNoti())
+				// }, 3000)
+				toast.success("Thêm vào danh mục yêu thích thành công")
 			}
-		});
-	}
-
-	const changeFavorite = () => {
-		changeFavoriteApi(productId).then(response => {
-			console.log(response.data)
-			if (response.data.success == true) {
-				setIsFavorite(response.data.data.isLike)
+		}).catch(err => {
+			if (err.response.status === 401) {
+			dispatch(showAuthError())
+			}
+			else {
+				toast.error(err.response.data.message)
 			}
 		})
+	}
 
-		if (isFavorite === true) {
-			console.log("isFavorite: ", true);
-			dispatch(showRemoveFavNoti())
-		}
-		else {
-			console.log("isFavorite: ", false);
-			dispatch(showAddFavNoti())
-		}
-
-		setTimeout(() => {
-			dispatch(hideFavNoti())
-		}, 3000)
+	const removeFromFavorite = () => {
+		deleteFavoriteApi(productId).then((response) => {
+			if (response.status === 201) {
+				setIsFavorite(false)
+				// dispatch(showRemoveFavNoti())
+				// setTimeout(() => {
+				// 	dispatch(hideFavNoti())
+				// }, 3000)
+				toast.success("Xóa khỏi danh mục yêu thích thành công")
+			}
+		})
 	}
 
 	const addItemToCart = () => {
 
 		//if userinfo is empty
-		if (userEmpty) {
+		if (!accessToken) {
 			dispatch(showAuthError())
 			return;
 		}
 		let productIndex = cart["cartList"].findIndex(item => item.productId == productId);
 
 		//new product
-		if (productIndex == -1) {
+		// if (productIndex == -1) {
 			dispatch(addProductToCart(product, token));
-		}
-		//existing product
-		else {
-			setQuantityDifference(quantityDifference + 1);
-			dispatch(changeProductQuantity(product, 1));
-		}
+		// }
+		// //existing product
+		// else {
+		// 	setQuantityDifference(quantityDifference + 1);
+		// 	dispatch(changeProductQuantity(product, 1));
+		// }
 
-		dispatch(showCartNoti())
-		setTimeout(() => {
-			dispatch(hideCartNoti())
-		}, 3000);
+		// dispatch(showCartNoti())
+		// setTimeout(() => {
+		// 	dispatch(hideCartNoti())
+		// }, 3000);
 	}
 
 	useEffect(() => {
@@ -241,9 +281,8 @@ const Product = () => {
 		getProductAPI(productId).then(response => {
 			if (response.status === 200) {
 				const data = response.data
-				console.log("product:", data)
 
-				updateProductView(productId);
+				// updateProductView(productId);
 				let formattedDesc = "Sản phẩm chưa có thông tin mô tả"
 				if (data.description !== "")
 					formattedDesc = data.description
@@ -256,8 +295,9 @@ const Product = () => {
 					//spec: formattedSpec,
 					desc: formattedDesc,
 				})
+				console.log(7, data);
 
-				setIsFavorite(data.favorite)
+				setIsFavorite(data.isFavorite)
 
 				setProduct({ "isLoading": false, ...data })
 
@@ -265,11 +305,14 @@ const Product = () => {
                 console.log("accessToken from getProductAPI:", accessToken);
 				setToken(accessToken);
 
-				getProductCategoryAPI(data.type).then(response => {
-					if (response.data.success)
-						setRelatedProductList({ "isLoading": false, "productList": response.data.data })
+				getTotalCategoryAPI(data.category).then(response => {
+					if (response.data.content.length !== 0)
+						setRelatedProductList({ "isLoading": false, "productList": response.data.content })
 				})
 			}
+		})
+		.catch(err => {
+			toast.error(err.response.data.message)
 		})
 	}, [productId]) // when clicking on another product, productId is changed, this will trigger the useEffect again to call a new product API
 
@@ -304,22 +347,16 @@ const Product = () => {
 				<Grid container spacing={3}>
 					<Grid item xs={12} lg={6}>
 						{product.isLoading ? (
-							<Slider {...settingsIMG}>
-								<Skeleton variant="rectangular" animation="wave" sx={styles.imgSkeleton} />
-							</Slider>
+							<Skeleton variant="rectangular" animation="wave" sx={styles.imgSkeleton} />
 						) : (
-							<Slider {...settingsIMG}>
-								{getImgList(product).map(imgSrc => (
-									<Box>
-										<CardMedia
-											component="img"
-											image={imgSrc}
-											alt="product image"
-											sx={styles.image}
-										/>
-									</Box>
-								))}
-							</Slider>
+							<Box>
+								<CardMedia
+									component="img"
+									image={product.imageUrl}
+									alt="product image"
+									sx={styles.image}
+								/>
+							</Box>
 						)}
 
 					</Grid>
@@ -351,8 +388,8 @@ const Product = () => {
 								</Box>
 							) : (
 								<Box sx={styles.pRatingWrapper}>
-									<Rating size="small" readOnly value={product.rating} precision={0.5} sx={styles.pRating} />
-									<Typography variant="h5" sx={styles.pSold}>({product.sold})</Typography>
+									<Rating size="small" readOnly value={5} precision={0.5} sx={styles.pRating} />
+									{/* <Typography variant="h5" sx={styles.pSold}>({product.sold})</Typography> */}
 								</Box>
 							)}
 
@@ -370,17 +407,30 @@ const Product = () => {
 									<Typography variant="h5" component="div" sx={styles.pPrice}>{formatted.price}</Typography>
 								</Box>
 							)}
+							
+							{product.isLoading ? (
+								<Box sx={styles.boxCenter}>
+									<Skeleton variant="text" animation="wave" sx={{ mt: 4, ...styles.skeletonColor }}>
+										<Typography variant="h5" component="div" sx={styles.pPrice}>9,000,000,000d</Typography>
+									</Skeleton>
+								</Box>
+							) : (
+								<Box sx={styles.priceWrapper}>
+									<div className='text-lg mb-[10px] text-center'><strong>Thương hiệu:</strong> {product.brand}</div>
+									<div className='text-lg mb-[10px] text-center'><strong>Kho:</strong> {product.stock}</div>
+								</Box>
+							)}
 
 							{product.isLoading ? (
 								<Box sx={styles.btnWrapper}>
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonButton}>
 										<Button variant="outlined" startIcon={product.isFavorite ? (<icons.IsFavorite />) : (<icons.NotFavorite />)} sx={styles.addBtn}>
-											Add to Cart
+											Thêm Vào Giỏ Hàng
 										</Button>
 									</Skeleton>
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonButton}>
 										<Button variant="contained" startIcon={<icons.AddCart />} sx={styles.addBtn}>
-											Add to Cart
+											Thêm Vào Giỏ Hàng
 										</Button>
 									</Skeleton>
 								</Box>
@@ -392,18 +442,18 @@ const Product = () => {
 											variant="outlined"
 											startIcon={<icons.IsFavorite style={{ color: "red" }} />}
 											sx={styles.favoriteBtn}
-											onClick={changeFavorite}
+											onClick={removeFromFavorite}
 										>
-											Remove Favorite
+											Xóa Khỏi Yêu Thích
 										</Button>
 									) : (
 										<Button
 											variant="outlined"
 											startIcon={<icons.NotFavorite />}
 											sx={styles.favoriteBtn}
-											onClick={changeFavorite}
+											onClick={addToFavorite}
 										>
-											Add Favorite
+											Thêm Vào Yêu Thích
 										</Button>
 									)}
 									<Button
@@ -411,7 +461,7 @@ const Product = () => {
 										startIcon={<icons.AddCart />}
 										sx={styles.addBtn}
 									>
-										Add to Cart
+										Thêm Vào Giỏ Hàng
 									</Button>
 								</Box>
 							)}
@@ -480,7 +530,7 @@ const Product = () => {
 													<MenuItem onClick={() => setModalOpen(true)} sx={styles.adminMenu}>
 														<Box sx={styles.adminBtnWrapper}>
 															<icons.Trashcan sx={styles.adminIcon} />
-															<Typography sx={styles.adminText}>Delete</Typography>
+															<Typography sx={styles.adminText}>Xóa</Typography>
 														</Box>
 													</MenuItem>
 												</MenuList>
@@ -517,15 +567,15 @@ const Product = () => {
 										<Tab sx={styles.tabTitle} value="1" />
 									</Skeleton>
 								) : (
-									<Tab sx={styles.tabTitle} label="Description" value="1" />
+									<Tab sx={styles.tabTitle} label="Mô tả sản phẩm" value="1" />
 								)}
-								{product.isLoading ? (
+								{/* {product.isLoading ? (
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonTab}>
 										<Tab sx={styles.tabTitle} value="2" />
 									</Skeleton>
 								) : (
 									<Tab sx={styles.tabTitle} label="Specification" value="2" />
-								)}
+								)} */}
 							</TabList>
 						</Box>
 						<TabPanel value="1">
@@ -569,7 +619,7 @@ const Product = () => {
 			<Container maxWidth="xl" sx={styles.relatedProductContainer}>
 
 				{relatedProductList.isLoading ? (
-					<Box>
+					<Box className="px-[50px]">
 						<Box sx={styles.boxCenter}>
 							<Skeleton variant="text" animation="wave" sx={styles.skeletonTitle}>
 								<Typography gutterBottom variant="h5" component="div">lorem lorem lorem</Typography>
@@ -580,11 +630,11 @@ const Product = () => {
 						</Slider>
 					</Box>
 				) : (
-					<Box>
+					<Box className="px-[50px]">
 						<Box sx={styles.relatedProductWrapper}>
-							<Typography gutterBottom variant="h5" component="div" sx={styles.sliderTitle}>Related products</Typography>
-							<Link style={styles.link} to={`/category/${product.isLoading ? "" : product.type}`}>
-								<Button size="small" sx={styles.viewMoreBtn}>View more</Button>
+							<Typography gutterBottom variant="h5" component="div" sx={styles.sliderTitle}>Sản phẩm tương tự</Typography>
+							<Link style={styles.link} to={`/category/${product.isLoading ? "" : product.category}`}>
+								<Button size="small" sx={styles.viewMoreBtn}>Xem thêm</Button>
 							</Link>
 						</Box>
 						<Slider {...settingsRelatedProduct}>
@@ -602,7 +652,7 @@ const Product = () => {
 
 			<Modal open={modalOpen} onClose={() => setModalOpen(false)}>
 				<Box sx={styles.modal}>
-					<h4>Are you sure to delete this product?</h4>
+					<h4>Bạn có chắc chắn muốn xóa sản phẩm này</h4>
 					<Box sx={{ textAlign: "center" }}>
 						<Button
 							variant="outlined"
@@ -610,13 +660,13 @@ const Product = () => {
 							onClick={() => setModalOpen(false)}>
 							Cancel
 						</Button>
-						<Button
+						{/* <Button
 							variant="outlined"
 							sx={{ mx: 1 }}
 							color="error"
 							onClick={() => onDeleteProduct()}>
 							Confirm
-						</Button>
+						</Button> */}
 					</Box>
 				</Box>
 			</Modal>

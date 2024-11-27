@@ -1,6 +1,6 @@
 import ActionType from './actionType'
-import { signInApi, signUpApi, updateUserVisitAPI } from '../../api/authApi'
-import { getCart, clearCartUI } from "../actions/cartAction"
+import { getUserProfileApi, signInApi, signUpApi } from '../../api/authApi'
+import { getCart, clearCartUI, getCartQuantity } from "../actions/cartAction"
 import { encryptData } from '../../constant/utils'
 import { toast } from 'react-toastify'
 
@@ -12,15 +12,19 @@ const signIn = (email, password, history) => {
             .then(response => {
                 const data = response.data;
                 if (response.status === 200) {
-                    dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
+                    // dispatch({ type: ActionType.LOGIN_SUCCESS, data: data })
                     
                     localStorage.setItem("accessToken", data.accessToken);
                     let accessToken = localStorage.getItem("accessToken");
                     console.log("accessToken from signIn:", accessToken);
 
-                    dispatch(getCart(accessToken));
+                    dispatch(getCartQuantity(data.accessToken));
+                    getUserProfileApi(data.accessToken).then(response => {
+                        localStorage.setItem('userName', response.data.name);
+                        dispatch({ type: ActionType.LOGIN_SUCCESS, data: response.data });
+                    })
 
-                    updateUserVisitAPI();
+                    // updateUserVisitAPI();
 
                     let token = encryptData(data.accessToken);
 
@@ -29,7 +33,7 @@ const signIn = (email, password, history) => {
                     console.log("userInfo from signIn:", userInfo);
                     history.push("/");
                     setTimeout(()=> {
-                        toast.success('Login successfully!');
+                        toast.success('Đăng nhập thành công');
                     }, 500);
                 }
                 else
@@ -37,7 +41,7 @@ const signIn = (email, password, history) => {
             })
             .catch(error => {
                 if (error.response) {
-                    toast.error(`Error ${error.response.status}: ${error.response.data.message || 'Server Error'}`);
+                    toast.error(`${error.response.data.message || 'Server Error'}`);
                   } else if (error.request) {
                     toast.error('No response received from server');
                   } else {
@@ -62,11 +66,15 @@ const signUp = (email, name, phoneNumber, address, city, country, password, hist
                     sessionStorage.setItem("userInfo", token);
                     dispatch(getCart());
                     history.push("/");*/
-                    alert('Registration successful! Please login to use our services')
+                    // alert('Registration successful! Please login to use our services')
+                    toast.success("Đăng ký thành công. Vui lòng đăng nhập để sử dụng dịch vụ")
                     window.location.href = '/authentication';
                 }
                 else
                     dispatch({ type: ActionType.SIGNUP_FAIL, data: data });
+            })
+            .catch(err => {
+                toast.error(err.response.data.message)
             })
     }
 }
@@ -101,10 +109,12 @@ const logOut = (history) => {
         dispatch({ type: ActionType.LOGOUT })
         sessionStorage.removeItem("userInfo")
         localStorage.removeItem("accessToken")
+        localStorage.removeItem("userName")
+        localStorage.removeItem("cartQuantity")
 
         if (history) {
             history.push("/")
-            toast.success('Logout successfully!');
+            toast.success('Đăng xuất thành công');
         }
     }
 }

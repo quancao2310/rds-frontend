@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { BASE_API_URL, TEST_API_URL } from '../constant/string';
+import { BASE_API_URL } from '../constant/string';
 import { decryptData } from '../constant/utils';
 const instance = axios.create({
-	baseURL: TEST_API_URL,
+	baseURL: BASE_API_URL,
 });
 
 const getUserIDFromSessionStorage = () => {

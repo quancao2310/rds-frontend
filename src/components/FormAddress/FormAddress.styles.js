@@ -5,7 +5,7 @@ const styles = {
             md: 5,
         },
         width: {
-            md: "500px",
+            md: "100%",
         },
     },
 

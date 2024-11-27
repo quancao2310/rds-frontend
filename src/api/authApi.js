@@ -29,15 +29,65 @@ const signUpApi = (email, name, phoneNumber, address, city, country, password) =
     });
 }
 
-const updateUserVisitAPI = () => {
-    let data = new FormData();
-    data.append("command", "updateVisit");
+const getUserProfileApi = (token) => {
 
-    return axios.post(TEST_API_URL + "userAPI.php", data);
+    return axios.get(`${BASE_API_URL}users/profile`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true
+    });
 }
 
-const validateApi = () => {
-    return axios.post(TEST_API_URL + "userAPI.php?command=checkToken");
-}
+const updateUserProfileApi = (token, user) => {
 
-export { signInApi, signUpApi, validateApi, updateUserVisitAPI }
+    return axios.put(
+        `${BASE_API_URL}users/profile`,
+        {
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            address: user.address,
+            city: user.city,
+            country: user.country,
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true
+        }
+    );
+};
+
+const changePasswordApi = (token, data) => {
+
+    return axios.put(
+        `${BASE_API_URL}users/password`,
+        {
+            currentPassword: data.curPassword,
+            newPassword: data.newPassword,
+            confirmPassword: data.rePassword
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true
+        }
+    );
+};
+
+
+// const updateUserVisitAPI = () => {
+//     let data = new FormData();
+//     data.append("command", "updateVisit");
+
+//     return axios.post(TEST_API_URL + "userAPI.php", data);
+// }
+
+// const validateApi = () => {
+//     return axios.post(TEST_API_URL + "userAPI.php?command=checkToken");
+// }
+
+export { signInApi, signUpApi, getUserProfileApi, updateUserProfileApi, changePasswordApi }

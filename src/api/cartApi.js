@@ -1,24 +1,31 @@
 import axios from "./axios";
-import { BASE_API_URL, TEST_API_URL } from '../constant/string'
+import { BASE_API_URL } from '../constant/string'
 
 const accessToken = localStorage.getItem("accessToken");
 
 const getCartApi = (token) => {
     let command = "getCartList";
 
-    return axios.get("https://api.regionaldelicacyshop.software/api/v1/carts", {
+    return axios.get(`${BASE_API_URL}carts`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
+        withCredentials: true
     });
 }
 
-const getCartQuantityApi = () => {
-    let command = "getTotalQuantity";
-    return axios.get("https://api.regionaldelicacyshop.software/api/v1/carts", {
+const getCartQuantityApi = (token) => {
+    // let command = "getTotalQuantity";
+    // return axios.get(`${BASE_API_URL}carts`, {
+    //     headers: {
+    //         Authorization: `Bearer ${accessToken}`,
+    //     },
+    // });
+    return axios.get(`${BASE_API_URL}carts`, {
         headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
         },
+        withCredentials: true
     });
 }
 
@@ -28,7 +35,7 @@ const addProductToCartApi = (productId, token) => {
     data.append("command","add");
     data.append("productId",productId);
     let quantity = 1;
-    return axios.post("https://api.regionaldelicacyshop.software/api/v1/carts",
+    return axios.post(`${BASE_API_URL}carts`,
         {
             productId,
             quantity
@@ -37,34 +44,37 @@ const addProductToCartApi = (productId, token) => {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            withCredentials: true
         }
     );
 }
 
-const removeProductFromCartApi = (productId) => {
+const removeProductFromCartApi = (cartId) => {
 
-    let data = new FormData();
-    data.append("command","remove");
-    data.append("productId",productId);
-    return axios.post(TEST_API_URL + `cartAPI.php`, data);
+    // let data = new FormData();
+    // data.append("command","remove");
+    // data.append("productId",productId);
+    // return axios.post(BASE_API_URL + `cartAPI.php`, data);
+    return axios.delete(`${BASE_API_URL}carts/${cartId}`, {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+        },
+        withCredentials: true
+    });
 }
 
-const changeQuantityApi = (productId,quantity) => {
-    let data = new FormData();
+const changeQuantityApi = (cartId, quantity) => {
 
-    data.append("command","changeQuantity");
-    data.append("productId", productId);
-    data.append("quantity", quantity);
-
-    return axios.post("https://api.regionaldelicacyshop.software/api/v1/carts",
+    return axios.put(`${BASE_API_URL}carts`,
         {
-            productId,
-            quantity
+            cartId: cartId,
+            quantity: quantity
         },
         {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
+            withCredentials: true
         }
     );
 }
@@ -75,7 +85,7 @@ const removeAllApi = () => {
 
     data.append("command","removeAll");
 
-    return axios.post(TEST_API_URL + `cartAPI.php`,data);
+    return axios.post(BASE_API_URL + `cartAPI.php`,data);
 }
 
 export { 

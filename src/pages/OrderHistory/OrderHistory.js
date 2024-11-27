@@ -9,28 +9,34 @@ import EmptyList from "../../components/EmptyList/EmptyList"
 import emptyOrder from "../../img/empty-order.png"
 
 const OrderHistory = () => {
-	const [orderList, setOrderList] = useState({ "isLoading": true })
-	useEffect(() => {
-		getOrderListAPI().then((response) => {
-			if (response.data.success === true) {
-				setOrderList({ "isLoading": false, "data": response.data.data })
-				console.log("orderList: ", response.data.data)
+	const [orderList, setOrderList] = useState([])
+	const [isLoading, setIsLoading] = useState(false)
+
+	const getOrderList = async () => {
+		setIsLoading(true);
+		await getOrderListAPI().then((response) => {
+			if (response.status === 200) {
+				setOrderList(response.data)
 			}
-		})
+		});
+		setIsLoading(false);
+	}
+	useEffect(() => {
+		getOrderList();
 	}, [])
 
 	return (
 		<Box sx={styles.box}>
 			<Container>
-				<Typography sx={styles.title}>Order History</Typography>
-				{orderList.isLoading ? (
+				<Typography sx={styles.title}>Lịch sử mua hàng</Typography>
+				{isLoading ? (
 					<Box sx={styles.isLoadingMain}>
 						<Box sx={styles.titleDiv}>
 							<Skeleton variant="text" animation="wave" sx={styles.skeletonOrderID}>
 								<Typography sx={styles.title}>Order: #0000</Typography>
 							</Skeleton>
 							<Skeleton variant="text" animation="wave" sx={styles.skeletonBtn}>
-								<Button sx={styles.titleBtn}>See detail</Button>
+								<Button sx={styles.titleBtn}>Xem chi tiết</Button>
 							</Skeleton>
 						</Box>
 						<Box sx={styles.contentDiv}>
@@ -41,14 +47,15 @@ const OrderHistory = () => {
 					</Box>
 				) : (
 					<>
-						{orderList.data && orderList.data.length === 0 ? (
-							<EmptyList img={emptyOrder} title={"Your order history is empty"} imgHeight={'45vh'} btnMarginTop={"5vh"} />
+						{orderList && orderList.length === 0 ? (
+							<EmptyList img={emptyOrder} title={"Bạn chưa đặt đơn hàng nào"} imgHeight={'45vh'} btnMarginTop={"5vh"} />
 						) : (
 							<Box>
-								{Object.keys(orderList.data).map((order, index) =>
+								{orderList.map((order) =>
 									<OrderComponent
-										orderID={Object.keys(orderList.data)[index]}
-										productList={orderList.data[order]}
+										key={order.orderId}
+										orderID={order.orderId}
+										orderItem={order}
 									/>
 								)}
 							</Box>

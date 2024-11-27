@@ -35,49 +35,49 @@ const HorizontalProduct = ({
 	const formatedPrice = new Intl.NumberFormat("vi-VN", {
 		style: "currency",
 		currency: "VND",
-	}).format(product.price);
-	const [quantityDifference, setQuantityDifference] = useState(0);
+	}).format(product.product?.price || product?.price || product.productInfo?.price);
+	// const [quantityDifference, setQuantityDifference] = useState(0);
 
 	const productURL =
 		'/product/' +
-		encodeURIComponent(product.name).replace(/%20/g, '-') +
-		`?i=${product.productID}`;
+		encodeURIComponent(product.product?.name || product?.name || product.productInfo?.name).replace(/%20/g, '-') +
+		`?i=${product.product?.productId || product?.productId || product.productInfo?.productId}`;
 
 	const increaseQuantity = (e) => {
-		setQuantityDifference(quantityDifference + 1);
-		changeQuantity(product, 1);
+		// setQuantityDifference(quantityDifference + 1);
+		changeQuantity(product.cartId, product.quantity+1);
 	}
 
 	const decreaseQuantity = (e) => {
-		if (product.quantity > 1) {
-			setQuantityDifference(quantityDifference - 1);
-			changeQuantity(product, -1);
-		}
+		// setQuantityDifference(quantityDifference - 1);
+		changeQuantity(product.cartId, product.quantity-1);
 	}
+	
 
-	useEffect(() => {
+	// useEffect(() => {
 
-		if (quantityDifference != 0) {
-			var timeout = setTimeout(() => {
-				let changeQuantity = quantityDifference;
-				setQuantityDifference(0);
-				changeQuantityApi(product.productID, changeQuantity).then(response => {
-					if (response.data.success) {
-						console.log('change quantity: ', changeQuantity);
-					}
-					else {
-						console.log("Something wrong is happend");
-						dispatch(showAuthError())
-					}
-				});
+	// 	if (quantityDifference != 0) {
+	// 		var timeout = setTimeout(() => {
+	// 			let changeQuantity = quantityDifference;
+	// 			setQuantityDifference(0);
+	// 			changeQuantityApi(product.product.productId, changeQuantity).then(response => {
+	// 				if (response.data.success) {
+	// 					console.log('change quantity: ', changeQuantity);
+	// 				}
+	// 				else {
+	// 					console.log("Something wrong is happend");
+	// 					dispatch(showAuthError())
+	// 				}
+	// 			});
 
-			}, 500);
-		}
+	// 		}, 500);
+	// 	}
 
-		return () => {
-			clearTimeout(timeout);
-		}
-	}, [quantityDifference])
+	// 	return () => {
+	// 		clearTimeout(timeout);
+	// 	}
+	// }, [quantityDifference])
+
 	return (
 		<Link to={productURL} style={{ textDecoration: 'none' }}>
 			<Card
@@ -105,11 +105,11 @@ const HorizontalProduct = ({
 							width: imageSize,
 						}
 					)}
-					image={product.img1}
+					image={product.product?.imageUrl || product?.imageUrl || product.productInfo?.imageUrl}
 				/>
 				<CardContent sx={styles.productContent}>
 					<Typography
-						sx={styles.productName}>{product.name}</Typography>
+						sx={styles.productName}>{product.product?.name || product?.name || product.productInfo?.name}</Typography>
 
 					<Box sx={styles.ratingContainer}>
 						<Rating
@@ -121,17 +121,17 @@ const HorizontalProduct = ({
 									md: ratingSizeMedium,
 								},
 							}}
-							value={product.rating}
+							value={5}
 							precision={0.5}
 						/>
-						<Typography sx={styles.productSold}>
+						{/* <Typography sx={styles.productSold}>
 							({product.sold})
-						</Typography>
+						</Typography> */}
 					</Box>
 					<Typography sx={styles.productQuantity}>
 						{product.quantity &&
 							!cartProduct &&
-							"Quantity: " + product.quantity}
+							"Số lượng: " + product.quantity}
 					</Typography>
 				</CardContent>
 				{

@@ -39,5 +39,9 @@ const styles = {
 	skeletonBtn: {
 		bgcolor: '#ededed',
 	},
+	skeletonSummary: {
+        bgcolor: '#ededed',
+        height: '260px',
+    },
 }
 export default styles

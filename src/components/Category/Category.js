@@ -14,8 +14,8 @@ const Category = ({ categoryName, selector, noOfSkeleton }) => {
 
 	useEffect(() => {
         getTotalCategoryAPI(categoryName).then(response => {
-            if (response.data.length !== 0) {
-                const data = response.data.slice(0,4)
+            if (response.data.content.length !== 0) {
+                const data = response.data.content.slice(0,4)
                 setProductList({ "isLoading": false, "data": data })
             }
         })
@@ -33,7 +33,7 @@ const Category = ({ categoryName, selector, noOfSkeleton }) => {
 					{categoryName}
 				</Typography>
 				<Link style={styles.link} to={`/category/${categoryName}`}>
-					<Button size="small" sx={styles.viewMoreBtn}>View more</Button>
+					<Button size="small" sx={styles.viewMoreBtn}>Xem thêm</Button>
 				</Link>
 			</Box>
 			{productList.isLoading ? (
