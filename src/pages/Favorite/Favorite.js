@@ -39,8 +39,8 @@ const Favorite = () => {
 
     const onDelete = (productID) => {
         deleteFavoriteApi(productID).then(response => {
-            console.log(response)
-            if (response.status === 200) {
+            console.log(9, response)
+            if (response.status === 204) {
                 // if (response.data.data.isLike === false) {
                 //     let newList = favoriteList.data.filter((product) => product.productID !== productID)
                 //     console.log("newFavoriteList: ", newList)

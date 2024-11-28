@@ -143,7 +143,7 @@ const Product = () => {
 	const [product, setProduct] = useState({ "isLoading": true })
 	const [relatedProductList, setRelatedProductList] = useState({ "isLoading": true, "productList": [] })
 	const [formatted, setformatted] = useState({})
-	const [isFavorite, setIsFavorite] = useState()
+	const [isFavorite, setIsFavorite] = useState(false)
 	const [tab, setTab] = React.useState('1');
 
 	const [modalOpen, setModalOpen] = useState(false);
@@ -213,12 +213,12 @@ const Product = () => {
 		})
 	}
 
-	const removeFromFavorite = () => {
+	const removeFromFavorite = (favoriteId) => {
 		if (!accessToken) {
 			dispatch(showAuthError())
 			return;
 		}
-		deleteFavoriteApi(productId).then((response) => {
+		deleteFavoriteApi(favoriteId).then((response) => {
 			console.log(11, response)
 			if (response.status === 204) {
 				setIsFavorite(false)
@@ -228,6 +228,9 @@ const Product = () => {
 				// }, 3000)
 				toast.success("Xóa khỏi danh mục yêu thích thành công")
 			}
+		})
+		.catch(err => {
+			toast.error(err.response.data.message)
 		})
 	}
 
@@ -301,7 +304,7 @@ const Product = () => {
 				})
 				console.log(7, data);
 
-				setIsFavorite(data.isFavorite)
+				setIsFavorite(data.favoriteId ? true : false)
 
 				setProduct({ "isLoading": false, ...data })
 
@@ -428,7 +431,7 @@ const Product = () => {
 							{product.isLoading ? (
 								<Box sx={styles.btnWrapper}>
 									<Skeleton variant="text" animation="wave" sx={styles.skeletonButton}>
-										<Button variant="outlined" startIcon={product.isFavorite ? (<icons.IsFavorite />) : (<icons.NotFavorite />)} sx={styles.addBtn}>
+										<Button variant="outlined" startIcon={isFavorite ? (<icons.IsFavorite />) : (<icons.NotFavorite />)} sx={styles.addBtn}>
 											Thêm Vào Giỏ Hàng
 										</Button>
 									</Skeleton>
@@ -446,7 +449,7 @@ const Product = () => {
 											variant="outlined"
 											startIcon={<icons.IsFavorite style={{ color: "red" }} />}
 											sx={styles.favoriteBtn}
-											onClick={removeFromFavorite}
+											onClick={() => removeFromFavorite(product.favoriteId)}
 										>
 											Xóa Khỏi Yêu Thích
 										</Button>
