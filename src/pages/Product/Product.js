@@ -159,7 +159,6 @@ const Product = () => {
 	// 	setModalOpen(false);
 	// 	deleteProduct(productId).then((response) => {
 	// 		if (response.data.success == true) {
-	// 			console.log('da xoa product');
 	// 			setTimeout(() => {
 	// 				window.location.href = "/"
 	// 			}, 2000);
@@ -169,18 +168,15 @@ const Product = () => {
 
 	// const changeFavorite = () => {
 	// 	changeFavoriteApi(productId).then(response => {
-	// 		console.log(response.data)
 	// 		if (response.data.success == true) {
 	// 			setIsFavorite(response.data.data.isLike)
 	// 		}
 	// 	})
 
 	// 	if (isFavorite === true) {
-	// 		console.log("isFavorite: ", true);
 	// 		dispatch(showRemoveFavNoti())
 	// 	}
 	// 	else {
-	// 		console.log("isFavorite: ", false);
 	// 		dispatch(showAddFavNoti())
 	// 	}
 
@@ -202,6 +198,7 @@ const Product = () => {
 				// 	dispatch(hideFavNoti())
 				// }, 3000)
 				toast.success("Thêm vào danh mục yêu thích thành công")
+				getProductDetail()
 			}
 		}).catch(err => {
 			if (err.response.status === 401) {
@@ -219,7 +216,6 @@ const Product = () => {
 			return;
 		}
 		deleteFavoriteApi(favoriteId).then((response) => {
-			console.log(11, response)
 			if (response.status === 204) {
 				setIsFavorite(false)
 				// dispatch(showRemoveFavNoti())
@@ -227,6 +223,7 @@ const Product = () => {
 				// 	dispatch(hideFavNoti())
 				// }, 3000)
 				toast.success("Xóa khỏi danh mục yêu thích thành công")
+				getProductDetail()
 			}
 		})
 		.catch(err => {
@@ -282,7 +279,7 @@ const Product = () => {
 		}
 	}, [quantityDifference])
 
-	useEffect(() => {
+	const getProductDetail = () => {
 		setProduct({ "isLoading": true }) // when clicking on another product, the isLoading is set to true
 		setTab('1'); // when clicking on another product, the showing tab is spec
 		getProductAPI(productId).then(response => {
@@ -302,14 +299,11 @@ const Product = () => {
 					//spec: formattedSpec,
 					desc: formattedDesc,
 				})
-				console.log(7, data);
 
 				setIsFavorite(data.favoriteId ? true : false)
-
 				setProduct({ "isLoading": false, ...data })
 
 				let accessToken = localStorage.getItem("accessToken");
-                console.log("accessToken from getProductAPI:", accessToken);
 				setToken(accessToken);
 
 				getTotalCategoryAPI(data.category).then(response => {
@@ -321,6 +315,10 @@ const Product = () => {
 		.catch(err => {
 			toast.error(err.response.data.message)
 		})
+	}
+
+	useEffect(() => {
+		getProductDetail()
 	}, [productId]) // when clicking on another product, productId is changed, this will trigger the useEffect again to call a new product API
 
 	const handleChange = (event, newValue) => {
