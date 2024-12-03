@@ -98,22 +98,22 @@ const Navbar = () => {
 					</Box>
 					<CategoryMenu isDrawer anchorRef={anchorRefDrawer} clickRef={clickRefDrawer} onClick={toggleDrawer(anchor, false)} />
 				</ListItem>
-				<ListItem button key="Hot Discount" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
+				{/* <ListItem button key="Hot Discount" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 					<NavItem
 						href="/"
 						title="Khuyến mãi"
 						icon={<icons.Offer sx={style.iconNav} />}
 						isDrawer
 					/>
-				</ListItem>
-				<ListItem button key="Shipping" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
+				</ListItem> */}
+				{/* <ListItem button key="Shipping" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 					<NavItem
 						href="/"
 						title="Vận chuyển"
 						icon={<icons.Truck sx={style.iconNav} />}
 						isDrawer
 					/>
-				</ListItem>
+				</ListItem> */}
 				<ListItem button key="Contact Us" sx={{ padding: 0 }} onClick={toggleDrawer(anchor, false)}>
 					<NavItem
 						href="/contactus"
@@ -237,25 +237,26 @@ const Navbar = () => {
 								</Grid>
 								<Grid item xs={1.5} sx={style.gridWrapper}>
 									<NavItem
-										href="/"
-										title="Khuyến mãi"
-										icon={<icons.Offer sx={style.iconNav} />}
-									/>
-								</Grid>
-								<Grid item xs={1.5} sx={style.gridWrapper}>
-									<NavItem
-										href="/"
-										title="Vận chuyển"
-										icon={<icons.Truck sx={style.iconNav} />}
-									/>
-								</Grid>
-								<Grid item xs={1.5} sx={style.gridWrapper}>
-									<NavItem
 										href="/contactus"
 										title="Liên hệ"
 										icon={<icons.Phone sx={style.iconNav} />}
 									/>
 								</Grid>
+								<Grid item xs={1.5} sx={style.gridWrapper}>
+									{/* <NavItem
+										href="/"
+										title="Khuyến mãi"
+										icon={<icons.Offer sx={style.iconNav} />}
+									/> */}
+								</Grid>
+								<Grid item xs={1.5} sx={style.gridWrapper}>
+									{/* <NavItem
+										href="/"
+										title="Vận chuyển"
+										icon={<icons.Truck sx={style.iconNav} />}
+									/> */}
+								</Grid>
+								
 							</>
 						)}
 						<Grid item xs={9} md={4.5}>

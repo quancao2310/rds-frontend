@@ -1,12 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Footer.style';
 import { Container, Input, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/system';
 import { icons } from '../../constant';
+import { toast } from 'react-toastify';
 
 const Footer = () => {
+	const [email, setEmail] = useState("");
+
+	const validateEmail = (email) => {
+		return String(email)
+		  .toLowerCase()
+		  .match(
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		  );
+	};
+
+	const handleSignup = () => {
+		if (validateEmail(email)) {
+			toast.success("Đăng ký thành công")
+		}
+		else {
+			toast.error("Vui lòng điền địa chỉ email")
+		}
+	}
 	return (
 		<>
 			<Box sx={styles.footer}>
@@ -49,10 +68,13 @@ const Footer = () => {
 								placeholder="Địa chỉ email"
 								disableUnderline
 								sx={styles.textField}
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								type='email'
 							/>
 						</Grid>
 						<Grid item lg={3} xs={12} sx={styles.btnWrapper}>
-							<Button sx={styles.subscribeBtn} variant="outlined">
+							<Button sx={styles.subscribeBtn} variant="outlined" onClick={handleSignup}>
 								Đăng ký
 							</Button>
 						</Grid>
