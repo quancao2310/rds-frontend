@@ -48,7 +48,7 @@ const getCartQuantity = (token) => {
 
 const addProductToCart = (product, token) => {
 
-    const productId = product.productId;
+    const productId = product.id;
 
     const productData = {
         productId: productId,
@@ -80,7 +80,7 @@ const addProductToCart = (product, token) => {
 
 const removeProductFromCart = (product) => {
 
-    const productId = product.productId;
+    const productId = product.id;
     return async (dispatch) => {
         dispatch({
             type: ActionType.REMOVE_PRODUCT_FROM_CART,
@@ -98,7 +98,7 @@ const removeProductFromCart = (product) => {
 
 const changeProductQuantity = (product, quantity) => {
 
-    const productId = product.productId;
+    const productId = product.id;
     return (dispatch) => {
         dispatch({
             type: ActionType.CHANGE_QUANTITY_PRODUCT,

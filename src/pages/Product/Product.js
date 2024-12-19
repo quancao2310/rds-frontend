@@ -646,7 +646,7 @@ const Product = () => {
 							{relatedProductList.productList.map(product => (
 								<ProductItem
 									product={product}
-									key={product.productId}
+									key={product.id}
 									isSlider
 								/>
 							))}

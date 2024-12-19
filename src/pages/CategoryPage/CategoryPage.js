@@ -106,10 +106,10 @@ const CategoryPage = () => {
                 ) : (
                     <Grid container spacing={{ xs: 1, md: 3, lg: 3.5 }}>
                         {productList.map((product) => (
-                            <Grid item xs={6} md={4} lg={3} key={product.productId}>
+                            <Grid item xs={6} md={4} lg={3} key={product.id}>
                                 <ProductItem
                                     product={product}
-                                    key={product.productId}
+                                    key={product.id}
                                 />
                             </Grid>
                         ))}

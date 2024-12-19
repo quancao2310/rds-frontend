@@ -47,10 +47,10 @@ const Category = ({ categoryName, selector, noOfSkeleton }) => {
 			) : (
 				<Grid container spacing={{ xs: 1, md: 3, lg: 3.5 }}>
 					{productList.data.map((product) => (
-						<Grid item xs={6} md={4} lg={3} key={product.productID}>
+						<Grid item xs={6} md={4} lg={3} key={product.id}>
 							<ProductItem
 								product={product}
-								key={product.productID}
+								key={product.id}
 							/>
 						</Grid>
 					))}
