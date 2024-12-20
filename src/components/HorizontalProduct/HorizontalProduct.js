@@ -35,13 +35,13 @@ const HorizontalProduct = ({
 	const formatedPrice = new Intl.NumberFormat("vi-VN", {
 		style: "currency",
 		currency: "VND",
-	}).format(product.product?.price || product?.price || product.productInfo?.price);
+	}).format(product?.unitPrice || 0);
 	// const [quantityDifference, setQuantityDifference] = useState(0);
 
 	const productURL =
 		'/product/' +
-		encodeURIComponent(product.product?.name || product?.name || product.productInfo?.name).replace(/%20/g, '-') +
-		`?i=${product.product?.productId || product?.productId || product.productInfo?.productId}`;
+		encodeURIComponent(product?.productName || "").replace(/%20/g, '-') +
+		`?i=${product?.productId}`;
 
 	const increaseQuantity = (e) => {
 		// setQuantityDifference(quantityDifference + 1);
@@ -105,11 +105,11 @@ const HorizontalProduct = ({
 							width: imageSize,
 						}
 					)}
-					image={product.product?.imageUrl || product?.imageUrl || product.productInfo?.imageUrl}
+					image={product?.productImageUrl}
 				/>
 				<CardContent sx={styles.productContent}>
 					<Typography
-						sx={styles.productName}>{product.product?.name || product?.name || product.productInfo?.name}</Typography>
+						sx={styles.productName}>{product?.productName}</Typography>
 
 					<Box sx={styles.ratingContainer}>
 						<Rating

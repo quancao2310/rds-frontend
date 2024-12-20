@@ -75,7 +75,7 @@ const Cart = () => {
             if (response.status === 200) {
                 localStorage.setItem('cartQuantity', response.data.length);
                 setCartList(response.data);
-                setTotalPrice(response.data.reduce((total, cart) => {return total + cart.intoMoney}, 0));
+                setTotalPrice(response.data.reduce((total, cart) => total + cart.totalPrice, 0));
             }
             else {
                 console.log(response);

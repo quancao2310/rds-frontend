@@ -65,8 +65,8 @@ export default function PaymentStepper({
         await getCartApi(accessToken).then(response => {
             if (response.status === 200) {
                 setCartList(response.data);
-				setTotalPrice(response.data.reduce((total, cart) => {return total + cart.intoMoney}, 0));
-				setTotalQuantity(response.data.reduce((total, cart) => {return total + cart.quantity}, 0));
+				setTotalPrice(response.data.reduce((total, cart) => total + cart.totalPrice, 0));
+				setTotalQuantity(response.data.reduce((total, cart) => total + cart.quantity, 0));
             }
             else {
                 console.log(response);
@@ -111,7 +111,7 @@ export default function PaymentStepper({
 				form.discountCode
 			).then((res) => {
 				console.log(7, res.data);
-				if (res.status == 200) {
+				if (res.status === 200) {
 					// dispatch(removeAllCart());
 					setActiveStep(activeStep + 1);
 					toast.success("Thanh toán đơn hàng thành công, vui lòng theo dõi đơn hàng của bạn.")
