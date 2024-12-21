@@ -32,7 +32,7 @@ const CardAddress = ({ address, onDelete, onEdit, onReset, btnAppear = true }) =
 					<Typography sx={styles.title}>Họ tên:</Typography>
 					<Typography sx={styles.data}>{address?.name}</Typography>
 				</Box>
-				<Box sx={styles.infoWrapper}>
+				{/* <Box sx={styles.infoWrapper}>
 					<Typography sx={styles.title}>Số điện thoại:</Typography>
 					<Typography sx={styles.data}>{address?.phoneNumber}</Typography>
 				</Box>
@@ -47,7 +47,7 @@ const CardAddress = ({ address, onDelete, onEdit, onReset, btnAppear = true }) =
 				<Box sx={styles.infoWrapper}>
 					<Typography sx={styles.title}>Quốc gia:</Typography>
 					<Typography sx={styles.data}>{address?.country}</Typography>
-				</Box>
+				</Box> */}
 			</CardContent>
 			{btnAppear && (
 				<Box>

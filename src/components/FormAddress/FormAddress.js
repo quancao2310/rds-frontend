@@ -26,10 +26,6 @@ const FormAddress = ({
 	const [form, setForm] = useState({
 		email: address?.email,
 		name: address?.name,
-		phoneNumber: address?.phoneNumber,
-		address: address?.address,
-		city: address?.city,
-		country: address?.country,
 	});
 	const accessToken = localStorage.getItem('accessToken');
 
@@ -73,6 +69,18 @@ const FormAddress = ({
 			<FormControl fullWidth="true">
 				<TextField
 					sx={styles.textField}
+					name="email"
+					label="Email"
+					onChange={(e) =>
+						setForm({ ...form, email: e.target.value })
+					}
+					placeholder="Email"
+					value={form.email}
+					variant="outlined"
+					inputProps={{style: {fontSize: "17px"}}}
+				/>
+				<TextField
+					sx={styles.textField}
 					name="name"
 					label="Họ tên"
 					onChange={(e) =>
@@ -83,7 +91,7 @@ const FormAddress = ({
 					variant="outlined"
 					inputProps={{style: {fontSize: "17px"}}}
 				/>
-				<TextField
+				{/* <TextField
 					sx={styles.textField}
 					name="phoneNumber"
 					label="Số điện thoại"
@@ -132,7 +140,7 @@ const FormAddress = ({
 					}
 					value={form.country}
 					variant="outlined"
-				/>
+				/> */}
 				<Container sx={{ textAlign: "center", mt: 2 }}>
 					{paymentChooseNewAddress == false && (
 						<Button
