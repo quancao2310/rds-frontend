@@ -52,10 +52,10 @@ const signIn = (email, password, history) => {
     }
 }
 
-const signUp = (email, name, phoneNumber, address, city, country, password, history) => {
+const signUp = (email, name, password, history) => {
     return dispatch => {
         dispatch({ type: ActionType.START_LOGIN })
-        signUpApi(email, name, phoneNumber, address, city, country, password)
+        signUpApi(email, name, password)
             .then(response => {
                 const data = response.data;
                 if (response.status === 201) {

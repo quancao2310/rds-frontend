@@ -27,22 +27,22 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
         value: "",
         error: undefined,
     })
-    const [phoneNumber, setPhoneNumber] = useState({
-        value: "",
-        error: undefined,
-    })
-    const [address, setAddress] = useState({
-        value: "",
-        error: undefined,
-    })
-    const [city, setCity] = useState({
-        value: "",
-        error: undefined,
-    })
-    const [country, setCountry] = useState({
-        value: "",
-        error: undefined,
-    })
+    // const [phoneNumber, setPhoneNumber] = useState({
+    //     value: "",
+    //     error: undefined,
+    // })
+    // const [address, setAddress] = useState({
+    //     value: "",
+    //     error: undefined,
+    // })
+    // const [city, setCity] = useState({
+    //     value: "",
+    //     error: undefined,
+    // })
+    // const [country, setCountry] = useState({
+    //     value: "",
+    //     error: undefined,
+    // })
     const [password1, setPassword1] = useState({
         value: "",
         error: undefined,
@@ -68,22 +68,22 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
             setName({ ...name, error: "Username must be between 5 and 20 characters" })
             error = false
         }
-        if (checkStrLength(phoneNumber.value, 1, 100) === false) {
-            setPhoneNumber({ ...phoneNumber, error: "Please fill in this field" })
-            error = false
-        }
-        if (checkStrLength(address.value, 1, 100) === false) {
-            setAddress({ ...address, error: "Please fill in this field" })
-            error = false
-        }
-        if (checkStrLength(city.value, 1, 100) === false) {
-            setCity({ ...city, error: "Please fill in this field" })
-            error = false
-        }
-        if (checkStrLength(country.value, 1, 100) === false) {
-            setCountry({ ...country, error: "Please fill in this field" })
-            error = false
-        }
+        // if (checkStrLength(phoneNumber.value, 1, 100) === false) {
+        //     setPhoneNumber({ ...phoneNumber, error: "Please fill in this field" })
+        //     error = false
+        // }
+        // if (checkStrLength(address.value, 1, 100) === false) {
+        //     setAddress({ ...address, error: "Please fill in this field" })
+        //     error = false
+        // }
+        // if (checkStrLength(city.value, 1, 100) === false) {
+        //     setCity({ ...city, error: "Please fill in this field" })
+        //     error = false
+        // }
+        // if (checkStrLength(country.value, 1, 100) === false) {
+        //     setCountry({ ...country, error: "Please fill in this field" })
+        //     error = false
+        // }
         if (checkStrLength(password1.value, 6, 25) === false) {
             setPassword1({ ...password1, error: "Password must be between 6 and 25 characters" })
             error = false
@@ -95,8 +95,9 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
         return error
     }
     const signUpSubmit = () => {
-        // if (checkInputs())
-            dispatch(signUp(email.value, name.value, phoneNumber.value, address.value, city.value, country.value, password2.value, history))
+        if (password1.value === password2.value) {
+            dispatch(signUp(email.value, name.value, password2.value, history))
+        }
     }
 
     const checkStrLength = (str, start, end) => {
@@ -126,25 +127,25 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
             setName({ ...name, error: undefined })
     }
 
-    const removePhoneNumberError = () => {
-        if (phoneNumber.error)
-            setPhoneNumber({ ...phoneNumber, error: undefined })
-    }
+    // const removePhoneNumberError = () => {
+    //     if (phoneNumber.error)
+    //         setPhoneNumber({ ...phoneNumber, error: undefined })
+    // }
 
-    const removeAddressError = () => {
-        if (address.error)
-            setAddress({ ...address, error: undefined })
-    }
+    // const removeAddressError = () => {
+    //     if (address.error)
+    //         setAddress({ ...address, error: undefined })
+    // }
 
-    const removeCityError = () => {
-        if (city.error)
-            setCity({ ...city, error: undefined })
-    }
+    // const removeCityError = () => {
+    //     if (city.error)
+    //         setCity({ ...city, error: undefined })
+    // }
 
-    const removeCountryError = () => {
-        if (country.error)
-            setCountry({ ...country, error: undefined })
-    }
+    // const removeCountryError = () => {
+    //     if (country.error)
+    //         setCountry({ ...country, error: undefined })
+    // }
 
     const removePassword1Error = () => {
         if (password1.error)
@@ -226,7 +227,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                 />
                 <Typography component="div" sx={styles.errorMsg}>{name.error}</Typography>
 
-                <Input
+                {/* <Input
                     sx={isRedBorder(phoneNumber.error)}
                     value={phoneNumber.value}
                     onChange={(e) => setPhoneNumber({ ...phoneNumber, value: e.target.value })}
@@ -284,7 +285,7 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
                     fullWidth
                     inputProps={{ style: styles.input }}
                 />
-                <Typography component="div" sx={styles.errorMsg}>{country.error}</Typography>
+                <Typography component="div" sx={styles.errorMsg}>{country.error}</Typography> */}
 
                 <Input
                     sx={{ ...styles.input, ...isRedBorder(password1.error) }}

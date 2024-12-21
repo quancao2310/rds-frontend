@@ -19,11 +19,19 @@ const OrderComponent = ({ orderID, orderItem }) => {
 			<Box sx={styles.contentDiv}>
 				<Box sx={styles.productList}>
 					{/* <TransitionGroup> */}
-						{orderItem.items.map(product =>
+						{orderItem.items.map(product => {
 							// <Collapse key={product.productID}>
-								<HorizontalProduct product={product} imageSize={100}/>
+                const newProduct = {
+                    productId: product.productId,
+                    productName: product.name,
+                    productImageUrl: product.imageUrl,
+                    unitPrice: product.price,
+                    quantity: product.quantity,
+                    totalPrice: product.intoMoney,
+                };
+                return <HorizontalProduct product={newProduct} imageSize={100}/>
 							// </Collapse>
-						)}
+            })}
 					{/* </TransitionGroup> */}
 				</Box>
 			</Box>
