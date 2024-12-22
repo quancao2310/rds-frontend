@@ -40,6 +40,7 @@ const Cart = () => {
         // dispatch(changeProductQuantity(product, quantity));
         changeQuantityApi(cartId, quantity).then(response => {
             if (response.status === 200) {
+                toast.success("Thay đổi số lượng thành công!")
                 getCarts();
             }
             else {
