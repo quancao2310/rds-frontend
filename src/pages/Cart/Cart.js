@@ -54,7 +54,7 @@ const Cart = () => {
     const deleteProduct = (cartId) => {
         // dispatch(removeProductFromCart(product));
         removeProductFromCartApi(cartId).then(response => {
-            if (response.status === 200) {
+            if (response.status === 204) {
                 toast.success("Xóa giỏ hàng thành công!")
                 getCarts();
             }
