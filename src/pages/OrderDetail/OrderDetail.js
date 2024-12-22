@@ -182,36 +182,47 @@ const OrderDetail = () => {
 							<Box sx={styles.productList}>
 								<TransitionGroup>
 									{
-										orderDetail?.items.map(product =>
-											<Collapse>
-												<HorizontalProduct
-													product={product}
-													ratingSize={'20px'}
-												/>
-												<Box
-													sx={{
-														display: 'flex',
-														mb: '20px',
-													}}
-												>
-													{
-														activeStatusList[3] &&
-														<Box>
-															<Typography sx={styles.ratingTitle}>
-																Your rating:
-															</Typography>
-															<ProductRatingBar
-																orderID={id}
-																productID={product.productID}
-																customerRating={
-																	product.customerRating
-																}
-															/>
-														</Box>
-													}
-												</Box>
-											</Collapse>
-										)}
+										orderDetail?.items.map(product => {
+                      const newProduct = {
+                          productId: product.productId,
+                          productName: product.name,
+                          productImageUrl: product.imageUrl,
+                          unitPrice: product.price,
+                          quantity: product.quantity,
+                          totalPrice: product.intoMoney,
+                      };
+                      return (
+                        <Collapse>
+                          <HorizontalProduct
+                            product={newProduct}
+                            ratingSize={'20px'}
+                          />
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              mb: '20px',
+                            }}
+                          >
+                            {
+                              activeStatusList[3] &&
+                              <Box>
+                                <Typography sx={styles.ratingTitle}>
+                                  Your rating:
+                                </Typography>
+                                <ProductRatingBar
+                                  orderID={id}
+                                  productID={product.productId}
+                                  customerRating={
+                                    product.customerRating
+                                  }
+                                />
+                              </Box>
+                            }
+                          </Box>
+											  </Collapse>
+                      )
+                    }
+									)}
 								</TransitionGroup>
 							</Box>
 						</Grid>

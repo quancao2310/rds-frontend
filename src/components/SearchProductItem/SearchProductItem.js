@@ -19,7 +19,7 @@ const SearchProductItem = ({ product }) => {
     const productURL =
         '/product/' +
         encodeURIComponent(product.name).replace(/%20/g, '-') +
-        `?i=${product.productId}`
+        `?i=${product.id}`
 
     return (
         <Link to={productURL} style={{ textDecoration: 'none' }}>
