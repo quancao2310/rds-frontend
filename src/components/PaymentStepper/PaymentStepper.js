@@ -53,8 +53,8 @@ export default function PaymentStepper({
 		await getUserProfileApi(accessToken).then(response => {
 			setForm({
 				name: response.data?.name,
-				address: response.data?.address + ', ' + response.data?.city + ', ' + response.data?.country,
-				phoneNumber: response.data?.phoneNumber,
+				address: "",
+				phoneNumber: "",
 				email: response.data?.email,
 				discountCode: ""
 			});
