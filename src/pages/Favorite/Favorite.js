@@ -37,15 +37,15 @@ const Favorite = () => {
         }
     }, [])
 
-    const onDelete = (productID) => {
-        deleteFavoriteApi(productID).then(response => {
-            console.log(9, response)
+    const onDelete = (favoriteId) => {
+        deleteFavoriteApi(favoriteId).then(response => {
             if (response.status === 204) {
                 // if (response.data.data.isLike === false) {
                 //     let newList = favoriteList.data.filter((product) => product.productID !== productID)
                 //     console.log("newFavoriteList: ", newList)
                 //     setFavoriteList({ ...favoriteList, "data": newList })
                 // }
+                toast.success("Xóa khỏi danh mục yêu thích thành công");
                 getFavorites();
             }
         })
