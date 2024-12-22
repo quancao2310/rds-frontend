@@ -3,6 +3,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        minHeight: '100vh',
         backgroundImage: 'url("https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/ac/e4/fb/best-vietnamese-restaurants.jpg?w=1200&h=-1&s=1")',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
