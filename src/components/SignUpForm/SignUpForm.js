@@ -9,6 +9,7 @@ import { signUp, removeEmailSignUpError } from "../../store/actions/authAction"
 import { authErrorSelector, authIsLoadingSelector } from '../../store/selectors'
 import validator from 'validator'
 import { icons } from "../../constant"
+import { toast } from 'react-toastify'
 
 const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
     const dispatch = useDispatch()
@@ -97,6 +98,8 @@ const SignUpForm = ({ isSignIn, setIsSignIn, references }) => {
     const signUpSubmit = () => {
         if (password1.value === password2.value) {
             dispatch(signUp(email.value, name.value, password2.value, history))
+        } else {
+            toast.error('Passwords do not match')
         }
     }
 
