@@ -67,21 +67,29 @@ const Favorite = () => {
                         ) : (
                             <>
                                 <TransitionGroup>
-                                    {favoriteList.map(product =>
-                                        <Collapse key={product.favoriteId}>
+                                    {favoriteList.map(favoriteItem => {
+                                      const newProduct = {
+                                          productId: favoriteItem.productInfo.id,
+                                          productName: favoriteItem.productInfo.name,
+                                          productImageUrl: favoriteItem.productInfo.imageUrl,
+                                          unitPrice: favoriteItem.productInfo.price,
+                                      };
+                                      return (
+                                        <Collapse key={favoriteItem.favoriteId}>
                                             <HorizontalProduct
-                                                product={product}
-                                                key={product.favoriteId}
+                                                product={newProduct}
+                                                key={favoriteItem.favoriteId}
                                                 canDelete={true}
                                                 ratingSize={"20px"}
                                                 onPressDelete={(e) => {
                                                     e.preventDefault()
-                                                    onDelete(product.favoriteId)
+                                                    onDelete(favoriteItem.favoriteId)
                                                 }}
                                                 imageSize={150}
                                             />
                                         </Collapse>
-                                    )}
+                                      )
+                                    })}
                                 </TransitionGroup>
                             </>
                         )}
